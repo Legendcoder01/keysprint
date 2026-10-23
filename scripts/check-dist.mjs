@@ -322,14 +322,20 @@ if (!allFiles.includes(sitemapIndex)) {
 		urls.push(...[...content.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]));
 	}
 
+	// Read the origin from the built home page rather than assuming a host.
+	// This keeps the gate valid for Render, GitHub Pages and custom domains.
+	const homeHtml = await readFile(path.join(DIST, 'index.html'), 'utf8');
+	const homeCanonical = homeHtml.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+	const origin = homeCanonical ? new URL(homeCanonical).origin : 'https://keysprint.onrender.com';
+
 	for (const page of EXPECTED_PAGES) {
 		if (page === '/404.html') continue;
-		const expected = `https://keysprint.onrender.com${page}`;
+		const expected = `${origin}${page}`;
 		if (!urls.includes(expected)) {
 			fail(`Sitemap is missing ${expected}.`);
 		}
 	}
-	if (urls.includes('https://keysprint.onrender.com/404.html')) {
+	if (urls.includes(`${origin}/404.html`)) {
 		fail('Sitemap contains the 404 page.');
 	}
 }
