@@ -26,7 +26,9 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          # Astro 7 requires >=22.23.4. The runner's default v22 cache can be
+          # one patch older, so pin the first supported release.
+          node-version: 22.23.4
           cache: npm
 
       - name: Install dependencies
