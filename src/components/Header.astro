@@ -1,10 +1,10 @@
 ---
-import { PRIMARY_NAV, SITE_NAME } from '../config/site';
+import { PRIMARY_NAV, SITE_NAME, stripBase } from '../config/site';
 
-const currentPath = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const currentPath = stripBase(Astro.url.pathname).replace(/\/+$/, '') || '/';
 
 function isActive(href: string): boolean {
-	const path = href.replace(/\/+$/, '') || '/';
+	const path = stripBase(href).replace(/\/+$/, '') || '/';
 	return currentPath === path || (path !== '/' && currentPath.startsWith(path));
 }
 ---

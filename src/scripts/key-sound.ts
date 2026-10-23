@@ -23,6 +23,8 @@
  * on silently.
  */
 
+import { withBase } from '../config/paths';
+
 /** The three moments that make a sound. */
 export type KeySoundName = 'press' | 'space' | 'wrong';
 
@@ -34,9 +36,21 @@ export type KeySoundName = 'press' | 'space' | 'wrong';
  * element does, so the first one it can play wins.
  */
 export const KEY_SOUND_SOURCES: Readonly<Record<KeySoundName, readonly string[]>> = {
-	press: ['/sounds/key-press.m4a', '/sounds/key-press.ogg', '/sounds/key-press.mp3'],
-	space: ['/sounds/key-space.m4a', '/sounds/key-space.ogg', '/sounds/key-space.mp3'],
-	wrong: ['/sounds/key-wrong.m4a', '/sounds/key-wrong.ogg', '/sounds/key-wrong.mp3'],
+	press: [
+		withBase('/sounds/key-press.m4a'),
+		withBase('/sounds/key-press.ogg'),
+		withBase('/sounds/key-press.mp3'),
+	],
+	space: [
+		withBase('/sounds/key-space.m4a'),
+		withBase('/sounds/key-space.ogg'),
+		withBase('/sounds/key-space.mp3'),
+	],
+	wrong: [
+		withBase('/sounds/key-wrong.m4a'),
+		withBase('/sounds/key-wrong.ogg'),
+		withBase('/sounds/key-wrong.mp3'),
+	],
 };
 
 /** How many copies of a sample can be in flight at once. */

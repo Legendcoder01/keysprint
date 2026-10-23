@@ -6,17 +6,30 @@
  * the default social image only ever need to be changed in one place.
  *
  * The origin resolves from the `SITE_URL` environment variable (see
- * `.env.example`), falling back to the Render free-tier hostname.
+ * `.env.example`), falling back to the GitHub Pages origin. The base path comes
+ * from Astro's `base` setting, so canonical URLs and JSON-LD include
+ * `/keysprint/` on the deployed project site.
  */
 
-const DEFAULT_SITE_URL = 'https://keysprint.onrender.com';
+import { BASE_PATH, stripBase, withBase } from './paths';
+
+const DEFAULT_SITE_URL = 'https://legendcoder01.github.io';
 
 /** Strip trailing slashes so `absoluteUrl()` never produces a double slash. */
 function normalizeOrigin(raw: string): string {
 	return raw.trim().replace(/\/+$/, '');
 }
 
-export const SITE_URL = normalizeOrigin(import.meta.env.SITE_URL || DEFAULT_SITE_URL);
+/** The production origin, without the base path. */
+export const SITE_ORIGIN = normalizeOrigin(import.meta.env.SITE_URL || DEFAULT_SITE_URL);
+
+/**
+ * The canonical site address, including the base path.
+ *
+ * `https://legendcoder01.github.io/keysprint` on GitHub Pages, or the bare
+ * origin when the site is deployed at a domain root.
+ */
+export const SITE_URL = BASE_PATH === '/' ? SITE_ORIGIN : `${SITE_ORIGIN}${BASE_PATH}`;
 
 export const SITE_NAME = 'keysprint';
 
@@ -33,11 +46,13 @@ export const OG_IMAGE = '/og/default.png';
 export const OG_IMAGE_ALT =
 	'keysprint — a free online typing test showing a typing speed measurement in words per minute.';
 
-/** Build an absolute URL from a site-relative path. */
+/** Build an absolute URL from a site-relative path, including the base path. */
 export function absoluteUrl(path: string): string {
 	if (/^https?:\/\//i.test(path)) return path;
-	return `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}`;
+	return `${SITE_ORIGIN}${withBase(path)}`;
 }
+
+export { BASE_PATH, stripBase, withBase };
 
 /** Primary navigation shown in the header. */
 export const PRIMARY_NAV = [

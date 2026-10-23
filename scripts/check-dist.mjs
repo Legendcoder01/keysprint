@@ -110,9 +110,41 @@ try {
 const htmlFiles = allFiles.filter((file) => file.endsWith('.html'));
 const otherFiles = allFiles.filter((file) => !file.endsWith('.html'));
 
+/*
+ * The site may be deployed below a base path (the GitHub Pages project site is
+ * served from /keysprint/). The build writes files at the root of dist/, while
+ * the HTML refers to them through that base, so every URL is stripped back to a
+ * site-relative path before it is mapped onto a file.
+ */
+const homeFile = path.join(DIST, 'index.html');
+let siteOrigin = 'https://legendcoder01.github.io';
+let basePath = '';
+try {
+	const homeHtml = await readFile(homeFile, 'utf8');
+	const homeCanonical = homeHtml.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+	if (homeCanonical) {
+		const url = new URL(homeCanonical);
+		siteOrigin = url.origin;
+		basePath = url.pathname.replace(/\/+$/, '');
+	}
+} catch {
+	/* The missing home page is reported by the expected-pages check below. */
+}
+
+function stripBase(urlPath) {
+	if (!basePath) return urlPath;
+	if (urlPath === basePath) return '/';
+	if (urlPath.startsWith(`${basePath}/`)) return urlPath.slice(basePath.length) || '/';
+	return urlPath;
+}
+
+function hasBase(urlPath) {
+	return !basePath || urlPath === basePath || urlPath.startsWith(`${basePath}/`);
+}
+
 /** Map a site-relative URL onto the file that serves it. */
 function resolve(urlPath) {
-	const clean = urlPath.split('#')[0].split('?')[0];
+	const clean = stripBase(urlPath.split('#')[0].split('?')[0]);
 	if (clean === '' || clean === '/') return path.join(DIST, 'index.html');
 	if (clean.endsWith('/')) return path.join(DIST, clean, 'index.html');
 	return path.join(DIST, clean);
@@ -179,7 +211,7 @@ for (const file of htmlFiles) {
 		fail(`${route}: canonical is not an absolute URL (${canonical}).`);
 	}
 	if (canonical) {
-		const canonicalPath = new URL(canonical).pathname;
+		const canonicalPath = stripBase(new URL(canonical).pathname);
 		const is404 = route === '/404.html';
 		if (is404) {
 			// The 404 page has no URL of its own, so it points at the home page.
@@ -237,6 +269,10 @@ for (const file of htmlFiles) {
 	const links = [...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
 	for (const link of links) {
 		if (/^(https?:|mailto:|tel:|#|data:)/i.test(link)) continue;
+		if (link.startsWith('/') && !hasBase(link)) {
+			fail(`${route}: internal link "${link}" is missing the base path "${basePath}".`);
+			continue;
+		}
 		const target = resolve(link);
 		if (!allFiles.includes(target)) {
 			fail(`${route}: link to "${link}" does not resolve to a built file.`);
@@ -248,6 +284,10 @@ for (const file of htmlFiles) {
 		(match) => match[1],
 	);
 	for (const asset of assets) {
+		if (!hasBase(asset)) {
+			fail(`${route}: asset "${asset}" is missing the base path "${basePath}".`);
+			continue;
+		}
 		if (!allFiles.includes(resolve(asset))) {
 			fail(`${route}: asset "${asset}" is not in the build output.`);
 		}
@@ -317,25 +357,21 @@ if (!allFiles.includes(sitemapIndex)) {
 	const children = [...index.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 	let urls = [];
 	for (const child of children) {
-		const childPath = path.join(DIST, new URL(child).pathname.replace(/^\//, ''));
+		const childPath = path.join(DIST, stripBase(new URL(child).pathname).replace(/^\//, ''));
 		const content = await readFile(childPath, 'utf8');
 		urls.push(...[...content.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]));
 	}
 
-	// Read the origin from the built home page rather than assuming a host.
-	// This keeps the gate valid for Render, GitHub Pages and custom domains.
-	const homeHtml = await readFile(path.join(DIST, 'index.html'), 'utf8');
-	const homeCanonical = homeHtml.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
-	const origin = homeCanonical ? new URL(homeCanonical).origin : 'https://keysprint.onrender.com';
-
+	// The origin and base path are read from the built home page, not assumed,
+	// so this gate is valid for GitHub Pages, Render and custom domains alike.
 	for (const page of EXPECTED_PAGES) {
 		if (page === '/404.html') continue;
-		const expected = `${origin}${page}`;
+		const expected = `${siteOrigin}${basePath}${page}`;
 		if (!urls.includes(expected)) {
 			fail(`Sitemap is missing ${expected}.`);
 		}
 	}
-	if (urls.includes(`${origin}/404.html`)) {
+	if (urls.includes(`${siteOrigin}${basePath}/404.html`)) {
 		fail('Sitemap contains the 404 page.');
 	}
 }
@@ -351,6 +387,10 @@ if (!allFiles.includes(robotsFile)) {
 	const robots = await readFile(robotsFile, 'utf8');
 	if (!/^Sitemap: https?:\/\/\S+\/sitemap-index\.xml$/m.test(robots)) {
 		fail('robots.txt does not point at the XML sitemap.');
+	}
+	const expectedSitemap = `${siteOrigin}${basePath}/sitemap-index.xml`;
+	if (!robots.includes(expectedSitemap)) {
+		fail(`robots.txt does not point at ${expectedSitemap}.`);
 	}
 	if (/^Disallow: \/$/m.test(robots)) {
 		fail('robots.txt disallows the whole site.');
@@ -375,6 +415,27 @@ for (const sound of EXPECTED_SOUNDS) {
 	if (size < 512) {
 		fail(`sound "${sound}" is only ${size} bytes, which cannot be a usable sample.`);
 	}
+}
+
+// The client script composes the sound URL from the base path at runtime, so
+// the literal `/keysprint/sounds/...` never appears in the bundle. Check both
+// halves instead: the sound path is present, and the bundle carries the base
+// path constant that prefixes it.
+const scriptFiles = allFiles.filter((file) => file.endsWith('.js'));
+let soundPathFound = false;
+let baseMarkerFound = basePath === '';
+for (const script of scriptFiles) {
+	const source = await readFile(script, 'utf8');
+	if (source.includes('/sounds/key-press.m4a')) soundPathFound = true;
+	if (basePath && (source.includes(`"${basePath}/"`) || source.includes(`'${basePath}/'`) || source.includes(`\`${basePath}/\``))) {
+		baseMarkerFound = true;
+	}
+}
+if (!soundPathFound) {
+	fail('The client bundle does not reference the key-press sound.');
+}
+if (!baseMarkerFound) {
+	fail(`The client bundle does not carry the base path ${basePath}.`);
 }
 
 /* -------------------------------------------------------------------------

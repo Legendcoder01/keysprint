@@ -3,6 +3,7 @@ import '../../styles/lesson.css';
 import HandGuide from './HandGuide.astro';
 import VirtualKeyboard from './VirtualKeyboard.astro';
 import { lessonHref, nextLesson, previousLesson } from '../../lib/lessons';
+import { withBase } from '../../config/paths';
 import type { Lesson } from '../../lib/lessons';
 
 interface Props {
@@ -49,7 +50,7 @@ const dataState = 'idle';
 	data-lesson-seconds={timed ? lesson.timedSeconds : ''}
 	data-lesson-min-accuracy={lesson.minAccuracy}
 	data-lesson-min-characters={lesson.minCharacters}
-	data-lesson-next-href={next ? lessonHref(next.id) : ''}
+	data-lesson-next-href={next ? withBase(lessonHref(next.id)) : ''}
 	aria-labelledby={headingId}
 >
 	<button type="button" class="ls-exit" data-lesson-exit aria-label="Exit full screen lesson">

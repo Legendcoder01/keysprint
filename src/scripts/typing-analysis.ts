@@ -1,3 +1,4 @@
+import { withBase } from '../config/paths';
 import { DRILL_LABELS } from '../lib/typing/drills';
 import type { DrillKind } from '../lib/typing/drills';
 import { drillForKey, mergeTallies, summariseKeys, weakestFinger, weakestKeys } from '../lib/typing/keys';
@@ -99,7 +100,7 @@ function renderWeakestKeys(tbody: HTMLTableSectionElement, summaries: readonly K
 		const drill = drillForKey(summary.key);
 		const drillCell = document.createElement('td');
 		const link = document.createElement('a');
-		link.href = drill.href;
+		link.href = withBase(drill.href);
 		link.className = 'ka-link';
 		link.textContent = drill.label;
 		drillCell.append(link);

@@ -35,20 +35,30 @@ jobs:
         run: npm ci
 
       # Canonical URLs, Open Graph URLs, the sitemap and robots.txt are all
-      # built from SITE_URL. A user site lives at <owner>.github.io; a custom
-      # domain can override this with a repository variable named SITE_URL.
+      # built from SITE_URL, and the base path comes from BASE_PATH. A project
+      # site lives at <owner>.github.io/<repo>/; a user site and a custom
+      # domain live at the origin root.
       - name: Resolve production origin
         env:
           SITE_URL_OVERRIDE: ${{ vars.SITE_URL }}
         run: |
+          repo="${GITHUB_REPOSITORY#*/}"
+          owner="$(printf '%s' "$GITHUB_REPOSITORY_OWNER" | tr '[:upper:]' '[:lower:]')"
+
           if [ -n "$SITE_URL_OVERRIDE" ]; then
             origin="${SITE_URL_OVERRIDE%/}"
-          else
-            owner="$(printf '%s' "$GITHUB_REPOSITORY_OWNER" | tr '[:upper:]' '[:lower:]')"
+            base="/"
+          elif [ "$repo" = "${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
             origin="https://${owner}.github.io"
+            base="/"
+          else
+            origin="https://${owner}.github.io"
+            base="/${repo}"
           fi
+
           echo "SITE_URL=$origin" >> "$GITHUB_ENV"
-          echo "Building for $origin"
+          echo "BASE_PATH=$base" >> "$GITHUB_ENV"
+          echo "Building for ${origin}${base}"
 
       # check + unit tests + build + built-output checks. This is the same
       # gate used locally, so a broken link or missing asset never deploys.

@@ -6,7 +6,7 @@ keysprint measures words per minute and accuracy in the browser, then gets out o
 way. There is no account, no email address, no download and no upsell. The typing
 engine runs entirely on the client, so a score never leaves the device.
 
-- **Live site:** <https://keysprint.onrender.com>
+- **Live site:** <https://legendcoder01.github.io/keysprint/>
 - **Stack:** Astro 7 (static output) + Tailwind CSS 4 + TypeScript, with a small
   hand-written typing engine and Vitest for the scoring maths.
 
@@ -26,6 +26,7 @@ engine runs entirely on the client, so a score never leaves the device.
 - [SEO](#seo)
 - [Accessibility](#accessibility)
 - [Testing](#testing)
+- [Deploying to GitHub Pages](#deploying-to-github-pages)
 - [Deploying to Render](#deploying-to-render)
 - [Regenerating the social images](#regenerating-the-social-images)
 - [Browser support](#browser-support)
@@ -116,13 +117,20 @@ npm install
 npm run dev
 ```
 
-The dev server starts on <http://localhost:4321>.
+The dev server starts on <http://localhost:4321> at the domain root.
 
 To check the production build locally:
 
 ```bash
 npm run build
 npm run preview
+```
+
+The production build defaults to the GitHub Pages project path, so preview it at
+<http://localhost:4321/keysprint/>. To build for a domain root instead:
+
+```bash
+BASE_PATH=/ SITE_URL=https://example.com npm run build
 ```
 
 ## Scripts
@@ -151,17 +159,25 @@ missing from the XML sitemap.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `SITE_URL` | `https://keysprint.onrender.com` | The production origin. Used for canonical URLs, Open Graph URLs, the XML sitemap and `robots.txt`. |
+| `SITE_URL` | `https://legendcoder01.github.io` | The production origin (no trailing slash, no base path). Used for canonical URLs, Open Graph URLs, the XML sitemap and `robots.txt`. |
+| `BASE_PATH` | `/keysprint` for `astro build`, `/` for `astro dev` | The path the site is served from. A GitHub Pages project site uses `/<repo>`; a user site or custom domain uses `/`. |
 
-Copy `.env.example` to `.env` and set it if you are running on another domain:
+Copy `.env.example` to `.env` and adjust both values when the site moves:
 
 ```bash
-SITE_URL=https://keysprint.example
+# GitHub Pages project site
+SITE_URL=https://legendcoder01.github.io
+BASE_PATH=/keysprint
 ```
 
-Set it in the hosting provider's environment settings for production builds — the
-value is baked in at build time, so changing it requires a rebuild. The GitHub
-Pages workflow supplies it automatically (see below).
+```bash
+# Domain root (user site, custom domain or Render)
+SITE_URL=https://keysprint.example
+BASE_PATH=/
+```
+
+Both values are baked in at build time, so changing them requires a rebuild. The
+GitHub Pages workflow supplies them automatically (see below).
 
 > `robots.txt` is generated as an Astro route (`src/pages/robots.txt.ts`) rather than
 > a static file in `public/`, so the sitemap address it advertises always matches the
@@ -171,11 +187,12 @@ Pages workflow supplies it automatically (see below).
 
 ```
 .
-├── astro.config.ts          Site config: origin, sitemap, Tailwind, trailing slashes
+├── astro.config.ts          Site config: origin, base path, sitemap, Tailwind
 ├── scripts/
 │   ├── generate-og.mjs      Draws the Open Graph images (SVG → PNG)
 │   └── check-dist.mjs       Post-build audit of dist/
 ├── src/
+│   ├── config/paths.ts      Base-path helpers: withBase(), stripBase()
 │   ├── config/site.ts       Site name, tagline, origin, absoluteUrl(), nav
 │   ├── layouts/BaseLayout.astro
 │   │                         Document shell: meta tags, JSON-LD, skip link, theme
@@ -402,25 +419,26 @@ at both a 1440 px and a 390 px viewport:
 ## Deploying to GitHub Pages
 
 The site is a static build, and the included workflow at
-`.github/workflows/deploy.yml` publishes it with GitHub Actions.
+`.github/workflows/deploy.yml` publishes it with GitHub Actions to a GitHub
+Pages **project site**: <https://legendcoder01.github.io/keysprint/>.
 
-1. Create a repository named `<username>.github.io` (for example,
-   `legendcoder01.github.io`). This is a GitHub Pages **user site**, so it is
-   served from the domain root and every root-absolute link keeps working.
+1. Create a repository named `keysprint` (the URL path comes from the repository
+   name, so any other name produces a different address).
 2. Push the project with `main` as the default branch.
 3. In the repository, open **Settings → Pages** and set **Source** to
    **GitHub Actions**. The workflow can enable this on its first run, but the
    setting is the authoritative switch.
 4. Push to `main` (or run the workflow manually). It verifies, tests and builds
    the site, then publishes `dist/`.
-5. The workflow sets `SITE_URL` to `https://<username>.github.io` automatically.
-   To use a custom domain instead, add it under **Settings → Pages**, put the
-   domain in a file at `public/CNAME`, and create a repository **variable**
-   named `SITE_URL` with the same origin.
+5. The workflow derives both values from the repository: `SITE_URL` is
+   `https://<owner>.github.io` and `BASE_PATH` is `/<repo>` for a project site.
+   A user site (`<owner>.github.io`) or a repository variable named `SITE_URL`
+   switches `BASE_PATH` back to `/` for a custom domain.
 
-> A **project site** (`https://<username>.github.io/<repo>/`) is not supported
-> by this configuration as-is: internal links and assets are root-absolute.
-> Use a user site, a custom domain, or add an Astro `base` path first.
+The build hook in `astro.config.ts` prefixes author-written root-relative links,
+and `src/config/paths.ts` provides `withBase()` for URLs composed in client-side
+JavaScript. `npm run check:dist` fails if any internal link, asset, canonical,
+sitemap entry or runtime sound path is missing the base path.
 
 ## Deploying to Render
 
@@ -429,8 +447,8 @@ The site is a static build, so any static host works. On Render:
 1. Create a **Static Site** service pointing at this repository.
 2. Build command: `npm run build`
 3. Publish directory: `dist`
-4. Add `SITE_URL` in the environment, set to the service URL — or to the custom
-   domain once one is attached.
+4. Add `SITE_URL` (the service URL, or the custom domain once one is attached)
+   and `BASE_PATH=/`, because Render serves the site from the domain root.
 5. Set the Node version to 22.23.4 or newer in `package.json` (`engines`).
 
 `sharp` is deliberately *not* a dependency. The social images are committed to
