@@ -866,7 +866,6 @@ class TypingWidget {
 	#fillResults(stats: TypingStats): void {
 		setText(this.root, '[data-result-wpm]', String(Math.round(stats.netWpm)));
 		setText(this.root, '[data-result-gross]', `${Math.round(stats.grossWpm)} WPM`);
-		setText(this.root, '[data-result-net]', `${Math.round(stats.netWpm)} WPM`);
 		setText(this.root, '[data-result-char-accuracy]', `${stats.charAccuracy.toFixed(1)}%`);
 		setText(this.root, '[data-result-word-accuracy]', `${stats.wordAccuracy.toFixed(1)}%`);
 		setText(this.root, '[data-result-keystroke-accuracy]', `${stats.keystrokeAccuracy.toFixed(1)}%`);

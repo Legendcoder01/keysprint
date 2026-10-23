@@ -168,7 +168,7 @@ function render(): void {
 	const usedKeys = summaries.filter((summary) => summary.used).length;
 
 	summaryLine.textContent =
-		`Built from your last ${countLabel(history.length, 'test', 'tests')} on this device: ` +
+		`Built from your last ${countLabel(history.length, 'test', 'tests')} in this browser: ` +
 		`${presses.toLocaleString()} keystrokes across ${countLabel(usedKeys, 'key', 'keys')}.`;
 
 	if (fingerLine) {

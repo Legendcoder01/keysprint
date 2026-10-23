@@ -27,7 +27,7 @@ const faq = [
 	{
 		question: 'How many tests does the breakdown use?',
 		answer:
-			'The most recent twenty finished tests on this device, newest first. They are added together so a short test with twenty keystrokes does not dominate the picture. The recent results table shows the individual tests behind the totals, and the button below it clears them all.',
+			'The most recent twenty finished tests in this browser, newest first. They are added together so a short test with twenty keystrokes does not dominate the picture. The recent results table shows the individual tests behind the totals, and the button below it clears them all.',
 	},
 	{
 		question: 'Does this work without an account or an internet connection?',
@@ -65,8 +65,12 @@ const schema = [
 	<PageHero
 		eyebrow="Typing analysis"
 		title="See exactly which keys slow you down"
-		lead="A speed score tells you how fast you type. This breakdown tells you where the time goes: every key on the board, measured from the tests you have already finished on this device."
-	/>
+		lead="A speed score tells you how fast you type. This breakdown tells you where the time goes: every key on the board, measured from the tests you have already finished in this browser."
+		actions
+	>
+		<a href="/typing-test/1-minute/" class="btn btn-primary">Take a one-minute test</a>
+		<p class="self-center text-sm text-ink-muted">Results stay in this browser.</p>
+	</PageHero>
 
 	<section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" data-analysis aria-labelledby="heatmap-heading">
 		<div class="max-w-3xl">
@@ -84,12 +88,15 @@ const schema = [
 			class="mt-8 rounded-card border border-border bg-surface p-6 sm:p-8"
 			data-analysis-empty
 		>
-			<p class="text-base font-semibold tracking-tight text-ink">No results on this device yet</p>
+			<p class="text-lg font-semibold tracking-tight text-ink">No results in this browser yet</p>
 			<p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
 				Finish a typing test and the board below fills in with your own numbers. A one minute test is enough
 				to colour most of the letter keys; three or four tests give a much steadier picture.
 			</p>
-			<a href="/typing-test/" class="btn btn-primary mt-5">Take a typing test</a>
+			<div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-3">
+				<a href="/typing-test/1-minute/" class="btn btn-primary">Take a one-minute test</a>
+				<p class="text-sm text-ink-muted">Results are stored in this browser only.</p>
+			</div>
 		</div>
 
 		<p class="mt-8 text-sm text-ink-muted" data-analysis-summary hidden></p>
@@ -253,7 +260,7 @@ const schema = [
 
 		<Callout title="Your results stay in your browser" variant="note">
 			<p>
-				Finished tests are stored in local storage on this device so the breakdown can be built from them.
+				Finished tests are stored in local storage in this browser so the breakdown can be built from them.
 				There is no account and no upload of your typing results. Google Analytics measures page traffic,
 				not what you type. Clearing the saved results removes them permanently, and the
 				<a href="/privacy-policy/" class="underline underline-offset-2 hover:text-ink">privacy policy</a>
@@ -273,11 +280,11 @@ const schema = [
 					Ready to fill in the board?
 				</h2>
 				<p class="mt-3 text-base leading-relaxed text-ink-muted">
-					One minute is enough to colour most of the letter keys. No sign-up, no ads, and the result stays on
-					your device.
+					One minute is enough to colour most of the letter keys. No sign-up, no ads, and results stay in this
+					browser.
 				</p>
 				<div class="mt-6 flex flex-wrap gap-3">
-					<a href="/typing-test/" class="btn btn-primary">Take a typing test</a>
+					<a href="/typing-test/1-minute/" class="btn btn-primary">Take a one-minute test</a>
 					<a href="/typing-practice/" class="btn btn-secondary">Browse practice drills</a>
 				</div>
 			</div>

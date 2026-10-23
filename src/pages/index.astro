@@ -90,7 +90,7 @@ const lengths = [
 
 <BaseLayout title={title} description={description} schema={[softwareSchema, faqSchema]}>
 	<section class="border-b border-border bg-surface">
-		<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+		<div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
 			<div class="max-w-3xl">
 				<p class="text-xs font-semibold uppercase tracking-wider text-accent">Free typing test</p>
 				<h1
@@ -98,43 +98,17 @@ const lengths = [
 				>
 					How fast can you type?
 				</h1>
-				<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
-					Start typing the passage below and you will have your speed in words per minute, your accuracy and
-					your error count in about a minute. No account, no download, no waiting. When you have finished,
-					the rest of this page explains what the numbers mean and how to make them better.
+				<p class="mt-3 max-w-2xl text-base leading-relaxed text-ink-muted sm:text-lg">
+					Click Start Test to reveal the passage. The timer starts when you type your first character. You
+					will have your speed, accuracy and error count in about a minute — no account, no download.
 				</p>
 			</div>
 
-			<div class="mt-8">
+			<div class="mt-5 sm:mt-7">
 				<TypingTest duration={60} />
 			</div>
 		</div>
 	</section>
-
-	<ContentSection
-		title="What this typing test measures"
-		lead="Three numbers come out of every test, and they answer three different questions about your typing."
-	>
-		<p>
-			Speed is the headline figure, and it is reported two ways. <strong class="text-ink">Gross speed</strong> counts
-			every character your fingers produced, while <strong class="text-ink">net speed</strong> removes the ones that
-			did not match the text. Net speed is the honest number, because a page full of typos is not useful text no
-			matter how quickly it was produced.
-		</p>
-		<p>
-			Accuracy is the second number, and it is reported at three levels. Character accuracy asks how much of what
-			is on screen right now is correct. Word accuracy asks how many whole words match from the first letter to
-			the last, so one wrong letter costs you an entire word. Keystroke accuracy asks how many of your raw key
-			presses were right the first time, and it keeps counting a mistake even after you delete and fix it. That
-			last figure is the closest thing to a measure of your fingers rather than your final text.
-		</p>
-		<p>
-			The third figure is simply the error count: how many characters in your text are still wrong when the timer
-			runs out. Fixing a mistake with backspace removes it from this count, which is why it is worth watching
-			during the test. A rising error count is a signal to slow down, and slowing down is almost always quicker
-			over a full minute than hurrying.
-		</p>
-	</ContentSection>
 
 	<ContentSection title="How fast is fast?">
 		<p>
@@ -247,6 +221,31 @@ const lengths = [
 				this test and compare your numbers with the ones from your first attempt.
 			</p>
 		</Callout>
+	</ContentSection>
+
+	<ContentSection
+		title="What this typing test measures"
+		lead="Three numbers come out of every test, and they answer three different questions about your typing."
+	>
+		<p>
+			Speed is the headline figure, and it is reported two ways. <strong class="text-ink">Gross speed</strong> counts
+			every character your fingers produced, while <strong class="text-ink">net speed</strong> removes the ones that
+			did not match the text. Net speed is the honest number, because a page full of typos is not useful text no
+			matter how quickly it was produced.
+		</p>
+		<p>
+			Accuracy is the second number, and it is reported at three levels. Character accuracy asks how much of what
+			is on screen right now is correct. Word accuracy asks how many whole words match from the first letter to
+			the last, so one wrong letter costs you an entire word. Keystroke accuracy asks how many of your raw key
+			presses were right the first time, and it keeps counting a mistake even after you delete and fix it. That
+			last figure is the closest thing to a measure of your fingers rather than your final text.
+		</p>
+		<p>
+			The third figure is simply the error count: how many characters in your text are still wrong when the timer
+			runs out. Fixing a mistake with backspace removes it from this count, which is why it is worth watching
+			during the test. A rising error count is a signal to slow down, and slowing down is almost always quicker
+			over a full minute than hurrying.
+		</p>
 	</ContentSection>
 
 	<ContentSection title="Which test length should you use?">

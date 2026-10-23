@@ -98,8 +98,17 @@
 .ts-pill:has(:checked) {
 	background-color: var(--accent);
 	border-color: var(--accent);
+	font-weight: 600;
 	color: var(--accent-contrast);
-	box-shadow: 0 4px 12px -6px color-mix(in srgb, var(--accent) 70%, transparent);
+	box-shadow:
+		inset 0 0 0 1px color-mix(in srgb, var(--accent-contrast) 28%, transparent),
+		0 4px 12px -6px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.ts-pill:has(:checked):hover {
+	background-color: var(--accent-hover);
+	border-color: var(--accent-hover);
+	color: var(--accent-contrast);
 }
 
 .ts-pill:has(:focus-visible) {
@@ -272,18 +281,35 @@
 	transform: translateY(0);
 }
 
+.ts .ts-start-btn:focus-visible {
+	outline: 3px solid var(--ink);
+	outline-offset: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.ts-area[data-state='ready'] .ts-track,
 	.ts-area[data-state='running'] .ts-track {
 		transition: none;
-		filter: blur(0);
+		filter: none;
 	}
 
-	.ts-area[data-state='ready'] .ts-track {
-		filter: blur(4px);
-	}
-
+	/* Keep the start screen opaque without using a blur effect. */
 	.ts-overlay {
+		transition: none;
+		background-color: var(--surface);
+		background-image: none;
+		backdrop-filter: none;
+	}
+
+	.ts .ts-start-btn {
+		transition: none;
+	}
+
+	.ts .ts-start-btn:hover:not(:disabled) {
+		transform: none;
+	}
+
+	.ts-meter > span {
 		transition: none;
 	}
 }
@@ -634,9 +660,33 @@ html.ts-fallback {
 		--ts-line-height: 1.9375rem;
 	}
 
+	/* On a phone the blank live stats would push Start Test below the fold.
+	   They appear as soon as the test starts, which immediately opens focus mode. */
+	.ts:has(.ts-area[data-state='ready']) .ts-meta {
+		display: none;
+	}
+
 	.ts-meta {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		margin-top: 1.25rem;
+	}
+
+	/* Give the start message and button room to fit without clipping. */
+	.ts-area[data-state='ready'] {
+		min-height: 10rem;
+	}
+
+	.ts-overlay {
+		padding: 0.5rem;
+	}
+
+	.ts-overlay-content {
+		gap: 0.5rem;
+	}
+
+	.ts-overlay-message {
+		font-size: 0.875rem;
+		line-height: 1.4;
 	}
 
 	.ts-stat-value {

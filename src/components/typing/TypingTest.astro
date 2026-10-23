@@ -148,8 +148,15 @@ const DIFFICULTY_OPTIONS = [
 		></textarea>
 		<div class="ts-overlay" data-typing-overlay>
 			<div class="ts-overlay-content">
-				<p class="ts-overlay-message">Ready? Click Start Test when you're ready.</p>
-				<button type="button" class="btn btn-primary ts-start-btn" data-typing-start>
+				<p class="ts-overlay-message" id="ts-start-message">
+					Click Start Test to reveal the passage. The timer starts when you type your first character.
+				</p>
+				<button
+					type="button"
+					class="btn btn-primary ts-start-btn"
+					data-typing-start
+					aria-describedby="ts-start-message"
+				>
 					Start Test
 				</button>
 			</div>
@@ -157,9 +164,9 @@ const DIFFICULTY_OPTIONS = [
 	</div>
 
 	<p class="ts-hint" id="ts-typing-hint">
-		Press <strong>Start Test</strong> to open the test full screen, then type the passage above. The
-		clock starts on your first keystroke, <kbd>Backspace</kbd> fixes a mistake, and <kbd>Esc</kbd> or
-		<strong>Exit</strong> leaves full screen without stopping the test.
+		<strong>Start Test</strong> opens the test in focus mode; the timer starts when you type your first
+		character. <kbd>Backspace</kbd> fixes a mistake, and <kbd>Esc</kbd> or <strong>Exit</strong> leaves full
+		screen without stopping the test.
 	</p>
 
 	<ResultsPanel />

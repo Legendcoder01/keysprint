@@ -31,7 +31,7 @@
 
 	--ink: #1b1638;
 	--ink-muted: #4b4870;
-	--ink-subtle: #5f5b85;
+	--ink-subtle: #57527c;
 
 	--accent: #7c3aed;
 	--accent-hover: #6d28d9;
@@ -73,7 +73,7 @@
 
 	--ink: #f5f3ff;
 	--ink-muted: #c9c3e6;
-	--ink-subtle: #a79fd0;
+	--ink-subtle: #b3abd8;
 
 	--accent: #c4b5fd;
 	--accent-hover: #ddd6fe;
@@ -208,6 +208,7 @@
 		align-items: center;
 		justify-content: center;
 		gap: 0.5rem;
+		min-height: 2.5rem;
 		border-radius: 0.5rem;
 		border: 1px solid transparent;
 		padding: 0.5rem 1rem;
@@ -221,6 +222,11 @@
 			background-color 150ms ease,
 			border-color 150ms ease,
 			color 150ms ease;
+	}
+
+	/* Square icon buttons in the header keep their own compact size. */
+	.btn.h-9 {
+		min-height: 2.25rem;
 	}
 
 	.btn:disabled {
