@@ -7,9 +7,9 @@ import Callout from '../../components/Callout.astro';
 
 const title = 'Privacy Policy — keysprint';
 const description =
-	'The keysprint privacy policy: no accounts, no cookies, no analytics and no tracking. Only your best score and theme choice are stored, and only in your own browser.';
+	'The keysprint privacy policy: your typing results stay in your browser, while Google Analytics measures page traffic. Here is what is stored and what is not.';
 
-const updated = '22 October 2026';
+const updated = '23 October 2026';
 ---
 
 <BaseLayout
@@ -24,29 +24,31 @@ const updated = '22 October 2026';
 	<PageHero
 		eyebrow="Privacy"
 		title="Privacy policy"
-		lead="keysprint has no accounts, no cookies, no analytics and no advertising. This page explains exactly what is stored, where it is stored, and why that is the whole list."
+		lead="keysprint has no accounts and no advertising. Your typing results stay in your browser. Google Analytics measures page traffic, and this page explains exactly what that means."
 	/>
 
 	<ContentSection title="The short version">
 		<p>
-			keysprint does not collect personal information. It sets no cookies, loads no analytics or
-			advertising scripts, and embeds no third party content. The only things stored are your best typing
-			score for each test length and your light or dark theme choice, and both are written to your own
-			browser's local storage on your own device.
+			keysprint does not ask for your name, email address or any other contact details. Your best typing
+			score for each test length and your light or dark theme choice are written to your own browser's local
+			storage. We also use Google Analytics 4 to count page views and understand which pages are useful.
+			Google may set cookies and process technical information about your visit, as described below. Your
+			keystrokes and typing results are never sent to Google Analytics.
 		</p>
-		<Callout title="No data leaves your browser" variant="important">
+		<Callout title="Your typing results stay on your device" variant="important">
 			<p>
 				The typing test runs entirely on your machine. The passages are generated locally, your keystrokes
-				are measured locally, and your score is calculated locally. Nothing is transmitted to a server,
-				because there is no server to transmit it to.
+				are measured locally, and your score is calculated locally. The score is not transmitted to a
+				server. Google Analytics receives page-level traffic data, not what you type.
 			</p>
 		</Callout>
 	</ContentSection>
 
 	<ContentSection title="What is stored, and where">
 		<p>
-			Two pieces of information are kept, using your browser's local storage. Local storage stays on your
-			device and is not sent to any server, not even by the site that wrote it.
+			Two pieces of information are kept in your browser's local storage. Local storage stays on your
+			device and is not sent to any server, not even by the site that wrote it. Google Analytics also uses
+			cookies in your browser, which are described in the next section.
 		</p>
 		<div class="overflow-hidden rounded-card border border-border">
 			<table class="w-full border-collapse text-left text-sm">
@@ -82,61 +84,94 @@ const updated = '22 October 2026';
 		</p>
 	</ContentSection>
 
+	<ContentSection title="Google Analytics">
+		<p>
+			keysprint uses Google Analytics 4, measurement ID <code class="font-mono text-sm">G-6FJT50DLSS</code>,
+			to count visits and understand which pages people find useful. The measurement tag is loaded from
+			<code class="font-mono text-sm">googletagmanager.com</code> on every page.
+		</p>
+		<p>
+			Google Analytics may set first-party cookies such as <code class="font-mono text-sm">_ga</code> and
+			<code class="font-mono text-sm">_ga_&lt;container-id&gt;</code>, and may collect technical information
+			including your IP address (used to estimate approximate location), browser and device details, the
+			page you arrived from, the pages you visit and how long you spend on them. Google processes this data
+			under its own
+			<a
+				href="https://policies.google.com/privacy"
+				class="underline underline-offset-2 hover:text-ink"
+				rel="noopener noreferrer"
+				target="_blank">privacy policy</a
+			>.
+		</p>
+		<p>
+			We do not send your typing results, keystrokes or the text you type to Google Analytics. The
+			analytics is there to measure page traffic, not to profile how well you type.
+		</p>
+		<p>
+			You can block or delete analytics cookies through your browser settings, or install the
+			<a
+				href="https://tools.google.com/dlpage/gaoptout"
+				class="underline underline-offset-2 hover:text-ink"
+				rel="noopener noreferrer"
+				target="_blank">Google Analytics Opt-out Browser Add-on</a
+			>. Blocking analytics does not affect the typing test, lessons or saved scores.
+		</p>
+	</ContentSection>
+
 	<ContentSection title="What is not collected">
 		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
 			<li>
-				<strong class="text-ink">No name, email address, phone number or any other identifier.</strong>
-				There is no sign-up form anywhere on the site.
-			</li>
-			<li>
-				<strong class="text-ink">No cookies of any kind.</strong> Not for preferences, not for sessions,
-				not for advertising.
-			</li>
-			<li>
-				<strong class="text-ink">No analytics.</strong> keysprint does not load Google Analytics or any
-				other measurement script, and it does not count page views.
+				<strong class="text-ink">No name, email address, phone number or account.</strong> There is no
+				sign-up form anywhere on the site.
 			</li>
 			<li>
 				<strong class="text-ink">No advertising or ad tracking.</strong> There are no ads, no affiliate
-				links and no third party pixels.
+				links and no advertising pixels.
 			</li>
 			<li>
 				<strong class="text-ink">No keystroke logging.</strong> Your typing is measured so that the test
 				can score you, and that is all it is used for. It is not recorded, stored or transmitted.
 			</li>
 			<li>
-				<strong class="text-ink">No third party embeds.</strong> There are no social widgets, no maps, no
-				videos and no fonts loaded from another company's servers. The pages use the fonts already on
-				your device, which is also why they load quickly.
+				<strong class="text-ink">No third-party embeds beyond analytics.</strong> There are no social
+				widgets, maps or videos, and no fonts loaded from another company's servers. The only third-party
+				script is the Google Analytics tag described above.
 			</li>
 		</ul>
 	</ContentSection>
 
 	<ContentSection title="The hosting provider">
 		<p>
-			keysprint is hosted on a free tier of a hosting platform. Like any web host, that provider has to
-			process your request in order to send you a page, and it may keep standard technical logs such as
-			your IP address, the time of the request and the page requested, for a short period, for security
-			and troubleshooting.
+			keysprint is hosted on GitHub Pages. Like any web host, GitHub has to process your request in order to
+			send you a page, and it may keep standard technical logs such as your IP address, the time of the
+			request and the page requested, for a short period, for security and troubleshooting.
 		</p>
 		<p>
-			That handling is done by the host, not by keysprint. keysprint has no access to those logs and does
-			not use them for anything. The provider's own privacy documentation explains the details.
+			That handling is done by GitHub, not by keysprint. keysprint has no access to those logs and does not
+			use them for anything. The
+			<a
+				href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement"
+				class="underline underline-offset-2 hover:text-ink"
+				rel="noopener noreferrer"
+				target="_blank">GitHub Privacy Statement</a
+			>
+			explains the details.
 		</p>
 	</ContentSection>
 
 	<ContentSection title="Children">
 		<p>
-			keysprint is a general audience site and is not directed at children. Because it collects no personal
-			information from anyone, there is no data for it to hold about a child either.
+			keysprint is a general audience site and is not directed at children. We do not ask for personal
+			information, and we do not knowingly collect it from children. The Google Analytics data described
+			above is used in aggregate to understand page traffic.
 		</p>
 	</ContentSection>
 
 	<ContentSection title="Your choices">
 		<p>
-			You can clear the stored data at any time through your browser's settings, and clearing your
-			browsing data removes the best scores and the theme preference along with everything else. There is
-			nothing else to delete, because there is nothing else.
+			You can clear the stored scores and theme through your browser's settings. Clearing your browsing
+			data removes the local storage along with the analytics cookies. You can also block analytics
+			cookies or use the Google Analytics opt-out add-on without affecting the typing test.
 		</p>
 		<p>
 			If you have a question about anything on this page, the
