@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import PageHero from '../../../components/PageHero.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = 'Paragraph Typing Practice — Train Reading Ahead';
+const description =
+	'Free paragraph typing practice. Type continuous prose to build reading ahead, keep an even rhythm and stay accurate when your attention starts to drift.';
+
+const faq = [
+	{
+		question: 'Why are paragraphs harder than sentences?',
+		answer:
+			'Because a paragraph has structure. You have to find your place after a line break, hold the thread of an argument, and keep going when the sentence does not end where you expect. That is closer to real writing than a list of unrelated sentences, and it is why the score is usually a little lower.',
+	},
+	{
+		question: 'Should I look at the text or at the screen?',
+		answer:
+			'At the text, and try to read one or two words ahead of what your fingers are producing. The moment you are reading the word you are typing, you have no buffer, and the buffer is where speed comes from. Start with a one word lead and build up to two as it becomes comfortable.',
+	},
+	{
+		question: 'How many paragraphs should I type in one session?',
+		answer:
+			'Two or three paragraphs a day is plenty. Paragraph practice is demanding on the attention, and doing more than that usually turns into autopilot. Ten focused minutes with your attention genuinely on the text beats forty minutes of fast, careless repetition.',
+	},
+	{
+		question: 'Why do my mistakes cluster at the end of a line?',
+		answer:
+			'Because you run out of buffer at the line break and have to find the next line again. If that is where you hesitate, the fix is to read the end of the line while you are still typing the start of it, so the handover happens before the line ends rather than after it.',
+	},
+	{
+		question: 'Is paragraph practice useful if I only type short messages?',
+		answer:
+			'Less immediately, but it still helps, because the skill it trains is reading ahead, which speeds up everything including short messages. If you want a drill that matches your actual work more closely, try the punctuation drill instead.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/practice.png"
+	breadcrumbs={[
+		{ name: 'Typing practice', href: '/typing-practice/' },
+		{ name: 'Paragraphs', href: '/typing-practice/paragraphs/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing practice', href: '/typing-practice/' },
+				{ name: 'Paragraphs', href: '/typing-practice/paragraphs/' },
+			]}
+		/>
+	</div>
+
+	<PageHero
+		eyebrow="Practice drill"
+		title="Paragraph typing practice"
+		lead="The drill that most closely resembles real writing. Long passages with sentence structure, commas and the occasional difficult word, so you can practise holding a rhythm instead of typing isolated sentences."
+	/>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">Paragraph drill</h2>
+			<p class="mt-2 text-ink-muted">
+				Type the passage below. The clock starts on your first keystroke, and the results panel gives you
+				the same breakdown as a standard test.
+			</p>
+		</div>
+
+		<div class="mt-6">
+			<TypingTest duration={60} modes={['paragraphs']} showDifficulty={false} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="What paragraph practice is for"
+		lead="Paragraphs are the closest thing to a typing test that measures how you type at work."
+	>
+		<p>
+			A list of sentences is a series of small starts. Each one begins from nothing, and every one of them
+			costs you a moment of orientation. A paragraph has a single start and a single thread, so the only
+			handovers you have to make are the ones that occur naturally at a line break or a sentence boundary.
+		</p>
+		<p>
+			That is why paragraph practice produces a lower score than short sentences but a better typist. The
+			time you spend finding your place is real time, and removing it is worth more than any finger
+			exercise. Experienced typists do not look at the text any more than beginners do; they simply look
+			at it further ahead, and paragraphs are what teach the habit.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="How to run a paragraph session">
+		<ol class="list-decimal space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Read the whole passage first.</strong> The clock does not start until
+				your first keystroke, so spend a moment seeing where the passage is going. Knowing the end of
+				the sentence removes the temptation to stop and reread.
+			</li>
+			<li>
+				<strong class="text-ink">Read one word ahead.</strong> Not a line, not a clause. One word. When that
+				becomes automatic, try two.
+			</li>
+			<li>
+				<strong class="text-ink">Do not stop at the end of a line.</strong> Keep your eyes moving to the
+				next line while your fingers finish the current one.
+			</li>
+			<li>
+				<strong class="text-ink">Fix mistakes straight away.</strong> The drill is only useful if the
+				correct movement is the one you repeat.
+			</li>
+			<li>
+				<strong class="text-ink">Slow down at the end.</strong> The last third of a paragraph is where
+				attention drifts and errors cluster. Deliberately settling into a slightly slower pace there
+				often produces a better final accuracy than pushing through.
+			</li>
+		</ol>
+		<Callout title="Watch the error count, not the speed" variant="important">
+			<p>
+				Paragraph practice goes wrong when you chase speed. A rising error count means the reading window
+				is too wide. Narrow it, let the errors stop, and the speed will come back within a few
+				paragraphs.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Reading ahead, in practice">
+		<p>
+			Reading ahead is a physical skill, not an idea. It feels like looking at the text and then looking
+			somewhere else, and it takes a couple of weeks before it stops feeling like two separate activities.
+		</p>
+		<p>
+			One way to make it stick is to type a passage you have already read once. The second time through,
+			your eyes arrive at each word a fraction early because you already know what is coming, and the
+			handover between reading and typing gets easier. That is also why a typing test should always use
+			text you have not seen, which is why the
+			<a href="/typing-test/" class="underline underline-offset-2 hover:text-ink">typing test</a> always
+			generates a fresh passage.
+		</p>
+		<p>
+			For the mechanics of touch typing itself, the
+			<a href="/learn-typing/" class="underline underline-offset-2 hover:text-ink">learn typing guide</a>
+			covers the finger positions, and the
+			<a href="/typing-lessons/" class="underline underline-offset-2 hover:text-ink">lesson pages</a> rebuild
+			them one row at a time.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Other drills">
+		<p>
+			If paragraphs are not your weak spot, the
+			<a href="/typing-practice/numbers/" class="underline underline-offset-2 hover:text-ink">number
+			practice</a> drill and the
+			<a href="/typing-practice/punctuation/" class="underline underline-offset-2 hover:text-ink">punctuation
+			practice</a> drill target the two other things that slow people down.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about paragraph typing practice." />
+	</div>
+</BaseLayout>

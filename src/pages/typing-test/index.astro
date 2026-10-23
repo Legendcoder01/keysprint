@@ -1,0 +1,225 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import TypingTest from '../../components/typing/TypingTest.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import Faq from '../../components/Faq.astro';
+import Callout from '../../components/Callout.astro';
+import { absoluteUrl } from '../../config/site';
+
+const title = 'Free Online Typing Test — Measure Your WPM and Accuracy';
+const description =
+	'Take a free online typing test and get your words per minute, gross and net speed, character accuracy and error count instantly. No sign-up needed.';
+
+const faq = [
+	{
+		question: 'How is words per minute calculated?',
+		answer:
+			'One word is counted as five characters, so a speed of 60 WPM means you produced about 300 characters in a minute. Gross speed counts every character you typed. Net speed removes the characters that did not match the text, which is the number worth comparing between tests because it cannot be inflated by fast sloppy typing.',
+	},
+	{
+		question: 'What is the difference between gross and net speed?',
+		answer:
+			'Gross speed is the raw rate at which your fingers hit the keyboard. Net speed subtracts your errors from that count. A typist who makes ten mistakes in a minute may have a higher gross speed than a careful typist, but the lower net speed is what reflects the amount of usable text they actually produced.',
+	},
+	{
+		question: 'How is typing accuracy measured?',
+		answer:
+			'Character accuracy is the share of the characters currently in the buffer that match the text. Word accuracy is the share of whole words that match from the first letter to the last, so a single wrong letter costs you the entire word. The widget also reports raw keystroke accuracy, which keeps counting mistakes even after you delete and fix them.',
+	},
+	{
+		question: 'Do I need an account to save my scores?',
+		answer:
+			'No. keysprint has no accounts at all. Your best result for each test length is kept in your own browser using local storage, so it stays on your device and is never sent anywhere. Clearing your browser data removes it.',
+	},
+	{
+		question: 'Can I retype the same passage to practise?',
+		answer:
+			'Yes. When a test ends, choose "Try again" to type exactly the same passage again, or "New text" for a fresh one. The Restart button in the control row does the same thing without waiting for the timer to finish.',
+	},
+	{
+		question: 'Which test length should I use?',
+		answer:
+			'Use one minute for a quick check and to warm up, three minutes to see a truer picture, and five or ten minutes when you want a number you can trust. Short tests are dominated by the first few seconds, where nerves usually cost you a couple of words per minute.',
+	},
+];
+
+const softwareSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'keysprint Typing Test',
+	applicationCategory: 'EducationalApplication',
+	operatingSystem: 'Any',
+	url: absoluteUrl('/typing-test/'),
+	description:
+		'A free browser based typing test that measures words per minute, character accuracy and error count. No sign-up required.',
+	offers: {
+		'@type': 'Offer',
+		price: '0',
+		priceCurrency: 'USD',
+	},
+};
+
+const faqSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'FAQPage',
+	mainEntity: faq.map((item) => ({
+		'@type': 'Question',
+		name: item.question,
+		acceptedAnswer: { '@type': 'Answer', text: item.answer },
+	})),
+};
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/typing-test.png"
+	breadcrumbs={[{ name: 'Typing test', href: '/typing-test/' }]}
+	schema={[softwareSchema, faqSchema]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs items={[{ name: 'Typing test', href: '/typing-test/' }]} />
+	</div>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<p class="text-xs font-semibold uppercase tracking-wider text-accent">Free typing test</p>
+			<h1 class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]">
+				Free online typing test
+			</h1>
+			<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+				Type the passage below and get an instant reading of your speed, your accuracy and how many mistakes
+				you made. The test runs in your browser, needs no account, and works on a phone, a tablet or a desktop
+				keyboard.
+			</p>
+		</div>
+
+		<div class="mt-8">
+			<TypingTest duration={60} />
+		</div>
+
+		<p class="mt-4 text-xs text-ink-subtle">
+			Your result is stored on this device only. Nothing is uploaded, and no account is required. See the
+			<a href="/privacy-policy/" class="underline underline-offset-2 hover:text-ink">privacy policy</a> for
+			details.
+		</p>
+	</section>
+
+	<ContentSection
+		title="How to read the result"
+		lead="Four numbers come out of a test, and they answer different questions. Here is what each one is for."
+	>
+		<dl class="space-y-5">
+			<div>
+				<dt class="font-semibold text-ink">Gross speed (WPM)</dt>
+				<dd>
+					Your raw output rate: every character you typed, divided into five-character words, divided by the
+					time you took. It is the simplest number to read and the easiest one to inflate by typing faster
+					than you can read.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Net speed (WPM)</dt>
+				<dd>
+					Gross speed with the incorrect characters removed. This is the number to compare against other
+					tests and against your own history, because it reflects the text you actually produced correctly.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Character accuracy</dt>
+				<dd>
+					The share of characters in your buffer that match the passage. Fixing a mistake with backspace
+					raises this number immediately, which makes it a live measure of how clean the text in front of
+					you is.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Keystroke accuracy</dt>
+				<dd>
+					The share of raw keystrokes that were right the first time. Unlike character accuracy this keeps
+					counting a mistake after you delete and retype it, so it shows how careful your fingers really
+					are.
+				</dd>
+			</div>
+		</dl>
+	</ContentSection>
+
+	<ContentSection
+		title="How to get a better score"
+		lead="Speed is mostly a reading habit and an accuracy habit. Both are trainable in a surprisingly short time."
+	>
+		<p>
+			The single change that lifts most scores is reading further ahead. Typing one character at a time keeps
+			your attention exactly one character behind your hands, so every mistake becomes a small interruption.
+			Typing a word or a short phrase at a time puts you several characters ahead of the keyboard, and the
+			text arrives before your fingers do.
+		</p>
+		<p>
+			The second habit is to type the first ten seconds slowly. Almost everyone loses speed to nerves at the
+			start of a test, and the errors that follow make them hurry more. A deliberately calm opening paragraph
+			settles the pace, and the rest of the test is usually faster for it.
+		</p>
+		<p>
+			Third, watch the error count rather than the speed number. If your accuracy dips below about 95 percent,
+			slowing down is almost always faster in the long run than pushing on. If you want to practise the part
+			of the keyboard that trips you up, start with the
+			<a href="/typing-lessons/home-row/" class="underline underline-offset-2 hover:text-ink">home row lesson</a>
+			and then move to the
+			<a href="/typing-practice/" class="underline underline-offset-2 hover:text-ink">practice drills</a>.
+		</p>
+		<Callout title="Two minutes of practice">
+			<p>
+				Ten focused minutes a day beats one distracted hour. Short, frequent sessions are what turn a
+				slightly better score into a noticeably better one, and they are much easier to keep up with. The
+				<a href="/learn-typing/" class="underline underline-offset-2 hover:text-ink">learn typing guide</a>
+				explains how to structure them.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Practice the parts that slow you down">
+		<div class="grid gap-4 sm:grid-cols-2">
+			<a
+				href="/typing-test/accuracy/"
+				class="card p-5 transition-colors hover:border-border-strong"
+			>
+				<h3 class="font-semibold text-ink">Accuracy test</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					A slower, calmer test that measures how few mistakes you make rather than how fast you go.
+				</p>
+			</a>
+			<a
+				href="/typing-test/3-minute/"
+				class="card p-5 transition-colors hover:border-border-strong"
+			>
+				<h3 class="font-semibold text-ink">Longer test</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					Three minutes gives the first ten seconds less influence over the final number.
+				</p>
+			</a>
+			<a
+				href="/typing-practice/paragraphs/"
+				class="card p-5 transition-colors hover:border-border-strong"
+			>
+				<h3 class="font-semibold text-ink">Paragraph practice</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					Continuous prose for practising reading ahead and keeping a steady rhythm.
+				</p>
+			</a>
+			<a
+				href="/typing-lessons/"
+				class="card p-5 transition-colors hover:border-border-strong"
+			>
+				<h3 class="font-semibold text-ink">Typing lessons</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					Structured practice that isolates the keys you keep hesitating over.
+				</p>
+			</a>
+		</div>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Common questions about the typing test and the numbers it reports." />
+	</div>
+</BaseLayout>

@@ -1,0 +1,148 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import Callout from '../../components/Callout.astro';
+import LessonStudio from '../../components/typing/LessonStudio.astro';
+import LessonNav from '../../components/typing/LessonNav.astro';
+import ScoringNotes from '../../components/typing/ScoringNotes.astro';
+import { LESSONS, lessonHref } from '../../lib/lessons';
+import type { Lesson } from '../../lib/lessons';
+import { absoluteUrl } from '../../config/site';
+
+/**
+ * The nine lessons after the home row.
+ *
+ * The home row keeps its own, longer page at `/typing-lessons/home-row/`; this
+ * route generates every later lesson from the curriculum data so the copy, the
+ * drill and the metadata can never drift apart.
+ */
+export const getStaticPaths = (() =>
+	LESSONS.filter((lesson) => lesson.id !== 'home-row').map((lesson) => ({
+		params: { lesson: lesson.id },
+		props: { lesson },
+	}))) satisfies GetStaticPaths;
+
+interface Props {
+	lesson: Lesson;
+}
+
+const { lesson } = Astro.props as Props;
+
+const timed = lesson.timedSeconds !== null;
+
+const schema = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'LearningResource',
+		name: lesson.title,
+		description: lesson.metaDescription,
+		url: absoluteUrl(lessonHref(lesson.id)),
+		learningResourceType: 'Typing drill',
+		educationalLevel: 'Beginner',
+		inLanguage: 'en',
+		isAccessibleForFree: true,
+		teaches: lesson.focus,
+		isPartOf: {
+			'@type': 'Course',
+			name: 'keysprint touch typing curriculum',
+			url: absoluteUrl('/typing-lessons/'),
+		},
+	},
+];
+---
+
+<BaseLayout
+	title={lesson.metaTitle}
+	description={lesson.metaDescription}
+	ogImage="/og/lessons.png"
+	breadcrumbs={[
+		{ name: 'Typing lessons', href: '/typing-lessons/' },
+		{ name: lesson.title, href: lessonHref(lesson.id) },
+	]}
+	schema={schema}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing lessons', href: '/typing-lessons/' },
+				{ name: lesson.title, href: lessonHref(lesson.id) },
+			]}
+		/>
+	</div>
+
+	<PageHero eyebrow={`Lesson ${lesson.order} of 10`} title={lesson.title} lead={lesson.lead} />
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 pt-8 sm:px-6" aria-labelledby="lesson-practice-heading">
+		<div class="max-w-3xl">
+			<h2 id="lesson-practice-heading" class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+				Practice drill
+			</h2>
+			<p class="mt-2 text-ink-muted">
+				Type the passage below. The keyboard guide highlights the next key, the hand guide names the finger,
+				and the panel on the right keeps the clock and the accuracy target in view. Progress is saved on this
+				device.
+			</p>
+		</div>
+
+		<div class="mt-6">
+			<LessonStudio lesson={lesson} />
+		</div>
+	</section>
+
+	<ContentSection title="About this lesson">
+		{lesson.notes.map((paragraph) => <p>{paragraph}</p>)}
+		<p>
+			The lesson passes at <strong class="text-ink">{lesson.minAccuracy}% accuracy</strong>.{' '}
+			{
+				timed
+					? `The clock is ${lesson.timedSeconds} seconds and you need at least ${lesson.minCharacters} characters typed before the result can pass.`
+					: 'Type the whole passage; the next lesson unlocks when the accuracy target is met or when you choose to skip.'
+			}
+		</p>
+		<p>
+			{
+				timed
+					? 'Speed is live once the clock has been running for a second: the panel shows net WPM, which removes wrong characters rather than counting raw speed. Accuracy is the number the pass rule uses.'
+					: 'This is a sequence drill, not a speed measurement, so no live WPM is shown while you type. Elapsed time and character accuracy update as you go, and net WPM is reported once the whole passage is finished.'
+			}
+			The formulas are documented on the
+			<a href="/typing-lessons/#scoring" class="underline underline-offset-2 hover:text-ink">
+				typing lessons page
+			</a>.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Practice tips">
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			{lesson.tips.map((tip) => <li>{tip}</li>)}
+		</ul>
+		<Callout title="Accuracy unlocks the next lesson" variant="tip">
+			<p>
+				The Next lesson button stays disabled until this drill is passed or skipped. If a run goes wrong,
+				restart it. Restarting clears only this lesson: the best accuracy you have already recorded for
+				it stays in the panel.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	{timed && (
+		<ContentSection title="How the numbers are calculated">
+			<ScoringNotes />
+		</ContentSection>
+	)}
+
+	<ContentSection title="Keep going">
+		<p>
+			Every lesson follows the same routine: one clean run, then move on. The full order, the keys each
+			lesson covers and the pass targets are on the
+			<a href="/typing-lessons/" class="underline underline-offset-2 hover:text-ink">typing lessons page</a>.
+			When you want a plain speed measurement instead of a drill, take the
+			<a href="/typing-test/" class="underline underline-offset-2 hover:text-ink">typing test</a>.
+		</p>
+
+		<LessonNav currentId={lesson.id} />
+	</ContentSection>
+</BaseLayout>

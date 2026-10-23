@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import Callout from '../../components/Callout.astro';
+
+const title = 'Privacy Policy — keysprint';
+const description =
+	'The keysprint privacy policy: no accounts, no cookies, no analytics and no tracking. Only your best score and theme choice are stored, and only in your own browser.';
+
+const updated = '22 October 2026';
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	breadcrumbs={[{ name: 'Privacy policy', href: '/privacy-policy/' }]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs items={[{ name: 'Privacy policy', href: '/privacy-policy/' }]} />
+	</div>
+
+	<PageHero
+		eyebrow="Privacy"
+		title="Privacy policy"
+		lead="keysprint has no accounts, no cookies, no analytics and no advertising. This page explains exactly what is stored, where it is stored, and why that is the whole list."
+	/>
+
+	<ContentSection title="The short version">
+		<p>
+			keysprint does not collect personal information. It sets no cookies, loads no analytics or
+			advertising scripts, and embeds no third party content. The only things stored are your best typing
+			score for each test length and your light or dark theme choice, and both are written to your own
+			browser's local storage on your own device.
+		</p>
+		<Callout title="No data leaves your browser" variant="important">
+			<p>
+				The typing test runs entirely on your machine. The passages are generated locally, your keystrokes
+				are measured locally, and your score is calculated locally. Nothing is transmitted to a server,
+				because there is no server to transmit it to.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="What is stored, and where">
+		<p>
+			Two pieces of information are kept, using your browser's local storage. Local storage stays on your
+			device and is not sent to any server, not even by the site that wrote it.
+		</p>
+		<div class="overflow-hidden rounded-card border border-border">
+			<table class="w-full border-collapse text-left text-sm">
+				<thead>
+					<tr class="bg-surface-2 text-ink">
+						<th scope="col" class="px-4 py-2.5 font-semibold">What</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">Why</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">Where</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-border">
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Your best net speed for each test length and text type</th>
+						<td class="px-4 py-2.5">
+							So the site can show you a personal best and tell you when you have beaten it.
+						</td>
+						<td class="px-4 py-2.5">Your browser's local storage</td>
+					</tr>
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Your light or dark theme choice</th>
+						<td class="px-4 py-2.5">
+							So the site keeps the theme you picked instead of following your system setting every
+							time.
+						</td>
+						<td class="px-4 py-2.5">Your browser's local storage</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p>
+			Both are removed if you clear your browser's site data, and both disappear with the browser profile.
+			They are never transmitted, never linked to an account and never visible to anyone else.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="What is not collected">
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">No name, email address, phone number or any other identifier.</strong>
+				There is no sign-up form anywhere on the site.
+			</li>
+			<li>
+				<strong class="text-ink">No cookies of any kind.</strong> Not for preferences, not for sessions,
+				not for advertising.
+			</li>
+			<li>
+				<strong class="text-ink">No analytics.</strong> keysprint does not load Google Analytics or any
+				other measurement script, and it does not count page views.
+			</li>
+			<li>
+				<strong class="text-ink">No advertising or ad tracking.</strong> There are no ads, no affiliate
+				links and no third party pixels.
+			</li>
+			<li>
+				<strong class="text-ink">No keystroke logging.</strong> Your typing is measured so that the test
+				can score you, and that is all it is used for. It is not recorded, stored or transmitted.
+			</li>
+			<li>
+				<strong class="text-ink">No third party embeds.</strong> There are no social widgets, no maps, no
+				videos and no fonts loaded from another company's servers. The pages use the fonts already on
+				your device, which is also why they load quickly.
+			</li>
+		</ul>
+	</ContentSection>
+
+	<ContentSection title="The hosting provider">
+		<p>
+			keysprint is hosted on a free tier of a hosting platform. Like any web host, that provider has to
+			process your request in order to send you a page, and it may keep standard technical logs such as
+			your IP address, the time of the request and the page requested, for a short period, for security
+			and troubleshooting.
+		</p>
+		<p>
+			That handling is done by the host, not by keysprint. keysprint has no access to those logs and does
+			not use them for anything. The provider's own privacy documentation explains the details.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Children">
+		<p>
+			keysprint is a general audience site and is not directed at children. Because it collects no personal
+			information from anyone, there is no data for it to hold about a child either.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Your choices">
+		<p>
+			You can clear the stored data at any time through your browser's settings, and clearing your
+			browsing data removes the best scores and the theme preference along with everything else. There is
+			nothing else to delete, because there is nothing else.
+		</p>
+		<p>
+			If you have a question about anything on this page, the
+			<a href="/contact/" class="underline underline-offset-2 hover:text-ink">contact page</a> explains how
+			to reach the person behind the site.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Changes to this policy">
+		<p>
+			If this policy changes, the page will be updated and the date at the top will change with it. There
+			is no list to sign up for and no notification to send, because the site does not collect an address
+			to send one to.
+		</p>
+		<p class="text-sm text-ink-subtle">Last updated: {updated}.</p>
+	</ContentSection>
+</BaseLayout>

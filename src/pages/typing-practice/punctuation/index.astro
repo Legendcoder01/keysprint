@@ -1,0 +1,198 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import PageHero from '../../../components/PageHero.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = 'Punctuation Typing Practice — Commas, Quotes and Brackets';
+const description =
+	'Free punctuation typing practice. Drill the keys people hesitate over most: commas, apostrophes, quotation marks, brackets and the capitals that go with them.';
+
+const faq = [
+	{
+		question: 'Why is punctuation slower than ordinary letters?',
+		answer:
+			'Because almost every punctuation mark lives in the top right corner of the keyboard, far from the home row, and several of them need the shift key as well. So a comma is a reach, a find and a press, where a letter is a reach and a press. Practised in bulk, that extra step almost disappears.',
+	},
+	{
+		question: 'How do I type quotation marks without pausing?',
+		answer:
+			'Reach for the shift key with the opposite hand and press it a fraction before the key itself, then release it immediately. The pause people feel is usually the shift key being pressed at exactly the same moment as the symbol, which forces your hand to do two things in parallel.',
+	},
+	{
+		question: 'Should I use curly quotes or straight quotes?',
+		answer:
+			'Whichever the text in front of you uses. The drill mixes both on purpose, because the two are on different keys on most layouts and switching between them without thinking is a common source of hesitation in ordinary writing.',
+	},
+	{
+		question: 'Is a high keystroke accuracy realistic here?',
+		answer:
+			'Expect it to be lower than on ordinary text, and that is fine. Punctuation drills deliberately stack the hardest movements on the keyboard into every line, so the number is not comparable with a general typing test. It is only comparable with your own previous run through this drill.',
+	},
+	{
+		question: 'Will this help my typing speed in general?',
+		answer:
+			'More than the drill score suggests. Ordinary writing is full of commas, apostrophes and full stops, and each one you do not pause on is a small piece of time returned. Most people notice their general typing gets smoother within a week of short daily practice.',
+	},
+];
+
+const keys = [
+	{ symbol: ',', name: 'Comma', hand: 'Right ring finger', note: 'The most common mark in English, and the most common pause.' },
+	{ symbol: '.', name: 'Full stop', hand: 'Right little finger', note: 'Same column as the comma, one row lower.' },
+	{ symbol: "'", name: 'Apostrophe', hand: 'Right little finger', note: 'Needs shift on most layouts, so it is the slowest mark in ordinary writing.' },
+	{ symbol: '"', name: 'Quotation mark', hand: 'Right little finger', note: 'Two shift levels on some layouts, one on others.' },
+	{ symbol: ';', name: 'Semicolon', hand: 'Right ring finger', note: 'The home row key directly below the comma.' },
+	{ symbol: ':', name: 'Colon', hand: 'Right ring finger', note: 'Shifted semicolon, so it shares the reach and the shift.' },
+	{ symbol: '-', name: 'Hyphen', hand: 'Right middle finger', note: 'Lower row, right of the home position.' },
+	{ symbol: '?', name: 'Question mark', hand: 'Right little finger', note: 'A long reach to the far right of the bottom row.' },
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/practice.png"
+	breadcrumbs={[
+		{ name: 'Typing practice', href: '/typing-practice/' },
+		{ name: 'Punctuation', href: '/typing-practice/punctuation/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing practice', href: '/typing-practice/' },
+				{ name: 'Punctuation', href: '/typing-practice/punctuation/' },
+			]}
+		/>
+	</div>
+
+	<PageHero
+		eyebrow="Practice drill"
+		title="Punctuation typing practice"
+		lead="The marks that interrupt ordinary typing. Commas, apostrophes, quotation marks, brackets and the capitals that go with them, stacked into sentences so the reach becomes a habit."
+	/>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">Punctuation drill</h2>
+			<p class="mt-2 text-ink-muted">
+				Type the passage below. The clock starts on your first keystroke, and the results panel gives you
+				the same breakdown as every other test on the site.
+			</p>
+		</div>
+
+		<div class="mt-6">
+			<TypingTest duration={60} modes={['punctuation']} showDifficulty={false} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="Where the hesitation actually is"
+		lead="Almost all of the punctuation on the keyboard sits under the same two fingers of the right hand."
+	>
+		<p>
+			The left hand has a comfortable spread of letters across three rows. The right hand has a cluster of
+			marks stacked in the top right corner, which is the furthest point on the board from the home row.
+			Each of those keys needs a reach, a shift and a precise press, and ordinary writing uses them
+			constantly.
+		</p>
+		<p>
+			The result is that a typist can be fluent in letters and still pause before every comma. It is not
+			a weakness of attention; it is a reach that never got enough repetitions to become automatic. A
+			short daily drill is the whole fix.
+		</p>
+		<div class="overflow-hidden rounded-card border border-border">
+			<table class="w-full border-collapse text-left text-sm">
+				<thead>
+					<tr class="bg-surface-2 text-ink">
+						<th scope="col" class="px-4 py-2.5 font-semibold">Mark</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">Finger</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">Note</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-border">
+					{
+						keys.map((row) => (
+							<tr>
+								<th scope="row" class="px-4 py-2.5">
+									<kbd class="font-mono text-base font-semibold text-ink">{row.symbol}</kbd>{' '}
+									<span class="text-ink-muted">{row.name}</span>
+								</th>
+								<td class="px-4 py-2.5">{row.hand}</td>
+								<td class="px-4 py-2.5">{row.note}</td>
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+		</div>
+	</ContentSection>
+
+	<ContentSection title="How to run a punctuation session">
+		<ol class="list-decimal space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Drill the marks on their own first.</strong> Before a full sentence,
+				type rows of the same symbol: commas, then apostrophes, then quotation marks. Ten rows of one
+				symbol teaches the reach far faster than ten sentences that each contain one.
+			</li>
+			<li>
+				<strong class="text-ink">Press shift slightly early.</strong> Not at the same moment. A fraction
+				of a second of lead time removes the doubled effort of doing both at once.
+			</li>
+			<li>
+				<strong class="text-ink">Release the shift key immediately.</strong> Holding it down makes the
+				next letter capitalised by accident, which turns one small error into two.
+			</li>
+			<li>
+				<strong class="text-ink">Do not let the right hand leave the keyboard.</strong> The marks are a
+				reach, not a relocation. Your hand stays near the home row and one finger travels.
+			</li>
+			<li>
+				<strong class="text-ink">Move on to sentences.</strong> Once the marks alone are comfortable, the
+				drill passages put them back into running text, where the real hesitation lives.
+			</li>
+		</ol>
+		<Callout title="Expect a lower score here" variant="note">
+			<p>
+				This drill deliberately stacks the hardest movements into every line, so its accuracy figure will
+				be lower than a normal test. That is not a sign that you are getting worse. Compare it only with
+				your own previous run through the same drill.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="The shift key on its own">
+		<p>
+			Shift is the quiet cause of most punctuation errors. It is reached with the hand that is not typing
+			the character, which means every capital or symbol splits your attention between two hands, and the
+			hand that has to press shift has to find it without disturbing the other one.
+		</p>
+		<p>
+			The movement that works is unglamorous: opposite hand, press slightly early, release immediately,
+			return to the home position. Practise it on its own with a line of capitals and a line of symbols, and
+			it stops being a separate thought.
+		</p>
+		<p>
+			One related habit worth breaking is holding shift down for a whole word. It feels efficient and it
+			produces a string of capitals that have to be deleted one at a time, which is far more expensive
+			than the keystroke you saved.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Next steps">
+		<p>
+			Once punctuation stops being a pause, the
+			<a href="/typing-practice/numbers/" class="underline underline-offset-2 hover:text-ink">number drill</a>
+			is the natural companion, because the number row shares the same long reach. After that, a standard
+			<a href="/typing-test/" class="underline underline-offset-2 hover:text-ink">typing test</a> will show
+			you whether the work has carried over into ordinary writing.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about punctuation typing practice." />
+	</div>
+</BaseLayout>

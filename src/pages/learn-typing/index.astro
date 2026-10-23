@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import Faq from '../../components/Faq.astro';
+import Callout from '../../components/Callout.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const title = 'How to Learn Touch Typing — A Practical Guide';
+const description =
+	'A step by step guide to learning touch typing: setting your hands on the home row, the order to learn the keys, and how to practise without building bad habits.';
+
+const faq = [
+	{
+		question: 'How long does it take to learn touch typing?',
+		answer:
+			'Most people reach a usable speed of forty to fifty words per minute within two to three weeks of consistent practice, and around seventy within a couple of months. Those numbers assume short daily sessions rather than the occasional long one. Nobody reaches a comfortable touch typing speed in a weekend, because the movement is motor learning rather than knowledge, and motor learning needs repetition and sleep.',
+	},
+	{
+		question: 'Do I have to learn to type without looking?',
+		answer:
+			'That is the goal, but the path there does not start there. You need to look at the keyboard while you build the position and the finger assignments, and looking gets you faster in the end because it stops you from guessing. The test for whether a key is learned is simple: you can find it without looking and you know which finger to use.',
+	},
+	{
+		question: 'Should I learn the alphabet row before the numbers row?',
+		answer:
+			'The home row comes first, then the middle row, then the top row, then the bottom row. Numbers are last apart from the ones directly above the home row. The order matters because each group is taught in the context of the ones you already know, so you are never asked to find a key on a keyboard you do not have a reference position for.',
+	},
+	{
+		question: 'Is it better to type with all ten fingers or just eight?',
+		answer:
+			'All ten, plus your thumbs for the space bar. Hunting and pecking usually feels faster at first because it avoids the initial awkwardness, but it caps your ceiling at a fairly low speed and it loads your forearms unevenly. The awkward phase of touch typing is short, and the speed afterwards is much higher.',
+	},
+	{
+		question: 'Can I learn to type on a laptop keyboard?',
+		answer:
+			'Perfectly well. The keys you rely on most are in the same places on every keyboard, and the only real difference is the short space bar and the shallower travel of laptop switches. If you will be typing on a full-size keyboard for hours every day, a cheap external keyboard is worth more than any course.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/learn.png"
+	breadcrumbs={[{ name: 'Learn typing', href: '/learn-typing/' }]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs items={[{ name: 'Learn typing', href: '/learn-typing/' }]} />
+	</div>
+
+	<PageHero
+		eyebrow="Learn touch typing"
+		title="How to learn touch typing"
+		lead="Touch typing is not a trick or a talent. It is a set of finger assignments and a home position, practised until they become automatic. This guide covers what to do, in what order, and how to avoid the habits that slow people down for years."
+	/>
+
+	<ContentSection
+		title="What touch typing actually is"
+		lead="One position, eight fingers, and a rule that never changes."
+	>
+		<p>
+			Touch typing means typing without looking at the keyboard. That much is obvious, but the part people
+			miss is that it is really a position rather than a trick. Your hands live in one place, the home row, and
+			every other key is reached by moving a specific finger a specific distance from that place. Once the
+			reference position is solid, every other key is a small calculation from a known starting point.
+		</p>
+		<p>
+			That is why the method works even when you cannot think about it. You are not memorising a keyboard
+			picture; you are learning a coordinate system with your hands. It is the same reason musicians practise
+			scales, and the same reason scales make the rest of the music easier later.
+		</p>
+		<p>
+			The alternative is hunting and pecking, where you look down, find the key, and press it. It works, and it
+			is quick to learn, but it puts a ceiling on how fast you can go and it loads one hand with all the work.
+			Most people who think they cannot touch type simply never had a reason to unlearn the habit.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Setting your hands on the home row">
+		<ol class="list-decimal space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Find the bumps.</strong> On a standard keyboard, <kbd>F</kbd> and
+				<kbd>J</kbd> have small raised ridges. Put your index fingers on them. If your keyboard does not have
+				them, <kbd>F</kbd> and <kbd>J</kbd> are still the reference keys, and you can use a small piece of
+				tape to mark them.
+			</li>
+			<li>
+				<strong class="text-ink">Place the rest of the fingers.</strong> The left hand covers
+				<kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>F</kbd> and the right hand covers
+				<kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> <kbd>;</kbd>. Each finger sits on one key, slightly curved, with
+				the wrist floating rather than resting on the desk.
+			</li>
+			<li>
+				<strong class="text-ink">Bring in the thumbs.</strong> Both thumbs rest on the space bar, which is
+				comfortable for most people. Some typists prefer one thumb on the bar and the other on
+				<kbd>Alt</kbd>, and either is fine as long as it is consistent.
+			</li>
+			<li>
+				<strong class="text-ink">Keep the elbows in.</strong> A comfortable position is roughly a right
+				angle at the elbow, shoulders relaxed, and the keyboard close enough that you are not reaching
+				forwards. A desk that is too high will undo everything else you do.
+			</li>
+		</ol>
+		<Callout title="Returning to home is the whole secret" variant="important">
+			<p>
+				Every time your fingers leave the home row they need to find it again. Typists who practise with
+				deliberate, exaggerated returns to the home position after each key build the habit quickly, even
+				though it feels slower at first. It is the single change that separates fast typists from fast
+				hunters.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="The order to learn the keys">
+		<p>
+			There is a standard order and it is worth following, because each stage only asks you to use keys you
+			already know how to find.
+		</p>
+		<ol class="list-decimal space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Home row.</strong> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>F</kbd>,
+				<kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> <kbd>;</kbd>, plus the space bar. This alone takes a surprising
+				number of words to type, because most short words are made of these letters.
+			</li>
+			<li>
+				<strong class="text-ink">Middle row.</strong> <kbd>G</kbd> <kbd>H</kbd> on the left,
+				<kbd>N</kbd> <kbd>M</kbd> and the punctuation on the right. The left hand now has a full row of its
+				own.
+			</li>
+			<li>
+				<strong class="text-ink">Top row.</strong> <kbd>E</kbd> <kbd>D</kbd> <kbd>C</kbd> and
+				<kbd>R</kbd> <kbd>T</kbd> <kbd>F</kbd> <kbd>G</kbd> <kbd>V</kbd> <kbd>B</kbd>. These are the keys that
+				are hardest to reach, so they need the home row to be solid first.
+			</li>
+			<li>
+				<strong class="text-ink">Bottom row.</strong> <kbd>X</kbd> <kbd>Z</kbd> <kbd>C</kbd> <kbd>V</kbd> and
+				<kbd>N</kbd> <kbd>M</kbd>, plus the comma, full stop and slash.
+			</li>
+			<li>
+				<strong class="text-ink">Numbers and the rest.</strong> Finally the number row, the shift keys and
+				the symbols. Shift is the last thing to worry about, and it becomes automatic without practice once
+				the underlying letters are known.
+			</li>
+		</ol>
+		<p>
+			The
+			<a href="/typing-lessons/" class="underline underline-offset-2 hover:text-ink">lesson pages</a> follow this
+			order, and the <a href="/typing-lessons/home-row/" class="underline underline-offset-2 hover:text-ink">home
+			row lesson</a> is where to start.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="How to practise without building bad habits">
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Short and frequent beats long and rare.</strong> Ten minutes a day for five
+				weeks is worth more than two hours once a month. Motor learning consolidates during rest, not during
+				more practice.
+			</li>
+			<li>
+				<strong class="text-ink">Practise the hard part more.</strong> If a handful of keys are slow, write
+				words that use them over and over. This is what the
+				<a href="/typing-practice/" class="underline underline-offset-2 hover:text-ink">practice drills</a> are
+				for.
+			</li>
+			<li>
+				<strong class="text-ink">Do not chase speed while learning.</strong> Accuracy first, speed later.
+				Chasing speed at the start builds the exact rushing habit that costs you the most later.
+			</li>
+			<li>
+				<strong class="text-ink">Do not fix every error immediately.</strong> Correcting while you are
+				still learning breaks the flow and teaches you to expect mistakes. Fix it afterwards, when the
+				exercise is finished.
+			</li>
+			<li>
+				<strong class="text-ink">Keep your eyes on the screen.</strong> Even while you are deliberately
+				looking at the keyboard to learn a key, try to glance back at the text as often as you can. That
+				is the skill you are actually building.
+			</li>
+			<li>
+				<strong class="text-ink">Stop before you are exhausted.</strong> Twenty focused minutes beat an
+				hour of staring at the same letters.
+			</li>
+		</ul>
+	</ContentSection>
+
+	<ContentSection title="How long it takes, honestly">
+		<p>
+			A fair expectation is that the first week is uncomfortable, the second week starts to feel automatic,
+			and by the end of the third you are typing ordinary words without thinking about your hands at all. Most
+			people reach forty to fifty words per minute somewhere in that third week.
+		</p>
+		<p>
+			The plateau that follows is the interesting part. Speed stops moving for a while, then starts to climb
+			again as reading ahead develops, which is a different skill from knowing where the keys are. If you are
+			stuck at that plateau, the answer is usually not more finger practice. It is reading further ahead, and
+			that is what the <a href="/typing-test/" class="underline underline-offset-2 hover:text-ink">typing
+			test</a> is for.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Common questions about learning touch typing." />
+	</div>
+</BaseLayout>

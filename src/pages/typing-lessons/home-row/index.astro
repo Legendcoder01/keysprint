@@ -1,0 +1,234 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import PageHero from '../../../components/PageHero.astro';
+import LessonStudio from '../../../components/typing/LessonStudio.astro';
+import LessonNav from '../../../components/typing/LessonNav.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+import { HOME_ROW_LESSON } from '../../../lib/lessons';
+
+const title = 'Home Row Typing Lesson — Learn a s d f j k l ;';
+const description =
+	'A focused touch typing lesson for the home row: the finger assignment for a s d f j k l and the space bar, plus a live home row drill to practise in.';
+
+const faq = [
+	{
+		question: 'Why does the home row matter so much?',
+		answer:
+			'Because it is the only part of the keyboard your hands stay on. Every other key is reached by moving a finger away from the home row and back again, so the home row works like a home page: it is where you return after every reach. Once it is automatic, the rest of the keyboard becomes a set of short, known movements instead of a search.',
+	},
+	{
+		question: 'How do I find the home row without looking?',
+		answer:
+			'Most standard keyboards have small raised ridges on the F and J keys. Put your index fingers on them and the rest of the fingers fall into place naturally. If your keyboard has no ridges, F and J are still the reference keys, and a small piece of tape on each one makes them easy to find by touch.',
+	},
+	{
+		question: 'How long should I spend on the home row?',
+		answer:
+			'Two or three short sessions is usually enough for it to start feeling automatic. The test is simple: can you type the drill material without looking at the keyboard and without hesitating before the semicolon, which is usually the last key to become comfortable.',
+	},
+	{
+		question: 'Should my thumbs type the space bar?',
+		answer:
+			'Most people find it comfortable, and the alternative is to move a finger down to the space bar, which interrupts the rhythm of the whole hand. Some typists prefer one thumb on the space bar and the other hovering near the Alt key. Either is fine, as long as you settle on one and stop thinking about it.',
+	},
+	{
+		question: 'What comes after the home row?',
+		answer:
+			'The index-finger lesson, which adds f g r t v b and j h u y n m while keeping every reach anchored on F and J. The full ten-lesson order, with the finger assignments for every stage, is on the typing lessons page.',
+	},
+];
+
+const assignment = [
+	{ key: 'A', finger: 'Left little finger' },
+	{ key: 'S', finger: 'Left ring finger' },
+	{ key: 'D', finger: 'Left middle finger' },
+	{ key: 'F', finger: 'Left index finger' },
+	{ key: 'J', finger: 'Right index finger' },
+	{ key: 'K', finger: 'Right middle finger' },
+	{ key: 'L', finger: 'Right ring finger' },
+	{ key: ';', finger: 'Right little finger' },
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/lessons.png"
+	breadcrumbs={[
+		{ name: 'Typing lessons', href: '/typing-lessons/' },
+		{ name: 'Home row', href: '/typing-lessons/home-row/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing lessons', href: '/typing-lessons/' },
+				{ name: 'Home row', href: '/typing-lessons/home-row/' },
+			]}
+		/>
+	</div>
+
+	<PageHero
+		eyebrow="Lesson 1"
+		title="The home row"
+		lead="Eight keys, eight fingers, and one position that everything else is measured from. The home row is where your hands live, and it is the first thing worth getting right. Below is a drill that uses nothing but home row keys, so you can practise the position without anything else getting in the way."
+	/>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">Home row drill</h2>
+			<p class="mt-2 text-ink-muted">
+				Every character in this drill sits on the home row. Keep your eyes on the text rather than the
+				keyboard, and let your fingers find the keys. The clock starts on your first keystroke, and the
+				lesson passes at {HOME_ROW_LESSON.minAccuracy}% accuracy.
+			</p>
+		</div>
+
+		<div class="mt-6">
+			<LessonStudio lesson={HOME_ROW_LESSON} />
+		</div>
+	</section>
+
+	<ContentSection title="The finger assignment">
+		lead="Each home row key belongs to exactly one finger, and the assignment never changes."
+	>
+		<div class="overflow-hidden rounded-card border border-border">
+			<table class="w-full border-collapse text-left text-sm">
+				<thead>
+					<tr class="bg-surface-2 text-ink">
+						<th scope="col" class="px-4 py-2.5 font-semibold">Key</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">Finger</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-border">
+					{
+						assignment.map((row) => (
+							<tr>
+								<th scope="row" class="px-4 py-2.5">
+									<kbd class="font-mono text-base font-semibold text-ink">{row.key}</kbd>
+								</th>
+								<td class="px-4 py-2.5">{row.finger}</td>
+							</tr>
+						))
+					}
+					<tr>
+						<th scope="row" class="px-4 py-2.5">
+							<kbd class="font-mono text-base font-semibold text-ink">Space</kbd>
+						</th>
+						<td class="px-4 py-2.5">Both thumbs</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p>
+			Notice how the fingers split in the middle. The left hand owns four keys and the right hand owns
+			four, with the index fingers sitting next to each other in the centre. That gap between the two index
+			fingers is the boundary of the keyboard, and once you can feel where it is you can always find your
+			way back.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Getting the position right">
+		<ol class="list-decimal space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Find the bumps on F and J.</strong> Put your index fingers on them. This
+				is the fastest way to orient your hands without looking down.
+			</li>
+			<li>
+				<strong class="text-ink">Let the other fingers drop.</strong> They should land on A, S, D and K, L
+				and the semicolon naturally. If they do not, slide your hands rather than bending your fingers.
+			</li>
+			<li>
+				<strong class="text-ink">Curve your fingers.</strong> Flat fingers make you press keys with the
+				tips of your nails and slow you down. A relaxed, slightly curved hand with the knuckles up is
+				faster and lasts longer.
+			</li>
+			<li>
+				<strong class="text-ink">Float your wrists.</strong> Resting your wrists on the desk is a common
+				habit and a bad one. The desk is for your forearms, not your hands.
+			</li>
+			<li>
+				<strong class="text-ink">Keep your elbows in.</strong> If your arms are splayed out to the sides,
+				the reach to K and J becomes a stretch rather than a movement.
+			</li>
+			<li>
+				<strong class="text-ink">Type the space bar with a thumb.</strong> It is the most pressed key on
+				the keyboard, and moving a finger down to it costs more than it seems.
+			</li>
+		</ol>
+		<Callout title="The return is the exercise" variant="important">
+			<p>
+				Every reach in the drill leaves the home row, and every reach has to come back. For the first
+				sessions, exaggerate that return: after each key, deliberately put the finger back on its home
+				key before reaching for the next one. It feels slow and clumsy, and it is the fastest route to
+				making the position automatic.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Common problems">
+		<dl class="space-y-5">
+			<div>
+				<dt class="font-semibold text-ink">I keep looking down at the keyboard</dt>
+				<dd>
+					That is expected in the first session and it goes away faster than people think. A useful
+					trick is to cover the keyboard with a sheet of paper and type from memory, then uncover it
+					and check which keys you got wrong. Almost everyone finds the gap is much smaller than they
+					expected.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">My little fingers are the weak ones</dt>
+				<dd>
+					They usually are, and that is normal, because they have the least work to do and the least
+					practice. Practise the pairs <kbd>A</kbd> <kbd>S</kbd> and <kbd>L</kbd> <kbd>;</kbd> on their
+					own for a couple of minutes and they catch up quickly.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">I press the wrong key next to the right one</dt>
+				<dd>
+					That is a position problem, not a memory problem, and no amount of staring at the keyboard
+					fixes it. Put your hands down, feel for the bumps, and press the drill again. If the same
+					two keys give you trouble every time, mark them with tape.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">My hands hurt after a session</dt>
+				<dd>
+					You are pressing too hard. Typing should need roughly the force of a firm handshake, no
+					more, and a resting hand should be visibly relaxed between keystrokes. If your forearms
+					ache, shorten the sessions rather than pushing through, and let the desk carry your arms
+					rather than your wrists.
+				</dd>
+			</div>
+		</dl>
+	</ContentSection>
+
+	<ContentSection title="What to do next">
+		<p>
+			When you can type the drill without looking, with few errors and without thinking about which finger
+			is which, move on to the
+			<a href="/typing-lessons/index-fingers/" class="underline underline-offset-2 hover:text-ink">index
+			finger lesson</a>. The full sequence, with the assignments for every stage, is on the
+			<a href="/typing-lessons/" class="underline underline-offset-2 hover:text-ink">typing lessons
+			page</a>, and the <a href="/learn-typing/" class="underline underline-offset-2 hover:text-ink">learn
+			typing guide</a> explains the same method in more depth.
+		</p>
+		<p>
+			You can also check how the new position is going with a normal
+			<a href="/typing-test/" class="underline underline-offset-2 hover:text-ink">typing test</a>. A slow
+			score with a high accuracy is a good sign at this stage, because accuracy is what the home row is
+			for.
+		</p>
+
+		<LessonNav currentId="home-row" />
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about the home row lesson." />
+	</div>
+</BaseLayout>

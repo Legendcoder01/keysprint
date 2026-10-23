@@ -1,0 +1,43 @@
+---
+interface Props {
+	/** Short label above the heading, e.g. "Typing test". */
+	eyebrow?: string;
+	/** The page heading. Keep it under 60 characters. */
+	title: string;
+	/** Intro paragraph under the heading. */
+	lead?: string;
+	/** Optional slot content for buttons or extra controls. */
+	actions?: boolean;
+	/** Centred, narrower layout for landing style pages. */
+	centered?: boolean;
+}
+
+const { eyebrow, title, lead, actions = false, centered = false } = Astro.props;
+---
+
+<section
+	class:list={[
+		'border-b border-border bg-surface',
+		centered && 'text-center',
+	]}
+>
+	<div class:list={['mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16', centered && 'max-w-3xl']}>
+		{eyebrow && <p class="text-xs font-semibold uppercase tracking-wider text-accent">{eyebrow}</p>}
+		<h1 class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]">
+			{title}
+		</h1>
+		{lead && <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-muted sm:text-lg">{lead}</p>}
+		{
+			actions && (
+				<div
+					class:list={[
+						'mt-7 flex flex-wrap gap-3',
+						centered && 'justify-center',
+					]}
+				>
+					<slot />
+				</div>
+			)
+		}
+	</div>
+</section>

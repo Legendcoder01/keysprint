@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import TypingTest from '../components/typing/TypingTest.astro';
+import ContentSection from '../components/ContentSection.astro';
+import { absoluteUrl } from '../config/site';
+
+const title = 'Page Not Found — keysprint';
+const description = 'That page does not exist on keysprint. Here are the main pages, and a quick typing test while you are here.';
+---
+
+{/* The 404 page is not a page of its own, so it points its canonical at the
+    home page rather than at a URL that does not exist. */}
+<BaseLayout
+	title={title}
+	description={description}
+	canonical={absoluteUrl('/')}
+	noindex
+>
+	<PageHero
+		eyebrow="404"
+		title="That page is not here"
+		lead="The link may be out of date, or the address may have a typo in it. Nothing is broken on your side. Here is where everything lives."
+	/>
+
+	<ContentSection title="Where to go next">
+		<div class="grid gap-4 sm:grid-cols-2">
+			<a href="/typing-test/" class="card p-5 transition-colors hover:border-border-strong">
+				<h3 class="font-semibold text-ink">Take a typing test</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					The main test, with every length and text type you can switch between without reloading.
+				</p>
+			</a>
+			<a href="/learn-typing/" class="card p-5 transition-colors hover:border-border-strong">
+				<h3 class="font-semibold text-ink">Learn touch typing</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					The full method, from finding the home row to reading ahead.
+				</p>
+			</a>
+			<a href="/typing-lessons/" class="card p-5 transition-colors hover:border-border-strong">
+				<h3 class="font-semibold text-ink">Typing lessons</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					The keyboard taught one row at a time, starting with the home row.
+				</p>
+			</a>
+			<a href="/typing-practice/" class="card p-5 transition-colors hover:border-border-strong">
+				<h3 class="font-semibold text-ink">Practice drills</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					Paragraphs, numbers and punctuation, for the parts you are slowest at.
+				</p>
+			</a>
+			<a href="/typing-test/1-minute/" class="card p-5 transition-colors hover:border-border-strong">
+				<h3 class="font-semibold text-ink">One minute test</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					The standard benchmark, if you only want a single number.
+				</p>
+			</a>
+			<a href="/about/" class="card p-5 transition-colors hover:border-border-strong">
+				<h3 class="font-semibold text-ink">About keysprint</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					How the scoring works, and what happens to your data.
+				</p>
+			</a>
+		</div>
+	</ContentSection>
+
+	<section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+		<div class="max-w-3xl">
+			<h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">While you are here</h2>
+			<p class="mt-2 text-ink-muted">
+				A fifteen second test. It costs you nothing and it is the fastest way to find out whether your
+				speed has changed since you were last here.
+			</p>
+		</div>
+
+		<div class="mt-6">
+			<TypingTest duration={15} syncDuration={false} showDifficulty={false} />
+		</div>
+	</section>
+</BaseLayout>

@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = '15 Second Typing Test — Instant Speed Check';
+const description =
+	'Take a free 15 second typing test and get an instant reading of your speed and accuracy. No sign-up, no download, and your best score stays on your device.';
+
+const faq = [
+	{
+		question: 'Is a 15 second test accurate enough to be useful?',
+		answer:
+			'Not on its own, but it is accurate enough to be a good guide. Fifteen seconds is long enough to get past the first keystroke and settle into a rhythm, and short enough that you will run it. Use it as a warm-up and as a way to compare two keyboards or two text types, then confirm with a longer test.',
+	},
+	{
+		question: 'Why is my fifteen second score higher than my one minute score?',
+		answer:
+			'Two reasons. The first few seconds of any test are usually faster than the rest, and a fifteen second test has a larger share of those seconds in it. The second reason is that a short test is more forgiving: a single mistake late in a long test costs you proportionally less time to fix.',
+	},
+	{
+		question: 'Should I use words, sentences or paragraphs for a short test?',
+		answer:
+			'Sentences are the best default for fifteen seconds. Word mode gives you very little context, so you are reading and typing at the same time, while paragraph mode asks you to find your place in longer prose. Sentences sit in between and give the fairest short burst.',
+	},
+	{
+		question: 'Why did my timer start before I began typing?',
+		answer:
+			'It did not. The clock starts on your first keystroke, not when the page loads. That means you can read the passage, settle your hands and breathe before the timer starts, and the reading time is not counted against you.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/typing-test-15s.png"
+	breadcrumbs={[
+		{ name: 'Typing test', href: '/typing-test/' },
+		{ name: '15 second test', href: '/typing-test/15-second/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing test', href: '/typing-test/' },
+				{ name: '15 second test', href: '/typing-test/15-second/' },
+			]}
+		/>
+	</div>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<p class="text-xs font-semibold uppercase tracking-wider text-accent">15 second test</p>
+			<h1
+				class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
+			>
+				15 second typing test
+			</h1>
+			<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+				A short burst of typing for a fast answer. The clock starts on your first keypress and stops fifteen
+				seconds later, giving you a speed figure, an accuracy figure and an error count to compare against
+				your last attempt.
+			</p>
+		</div>
+
+		<div class="mt-8">
+			<TypingTest duration={15} syncDuration={false} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="What fifteen seconds can tell you"
+		lead="It is the shortest run worth taking, and it answers a narrower question than most people expect."
+	>
+		<p>
+			Fifteen seconds is long enough to shake off the first keystroke and long enough that your speed settles
+			into something resembling your real pace. It is not long enough to tell you much about your endurance, and
+			the opening seconds still count for a large share of the result, so a fifteen second score sits noticeably
+			above your steady speed.
+		</p>
+		<p>
+			What it is genuinely good for is comparison. Run the same fifteen seconds twice and the gap between the
+			two tells you something real, whether that is the difference between two keyboards, the difference between
+			reading words and reading paragraphs, or simply whether you warmed up properly first.
+		</p>
+		<p>
+			It also makes a good warm-up. Fifteen seconds of deliberate typing before you start a longer piece of work
+			gets your hands into the right position and reminds you which finger belongs on which key, which is often
+			worth more than the score itself.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Getting the most out of a fifteen second run">
+		<ol class="list-decimal space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Read the passage before you start.</strong> The clock does not run until your
+				first keypress, so use that free moment to see what is coming.
+			</li>
+			<li>
+				<strong class="text-ink">Start calmly rather than fast.</strong> The first two seconds carry a
+				disproportionate share of a fifteen second score, and rushing them usually costs more than it gains.
+			</li>
+			<li>
+				<strong class="text-ink">Do not restart until you have finished.</strong> Each restart throws away a
+				run, and the nervous restart is rarely better than the run before it.
+			</li>
+			<li>
+				<strong class="text-ink">Run it three times and take the best.</strong> That is the most honest way to
+				read a short test, and it takes under a minute.
+			</li>
+		</ol>
+		<Callout title="A short test punishes sloppy typing" variant="important">
+			<p>
+				With only fifteen seconds on the clock, a handful of mistakes can cost you a large slice of the score.
+				If your error count is climbing, slow down for the rest of the run. A clean 55 beats a frantic 65
+				every time.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Fifteen seconds or one minute?">
+		<p>
+			Both are useful and they answer different questions. The fifteen second test tells you how fast you are
+			right now, which is the number you want when you are checking a keyboard, warming up, or comparing two
+			text types. The <a href="/typing-test/1-minute/" class="underline underline-offset-2 hover:text-ink">one minute test</a>
+			tells you how fast you are in general, which is the number worth writing down and watching over time.
+		</p>
+		<p>
+			If you only ever take one measurement, take the one minute one and then repeat it on a different day. The
+			comparison between two runs a few days apart tells you more about your progress than any single score can.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Common questions about short typing tests." />
+	</div>
+</BaseLayout>

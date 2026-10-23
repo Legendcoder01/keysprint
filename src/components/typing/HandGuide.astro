@@ -1,0 +1,119 @@
+---
+/**
+ * A two-hand finger guide.
+ *
+ * Both hands are the same drawing, mirrored around the centre. The player adds
+ * `is-active` to the finger that presses the next key and `is-shift` to the
+ * little finger that should hold Shift, so the diagram always answers the same
+ * question as the on-screen keyboard.
+ *
+ * The SVG is decorative: the finger name is printed in text beside the guide.
+ */
+---
+
+<div class="hg" data-hg aria-hidden="true">
+	<svg class="hg-svg" viewBox="0 0 440 176" focusable="false">
+		<g class="hg-hand">
+			<rect class="hg-palm" x="42" y="78" width="106" height="64" rx="27"></rect>
+			<rect
+				class="hg-finger"
+				data-hg-hand="left"
+				data-hg-finger="pinky"
+				x="46"
+				y="44"
+				width="18"
+				height="44"
+				rx="9"></rect>
+			<rect
+				class="hg-finger"
+				data-hg-hand="left"
+				data-hg-finger="ring"
+				x="68"
+				y="30"
+				width="19"
+				height="58"
+				rx="9.5"></rect>
+			<rect
+				class="hg-finger"
+				data-hg-hand="left"
+				data-hg-finger="middle"
+				x="91"
+				y="22"
+				width="19"
+				height="66"
+				rx="9.5"></rect>
+			<rect
+				class="hg-finger"
+				data-hg-hand="left"
+				data-hg-finger="index"
+				x="114"
+				y="32"
+				width="19"
+				height="56"
+				rx="9.5"></rect>
+			<rect
+				class="hg-finger"
+				data-hg-hand="left"
+				data-hg-finger="thumb"
+				x="134"
+				y="90"
+				width="46"
+				height="21"
+				rx="10.5"
+				transform="rotate(-28 134 100.5)"></rect>
+		</g>
+
+		<g class="hg-hand" transform="translate(440 0) scale(-1 1)">
+			<rect class="hg-palm" x="42" y="78" width="106" height="64" rx="27"></rect>
+			<rect
+				class="hg-finger"
+				data-hg-hand="right"
+				data-hg-finger="pinky"
+				x="46"
+				y="44"
+				width="18"
+				height="44"
+				rx="9"></rect>
+			<rect
+				class="hg-finger"
+				data-hg-hand="right"
+				data-hg-finger="ring"
+				x="68"
+				y="30"
+				width="19"
+				height="58"
+				rx="9.5"></rect>
+			<rect
+				class="hg-finger"
+				data-hg-hand="right"
+				data-hg-finger="middle"
+				x="91"
+				y="22"
+				width="19"
+				height="66"
+				rx="9.5"></rect>
+			<rect
+				class="hg-finger"
+				data-hg-hand="right"
+				data-hg-finger="index"
+				x="114"
+				y="32"
+				width="19"
+				height="56"
+				rx="9.5"></rect>
+			<rect
+				class="hg-finger"
+				data-hg-hand="right"
+				data-hg-finger="thumb"
+				x="134"
+				y="90"
+				width="46"
+				height="21"
+				rx="10.5"
+				transform="rotate(-28 134 100.5)"></rect>
+		</g>
+
+		<text class="hg-label" x="95" y="168" text-anchor="middle">Left hand</text>
+		<text class="hg-label" x="345" y="168" text-anchor="middle">Right hand</text>
+	</svg>
+</div>

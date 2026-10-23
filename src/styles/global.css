@@ -1,0 +1,280 @@
+@import 'tailwindcss';
+
+/* Theme is driven by a class on <html>, so the toggle can override the OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* -------------------------------------------------------------------------
+   Design tokens - vibrant, colourful theme
+   The page sits on a soft rainbow gradient; cards stay near-white so the
+   reading text keeps its contrast. `--canvas` remains a solid colour because
+   it is also used as a fill (logo, secondary buttons, pills); the gradient is
+   a separate token used only for page and focus-mode backgrounds.
+   ------------------------------------------------------------------------- */
+
+:root {
+	--canvas: #f3f0ff;
+	--canvas-gradient: linear-gradient(
+		135deg,
+		#e0e7ff 0%,
+		#ede9fe 22%,
+		#fce7f3 48%,
+		#ffedd5 74%,
+		#cffafe 100%
+	);
+
+	--surface: #ffffff;
+	--surface-2: #f7f4ff;
+	--surface-3: #eee8ff;
+
+	--border: #e2d9fe;
+	--border-strong: #cbbcfb;
+
+	--ink: #1b1638;
+	--ink-muted: #4b4870;
+	--ink-subtle: #5f5b85;
+
+	--accent: #7c3aed;
+	--accent-hover: #6d28d9;
+	--accent-contrast: #ffffff;
+	--accent-wash: rgb(124 58 237 / 0.1);
+
+	/* Supporting hues for stat labels, the meter and decorative gradients. */
+	--accent-2: #be185d;
+	--accent-3: #0e7490;
+	--accent-4: #c2410c;
+
+	--gradient-brand: linear-gradient(135deg, #7c3aed 0%, #db2777 60%, #ea580c 100%);
+	--gradient-cta: linear-gradient(135deg, #7c3aed 0%, #be185d 100%);
+
+	--correct: #047857;
+	--incorrect: #be123c;
+	/* "Needs work" band. Chosen so the text stays readable on its own tint. */
+	--caution: #b45309;
+
+	color-scheme: light;
+}
+
+.dark {
+	--canvas: #0b0a18;
+	--canvas-gradient: linear-gradient(
+		135deg,
+		#0b1026 0%,
+		#1b1340 35%,
+		#2e1065 65%,
+		#4a044e 100%
+	);
+
+	--surface: #17132b;
+	--surface-2: #201a3a;
+	--surface-3: #2a224a;
+
+	--border: #332a57;
+	--border-strong: #4a3d78;
+
+	--ink: #f5f3ff;
+	--ink-muted: #c9c3e6;
+	--ink-subtle: #a79fd0;
+
+	--accent: #c4b5fd;
+	--accent-hover: #ddd6fe;
+	--accent-contrast: #221a44;
+	--accent-wash: rgb(196 181 253 / 0.18);
+
+	--accent-2: #f472b6;
+	--accent-3: #38bdf8;
+	--accent-4: #fbbf24;
+
+	--gradient-brand: linear-gradient(135deg, #8b5cf6 0%, #ec4899 60%, #f59e0b 100%);
+	--gradient-cta: linear-gradient(135deg, #7c3aed 0%, #be185d 100%);
+
+	--correct: #34d399;
+	--incorrect: #fb7185;
+	--caution: #fbbf24;
+
+	color-scheme: dark;
+}
+
+@theme inline {
+	--color-canvas: var(--canvas);
+	--color-surface: var(--surface);
+	--color-surface-2: var(--surface-2);
+	--color-surface-3: var(--surface-3);
+
+	--color-border: var(--border);
+	--color-border-strong: var(--border-strong);
+
+	--color-ink: var(--ink);
+	--color-ink-muted: var(--ink-muted);
+	--color-ink-subtle: var(--ink-subtle);
+
+	--color-accent: var(--accent);
+	--color-accent-hover: var(--accent-hover);
+	--color-accent-contrast: var(--accent-contrast);
+	--color-accent-wash: var(--accent-wash);
+	--color-accent-2: var(--accent-2);
+	--color-accent-3: var(--accent-3);
+	--color-accent-4: var(--accent-4);
+
+	--color-correct: var(--correct);
+	--color-incorrect: var(--incorrect);
+	--color-caution: var(--caution);
+
+	/* System font stack: zero font bytes, no third-party request, no layout shift. */
+	--font-sans:
+		ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+	--font-mono:
+		ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono',
+		'Segoe UI Mono', monospace;
+
+	--radius-card: 0.75rem;
+}
+
+/* -------------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------------- */
+
+@layer base {
+	html {
+		scroll-behavior: smooth;
+		/* Clear the sticky header when jumping to an in-page anchor. */
+		scroll-padding-top: 5rem;
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		background-color: var(--canvas);
+		background-image: var(--canvas-gradient);
+		background-attachment: fixed;
+		color: var(--ink);
+		font-family: var(--font-sans);
+		font-synthesis-weight: none;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	/* Visible, consistent focus for every interactive element. */
+	:focus-visible {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	/* Kill the 300ms tap delay on touch screens without blocking pinch zoom. */
+	a[href],
+	button,
+	input,
+	select,
+	textarea,
+	summary,
+	label {
+		touch-action: manipulation;
+	}
+
+	::selection {
+		background-color: var(--accent);
+		color: var(--accent-contrast);
+	}
+
+	/* Anchor targets must not hide under the sticky header. */
+	h2,
+	h3,
+	h4 {
+		scroll-margin-top: 5rem;
+		text-wrap: balance;
+	}
+
+	p {
+		text-wrap: pretty;
+	}
+
+	[hidden] {
+		display: none !important;
+	}
+}
+
+/* -------------------------------------------------------------------------
+   Component primitives
+   ------------------------------------------------------------------------- */
+
+@layer components {
+	.card {
+		background-color: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-card);
+	}
+
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		border-radius: 0.5rem;
+		border: 1px solid transparent;
+		padding: 0.5rem 1rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		line-height: 1.25rem;
+		cursor: pointer;
+		user-select: none;
+		white-space: nowrap;
+		transition:
+			background-color 150ms ease,
+			border-color 150ms ease,
+			color 150ms ease;
+	}
+
+	.btn:disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+	}
+
+	.btn-primary {
+		background-color: var(--accent);
+		background-image: var(--gradient-cta);
+		color: #ffffff;
+		box-shadow: 0 8px 22px -12px rgb(124 58 237 / 0.7);
+	}
+
+	.btn-primary:hover:not(:disabled) {
+		background-color: var(--accent-hover);
+		filter: brightness(1.07);
+	}
+
+	.btn-secondary {
+		background-color: var(--canvas);
+		border-color: var(--border-strong);
+		color: var(--ink);
+	}
+
+	.btn-secondary:hover:not(:disabled) {
+		background-color: var(--surface-2);
+	}
+
+	.btn-ghost {
+		background-color: transparent;
+		color: var(--ink-muted);
+	}
+
+	.btn-ghost:hover:not(:disabled) {
+		background-color: var(--surface-2);
+		color: var(--ink);
+	}
+}
+
+/* -------------------------------------------------------------------------
+   Motion
+   ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}

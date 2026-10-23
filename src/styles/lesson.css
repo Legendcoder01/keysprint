@@ -1,0 +1,1120 @@
+/* -------------------------------------------------------------------------
+   The lesson studio
+   A two-column practice surface: the drill on the left, the clock, the score
+   and the lesson controls on the right. Everything is driven by the design
+   tokens in global.css, so both themes are covered without a second palette.
+   ------------------------------------------------------------------------- */
+
+.ls {
+	display: block;
+	min-width: 0;
+}
+
+.ls-layout {
+	display: grid;
+	gap: 1.25rem;
+	align-items: start;
+}
+
+.ls-main,
+.ls-panel {
+	min-width: 0;
+}
+
+@media (min-width: 64rem) {
+	.ls-layout {
+		grid-template-columns: minmax(0, 1fr) 19rem;
+		gap: 1.5rem;
+	}
+
+	.ls-panel {
+		position: sticky;
+		/* 4rem header + a little breathing room. */
+		top: 5rem;
+		max-height: calc(100vh - 6rem);
+		overflow-y: auto;
+	}
+}
+
+/* --- practice column ----------------------------------------------------- */
+
+.ls-main {
+	border: 1px solid var(--border);
+	border-radius: var(--radius-card);
+	background-color: var(--surface);
+	padding: 1.25rem;
+}
+
+.ls-head-top {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+}
+
+.ls-eyebrow {
+	margin: 0;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--accent);
+}
+
+.ls-status {
+	margin: 0;
+	border: 1px solid var(--border-strong);
+	border-radius: 999px;
+	padding: 0.125rem 0.5rem;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+	white-space: nowrap;
+}
+
+.ls-status[data-state='active'] {
+	border-color: var(--accent);
+	background-color: var(--accent-wash);
+	color: var(--accent);
+}
+
+.ls-status[data-state='done'] {
+	border-color: var(--correct);
+	background-color: color-mix(in srgb, var(--correct) 12%, transparent);
+	color: var(--correct);
+}
+
+.ls-status[data-state='skipped'] {
+	border-color: var(--caution);
+	background-color: color-mix(in srgb, var(--caution) 12%, transparent);
+	color: var(--caution);
+}
+
+.ls-title {
+	margin: 0.5rem 0 0;
+	font-size: 1.375rem;
+	font-weight: 600;
+	letter-spacing: -0.01em;
+	color: var(--ink);
+}
+
+.ls-instructions {
+	margin: 0.375rem 0 0;
+	max-width: 62ch;
+	font-size: 0.9375rem;
+	line-height: 1.6;
+	color: var(--ink-muted);
+}
+
+.ls-focus {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.5rem;
+	margin: 0.75rem 0 0;
+}
+
+.ls-focus-label {
+	font-size: 0.625rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ls-focus-keys {
+	border: 1px solid var(--border);
+	border-radius: 0.375rem;
+	background-color: var(--surface-2);
+	padding: 0.125rem 0.5rem;
+	font-family: var(--font-mono);
+	font-size: 0.8125rem;
+	color: var(--ink);
+}
+
+.ls-resumed {
+	margin: 0.75rem 0 0;
+	border-left: 2px solid var(--accent);
+	padding-left: 0.625rem;
+	font-size: 0.8125rem;
+	color: var(--ink-muted);
+}
+
+/* Compact stats, for the screens where the panel sits below the drill. */
+.ls-quickstats {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.375rem;
+	margin-top: 1rem;
+}
+
+.ls-quickstat {
+	border: 1px solid var(--border);
+	border-radius: 0.5rem;
+	background-color: var(--canvas);
+	padding: 0.375rem 0.5rem;
+}
+
+.ls-quickstat span {
+	display: block;
+	font-size: 0.5625rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ls-quickstat strong {
+	display: block;
+	margin-top: 0.1rem;
+	font-family: var(--font-mono);
+	font-size: 1rem;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	color: var(--ink);
+}
+
+@media (min-width: 64rem) {
+	.ls-quickstats {
+		display: none;
+	}
+}
+
+/* --- the passage --------------------------------------------------------- */
+
+.ls-stage {
+	margin-top: 1rem;
+}
+
+.ls-passage {
+	position: relative;
+	border: 1px solid var(--border-strong);
+	border-radius: 0.625rem;
+	background-color: var(--canvas);
+	overflow: hidden;
+	transition:
+		border-color 150ms ease,
+		box-shadow 150ms ease;
+}
+
+.ls-passage:focus-within {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+.ls-scroll {
+	max-height: 13.5rem;
+	overflow-y: auto;
+	padding: 1rem 1.125rem;
+	scroll-behavior: smooth;
+	scrollbar-width: thin;
+	scrollbar-color: var(--border-strong) transparent;
+}
+
+.ls-text {
+	margin: 0;
+	font-family: var(--font-mono);
+	font-size: 1.3rem;
+	line-height: 2.05;
+	letter-spacing: 0.005em;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	color: var(--ink-muted);
+}
+
+.ls-char {
+	border-radius: 2px;
+	transition:
+		color 100ms ease,
+		background-color 100ms ease;
+}
+
+.ls-char.is-correct {
+	color: var(--ink);
+}
+
+.ls-char.is-incorrect {
+	color: var(--incorrect);
+	background-color: color-mix(in srgb, var(--incorrect) 12%, transparent);
+	text-decoration: underline wavy var(--incorrect);
+	text-underline-offset: 3px;
+}
+
+.ls-char.is-current {
+	background-color: var(--accent-wash);
+	box-shadow: inset 0 -2px 0 var(--accent);
+	color: var(--ink);
+}
+
+/* The capture surface. Transparent, but it owns the focus and the keyboard. */
+.ls-input {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	resize: none;
+	background-color: transparent;
+	color: transparent;
+	caret-color: transparent;
+	/* 16px stops iOS Safari zooming the page when the field is focused. */
+	font-size: 16px;
+	overflow: hidden;
+	cursor: text;
+}
+
+.ls-input::selection {
+	background-color: transparent;
+}
+
+.ls-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	display: grid;
+	place-items: center;
+	padding: 1rem;
+	background-color: color-mix(in srgb, var(--canvas) 72%, transparent);
+	backdrop-filter: blur(3px);
+}
+
+.ls-overlay-card {
+	width: min(22rem, 100%);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-card);
+	background-color: var(--surface);
+	padding: 1.25rem;
+	text-align: center;
+	box-shadow: 0 12px 32px rgb(0 0 0 / 0.18);
+}
+
+.ls-overlay-title {
+	margin: 0;
+	font-size: 1.125rem;
+	font-weight: 600;
+	color: var(--ink);
+}
+
+.ls-overlay-copy {
+	margin: 0.375rem 0 0;
+	font-size: 0.8125rem;
+	line-height: 1.5;
+	color: var(--ink-muted);
+}
+
+.ls-overlay-card .btn {
+	margin-top: 0.875rem;
+}
+
+/* --- progress and hint --------------------------------------------------- */
+
+.ls-under {
+	margin-top: 0.75rem;
+}
+
+.ls-progress-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.5rem;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ls-progress-head span:last-child {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0;
+}
+
+.ls-meter {
+	height: 0.25rem;
+	margin-top: 0.375rem;
+	border-radius: 999px;
+	background-color: var(--surface-3);
+	overflow: hidden;
+}
+
+.ls-meter-fill {
+	display: block;
+	width: 0;
+	height: 100%;
+	border-radius: inherit;
+	background-color: var(--accent);
+	transition: width 120ms ease;
+}
+
+.ls-hint {
+	margin: 0.5rem 0 0;
+	font-size: 0.75rem;
+	line-height: 1.6;
+	color: var(--ink-subtle);
+}
+
+.ls-hint-keys {
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem;
+	margin-left: 0.25rem;
+}
+
+.ls-hint kbd {
+	border: 1px solid var(--border-strong);
+	border-radius: 0.25rem;
+	background-color: var(--surface-2);
+	padding: 0 0.25rem;
+	font-family: var(--font-mono);
+	font-size: 0.6875rem;
+	color: var(--ink-muted);
+}
+
+/* --- result banner ------------------------------------------------------- */
+
+.ls-result {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	margin-top: 1rem;
+	border: 1px solid var(--border);
+	border-left: 3px solid var(--correct);
+	border-radius: 0.625rem;
+	background-color: color-mix(in srgb, var(--correct) 7%, var(--surface-2));
+	padding: 0.875rem 1rem;
+}
+
+.ls-result[data-tone='fail'] {
+	border-left-color: var(--incorrect);
+	background-color: color-mix(in srgb, var(--incorrect) 7%, var(--surface-2));
+}
+
+.ls-result-eyebrow {
+	margin: 0;
+	font-size: 0.625rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--correct);
+}
+
+.ls-result[data-tone='fail'] .ls-result-eyebrow {
+	color: var(--incorrect);
+}
+
+.ls-result-title {
+	margin: 0.125rem 0 0;
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--ink);
+}
+
+.ls-result-detail {
+	margin: 0.125rem 0 0;
+	font-size: 0.8125rem;
+	line-height: 1.5;
+	color: var(--ink-muted);
+}
+
+.ls-result-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+/* --- next key and hand guide --------------------------------------------- */
+
+.ls-guide {
+	display: grid;
+	gap: 0.875rem;
+	margin-top: 1rem;
+	align-items: stretch;
+}
+
+@media (min-width: 40rem) {
+	.ls-guide {
+		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+		align-items: center;
+	}
+}
+
+.ls-nextkey {
+	display: flex;
+	align-items: center;
+	gap: 0.875rem;
+	border: 1px solid var(--border-strong);
+	border-radius: 0.75rem;
+	background: radial-gradient(circle at top, var(--accent-wash) 0%, var(--surface-2) 70%);
+	padding: 0.875rem 1rem;
+	box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ink) 4%, transparent);
+}
+
+.ls-nextkey-cap {
+	display: inline-grid;
+	place-items: center;
+	min-width: 3.25rem;
+	height: 3.25rem;
+	padding: 0 0.625rem;
+	border-radius: 0.625rem;
+	background: radial-gradient(circle at 50% 30%, var(--accent) 0%, color-mix(in srgb, var(--accent) 90%, var(--accent-hover)) 100%);
+	color: var(--accent-contrast);
+	font-family: var(--font-mono);
+	font-size: 1.6rem;
+	font-weight: 600;
+	box-shadow:
+		0 3px 0 color-mix(in srgb, var(--accent-hover) 80%, transparent),
+		inset 0 1px 0 color-mix(in srgb, var(--accent-contrast) 20%, transparent);
+	border: 1px solid color-mix(in srgb, var(--accent) 90%, var(--ink));
+}
+
+.ls-nextkey-cap[data-wide='true'] {
+	font-size: 0.75rem;
+	letter-spacing: 0.04em;
+}
+
+.ls-nextkey-copy {
+	min-width: 0;
+}
+
+.ls-nextkey-title {
+	margin: 0;
+	font-size: 0.625rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ls-nextkey-finger {
+	margin: 0.125rem 0 0;
+	font-size: 0.98rem;
+	font-weight: 600;
+	line-height: 1.35;
+	color: var(--ink);
+}
+
+.ls-nextkey-shift {
+	margin: 0.25rem 0 0;
+	font-size: 0.78rem;
+	line-height: 1.5;
+	color: var(--accent);
+}
+
+.ls-hand {
+	display: grid;
+	justify-items: center;
+	align-content: center;
+	min-width: 0;
+	border: 1px solid var(--border);
+	border-radius: 0.75rem;
+	background: radial-gradient(circle at top, var(--accent-wash) 0%, transparent 60%);
+	padding: 0.5rem 0.75rem;
+}
+
+.hg-svg {
+	display: block;
+	width: 100%;
+	max-width: 19rem;
+	height: auto;
+}
+
+.hg-palm {
+	fill: var(--surface-2);
+	stroke: var(--border-strong);
+	stroke-width: 1.2;
+}
+
+.hg-finger {
+	fill: var(--surface-3);
+	stroke: var(--border-strong);
+	stroke-width: 1.2;
+	transition:
+		fill 140ms ease,
+		stroke 140ms ease,
+		filter 140ms ease;
+}
+
+.hg-finger.is-active {
+	fill: var(--accent);
+	stroke: color-mix(in srgb, var(--accent) 90%, var(--ink));
+	filter: drop-shadow(0 0 0.4rem var(--accent-wash));
+}
+
+.hg-finger.is-shift {
+	fill: color-mix(in srgb, var(--accent) 18%, var(--surface-2));
+	stroke: var(--accent);
+	stroke-width: 1.8;
+	filter: drop-shadow(0 0 0.25rem var(--accent-wash));
+}
+
+.hg-label {
+	fill: var(--ink-subtle);
+	font-family: var(--font-sans);
+	font-size: 9px;
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.ls-hand-copy {
+	margin-top: -0.125rem;
+	text-align: center;
+}
+
+.ls-hand-title {
+	margin: 0;
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--ink-muted);
+}
+
+.ls-hand-note {
+	margin: 0.125rem 0 0;
+	font-size: 0.6875rem;
+	color: var(--ink-subtle);
+}
+
+/* --- keyboard ------------------------------------------------------------ */
+
+.ls-keyboard {
+	margin-top: 1rem;
+	border-top: 1px solid var(--border);
+	padding-top: 0.875rem;
+}
+
+.ls-keyboard-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	margin-bottom: 0.5rem;
+	font-size: 0.625rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ls-keyboard-legend {
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.375rem;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+}
+
+.ls-legend-dot {
+	width: 0.4375rem;
+	height: 0.4375rem;
+	margin-left: 0.375rem;
+	border-radius: 999px;
+	background-color: var(--border-strong);
+}
+
+.ls-legend-dot:first-child {
+	margin-left: 0;
+}
+
+.ls-legend-next {
+	background-color: var(--accent);
+}
+
+.ls-legend-correct {
+	background-color: var(--correct);
+}
+
+.ls-legend-incorrect {
+	background-color: var(--incorrect);
+}
+
+.vk-scroll {
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding: 0.25rem 0.25rem 0.375rem;
+	scrollbar-width: thin;
+	scrollbar-color: var(--border-strong) transparent;
+	-webkit-overflow-scrolling: touch;
+}
+
+.vk {
+	--vk-unit: clamp(1.05rem, 1.8vw, 2.25rem);
+	--vk-gap: clamp(0.1rem, 0.16vw, 0.26rem);
+	display: flex;
+	flex-direction: column;
+	gap: var(--vk-gap);
+	min-width: max-content;
+	width: max-content;
+}
+
+@media (min-width: 64rem) {
+	.vk {
+		--vk-unit: clamp(2rem, 2.6vw, 2.6rem);
+		--vk-gap: clamp(0.16rem, 0.22vw, 0.28rem);
+	}
+}
+
+@media (max-width: 63.99rem) {
+	.vk {
+		min-width: 100%;
+		width: max-content;
+	}
+}
+
+.vk-row {
+	display: flex;
+	gap: var(--vk-gap);
+	padding-left: calc(var(--vk-unit) * var(--vk-offset, 0));
+}
+
+.vk-key {
+	position: relative;
+	display: flex;
+	flex: 0 0 auto;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: calc(var(--vk-unit) * var(--vk-w, 1));
+	height: calc(var(--vk-unit) * 1.38);
+	border: 1px solid var(--border-strong);
+	border-radius: 0.32rem;
+	background: linear-gradient(180deg, var(--surface-2) 0%, color-mix(in srgb, var(--surface) 70%, var(--surface-2)) 100%);
+	box-shadow:
+		inset 0 1px 0 color-mix(in srgb, var(--ink) 4%, transparent),
+		0 1px 0 color-mix(in srgb, var(--canvas) 40%, transparent);
+	color: var(--ink-muted);
+	font-family: var(--font-mono);
+	font-size: clamp(0.5rem, calc(var(--vk-unit) * 0.36), 0.82rem);
+	line-height: 1.05;
+	user-select: none;
+	transition:
+		background-color 120ms ease,
+		border-color 120ms ease,
+		color 120ms ease,
+		box-shadow 120ms ease,
+		transform 120ms ease;
+}
+
+.vk-key.is-modifier {
+	background-color: var(--surface);
+	font-family: var(--font-sans);
+}
+
+.vk-key.is-modifier .vk-label {
+	font-size: 0.82em;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+}
+
+.vk-key.is-inactive {
+	opacity: 0.42;
+}
+
+.vk-shifted {
+	margin-bottom: 0.08em;
+	font-size: 0.82em;
+	opacity: 0.72;
+}
+
+.vk-home {
+	position: absolute;
+	bottom: 0.16rem;
+	left: 50%;
+	width: 0.5rem;
+	height: 2px;
+	border-radius: 1px;
+	background-color: currentColor;
+	opacity: 0.55;
+	transform: translateX(-50%);
+}
+
+.vk-key.is-correct {
+	border-color: color-mix(in srgb, var(--correct) 80%, var(--border-strong));
+	background: linear-gradient(180deg, color-mix(in srgb, var(--correct) 18%, var(--surface-2)) 0%, color-mix(in srgb, var(--correct) 10%, var(--surface)) 100%);
+	color: var(--ink);
+	opacity: 1;
+	box-shadow: inset 0 1px 0 color-mix(in srgb, var(--correct) 16%, transparent);
+}
+
+.vk-key.is-incorrect {
+	border-color: color-mix(in srgb, var(--incorrect) 80%, var(--border-strong));
+	background: linear-gradient(180deg, color-mix(in srgb, var(--incorrect) 18%, var(--surface-2)) 0%, color-mix(in srgb, var(--incorrect) 10%, var(--surface)) 100%);
+	color: var(--ink);
+	opacity: 1;
+	box-shadow: inset 0 1px 0 color-mix(in srgb, var(--incorrect) 16%, transparent);
+}
+
+.vk-key.is-shift-hint {
+	border-color: color-mix(in srgb, var(--accent) 85%, var(--border-strong));
+	background: linear-gradient(180deg, var(--accent-wash) 0%, color-mix(in srgb, var(--accent) 8%, var(--surface-2)) 100%);
+	color: var(--accent);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 70%, transparent);
+	opacity: 1;
+}
+
+.vk-key.is-next {
+	border-color: color-mix(in srgb, var(--accent) 90%, var(--ink));
+	background: radial-gradient(circle at 50% 30%, var(--accent) 0%, color-mix(in srgb, var(--accent) 90%, var(--accent-hover)) 100%);
+	color: var(--accent-contrast);
+	box-shadow:
+		0 0 0 3px var(--accent-wash),
+		inset 0 1px 0 color-mix(in srgb, var(--accent-contrast) 18%, transparent);
+	opacity: 1;
+	transform: translateY(-1px);
+}
+
+.vk-key.is-next .vk-home {
+	opacity: 0.9;
+}
+
+/* --- side panel ---------------------------------------------------------- */
+
+.ls-panel {
+	border: 1px solid var(--border);
+	border-radius: var(--radius-card);
+	background-color: var(--surface);
+	padding: 1rem;
+}
+
+.ls-panel-head {
+	padding-bottom: 0.75rem;
+	border-bottom: 1px solid var(--border);
+}
+
+.ls-panel-eyebrow {
+	margin: 0;
+	font-size: 0.625rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ls-panel-title {
+	margin: 0.125rem 0 0;
+	font-size: 0.9375rem;
+	font-weight: 600;
+	color: var(--ink);
+}
+
+.ls-stats {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.5rem;
+	margin: 0.875rem 0 0;
+}
+
+.ls-stat {
+	border: 1px solid var(--border);
+	border-radius: 0.5rem;
+	background-color: var(--canvas);
+	padding: 0.5rem 0.625rem;
+}
+
+.ls-stat dt {
+	font-size: 0.625rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ls-stat-unit {
+	font-weight: 500;
+	letter-spacing: 0;
+	opacity: 0.8;
+}
+
+.ls-stat dd {
+	margin: 0.125rem 0 0;
+	font-family: var(--font-mono);
+	font-size: 1.25rem;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	line-height: 1.3;
+	color: var(--ink);
+}
+
+.ls-speed-note {
+	margin: 0.5rem 0 0;
+	font-size: 0.6875rem;
+	line-height: 1.5;
+	color: var(--ink-subtle);
+}
+
+.ls-target {
+	margin-top: 0.875rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--border);
+}
+
+.ls-target-head {
+	margin: 0;
+	font-size: 0.625rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ls-target-copy {
+	margin: 0.25rem 0 0;
+	font-size: 0.75rem;
+	line-height: 1.55;
+	color: var(--ink-muted);
+}
+
+.ls-actions {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.5rem;
+	margin-top: 0.875rem;
+}
+
+.ls-actions .btn {
+	width: 100%;
+}
+
+.ls-unlock {
+	margin-top: 0.875rem;
+}
+
+.ls-next {
+	width: 100%;
+}
+
+.ls-unlock-hint {
+	margin: 0.375rem 0 0;
+	font-size: 0.6875rem;
+	line-height: 1.5;
+	color: var(--ink-subtle);
+}
+
+.ls-unlock-name {
+	color: var(--ink-muted);
+}
+
+.ls-skip {
+	display: block;
+	margin: 0.5rem auto 0;
+	border: 0;
+	background: none;
+	padding: 0.125rem;
+	font-size: 0.75rem;
+	color: var(--ink-subtle);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	cursor: pointer;
+}
+
+.ls-skip:hover {
+	color: var(--ink);
+}
+
+.ls-best {
+	margin: 0.75rem 0 0;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--border);
+	font-size: 0.75rem;
+	line-height: 1.5;
+	color: var(--ink-muted);
+}
+
+.ls-best strong {
+	color: var(--ink);
+	font-weight: 600;
+}
+
+.ls-previous {
+	margin: 0.75rem 0 0;
+	font-size: 0.75rem;
+	color: var(--ink-subtle);
+}
+
+.ls-previous a {
+	color: var(--ink-muted);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.ls-previous a:hover {
+	color: var(--ink);
+}
+
+/* --- no script ----------------------------------------------------------- */
+
+.ls-noscript {
+	margin-top: 1rem;
+	border: 1px dashed var(--caution);
+	border-radius: 0.625rem;
+	background-color: color-mix(in srgb, var(--caution) 7%, var(--surface));
+	padding: 0.875rem 1rem;
+	font-size: 0.8125rem;
+	line-height: 1.6;
+	color: var(--ink-muted);
+}
+
+.ls-noscript-title {
+	margin: 0;
+	font-weight: 600;
+	color: var(--ink);
+}
+
+.ls-noscript p:last-child {
+	margin: 0.25rem 0 0;
+}
+
+.ls-noscript a {
+	color: var(--accent);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+/* --- small screens ------------------------------------------------------- */
+
+@media (max-width: 29.99rem) {
+	.ls-main {
+		padding: 1rem;
+	}
+
+	.ls-scroll {
+		max-height: 12rem;
+		padding: 0.875rem;
+	}
+
+	.ls-text {
+		font-size: 1.125rem;
+		line-height: 2;
+	}
+
+	.ls-nextkey {
+		gap: 0.75rem;
+	}
+
+	.ls-nextkey-cap {
+		min-width: 2.75rem;
+		height: 2.75rem;
+		font-size: 1.25rem;
+	}
+
+	.ls-result-actions .btn {
+		flex: 1 1 auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ls-scroll {
+		scroll-behavior: auto;
+	}
+}
+
+/* --- full screen --------------------------------------------------------- */
+
+/* The fallback layer covers the page, so the page behind it must not scroll. */
+html.ls-fallback {
+	overflow: hidden;
+}
+
+/* The exit affordance only exists while the lesson owns the screen. */
+.ls-exit {
+	display: none;
+}
+
+/* Starting a drill takes the whole screen: the page chrome is gone and only
+   the lesson is left. Native fullscreen covers modern browsers; data-focus
+   marks the fixed-layer fallback used where the Fullscreen API is unavailable
+   (iPhone Safari). */
+.ls:is(:fullscreen, [data-focus='true']) {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	justify-content: safe center;
+	width: 100%;
+	height: 100%;
+	padding: clamp(3.5rem, 6vw, 5rem) clamp(1rem, 3vw, 2.5rem) clamp(1.25rem, 3vw, 2rem);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	background-color: var(--canvas);
+	background-image: var(--canvas-gradient);
+}
+
+/* The fixed layer is the fallback, not the native path. */
+.ls[data-focus='true']:not(:fullscreen) {
+	position: fixed;
+	inset: 0;
+	z-index: 90;
+}
+
+.ls:is(:fullscreen, [data-focus='true']) .ls-layout {
+	width: min(80rem, 100%);
+	margin-inline: auto;
+}
+
+.ls:is(:fullscreen, [data-focus='true']) .ls-panel {
+	position: static;
+	max-height: none;
+	overflow: visible;
+}
+
+.ls:is(:fullscreen, [data-focus='true']) .ls-hint {
+	display: none;
+}
+
+.ls:is(:fullscreen, [data-focus='true']) .ls-exit {
+	position: fixed;
+	top: clamp(1rem, 2.5vw, 1.75rem);
+	right: clamp(1rem, 2.5vw, 1.75rem);
+	z-index: 6;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	border: 1px solid var(--border-strong);
+	border-radius: 999px;
+	background-color: var(--surface);
+	padding: 0.4375rem 0.875rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--ink-muted);
+	box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.45);
+	cursor: pointer;
+	transition:
+		color 150ms ease,
+		border-color 150ms ease,
+		transform 150ms ease;
+}
+
+.ls:is(:fullscreen, [data-focus='true']) .ls-exit:hover {
+	border-color: var(--accent);
+	color: var(--ink);
+	transform: translateY(-1px);
+}
+
+.ls-exit svg {
+	width: 0.875rem;
+	height: 0.875rem;
+}
+
+@media (max-width: 48rem) {
+	.ls:is(:fullscreen, [data-focus='true']) {
+		padding: 3.25rem 1rem 1rem;
+	}
+
+	.ls:is(:fullscreen, [data-focus='true']) .ls-exit {
+		top: 0.75rem;
+		right: 0.75rem;
+	}
+}
+

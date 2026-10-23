@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import Faq from '../../components/Faq.astro';
+import Callout from '../../components/Callout.astro';
+
+const title = 'Typing Practice — Drills for Paragraphs, Numbers and Punctuation';
+const description =
+	'Focused typing practice drills: continuous paragraphs for rhythm, numbers for figures and dates, and punctuation for the keys people hesitate over most.';
+
+const faq = [
+	{
+		question: 'Should I practise with a drill or with a normal typing test?',
+		answer:
+			'Both, and they do different jobs. A normal test measures you; a drill trains a specific weakness. Use a test to find out where you stand, then use drills to fix whatever the test exposed, then test again to see whether the fix worked.',
+	},
+	{
+		question: 'How long should a practice session last?',
+		answer:
+			'Ten to twenty minutes of focused work is more useful than an hour of everything. Long sessions tend to drift into autopilot, and autopilot is exactly what you are trying to break out of. Stop while you are still making progress.',
+	},
+	{
+		question: 'Which drill should I do first?',
+		answer:
+			'Paragraph practice, because it is the closest to ordinary writing and it trains the skill that everything else depends on: reading ahead. Move to the punctuation drill if your mistakes cluster around commas and quotation marks, and to the number drill if you type figures often.',
+	},
+	{
+		question: 'Do these drills give me a score?',
+		answer:
+			'They use the same test as the rest of the site, so yes: gross speed, net speed, character accuracy, word accuracy, keystroke accuracy and an error count. A drill score is a practice figure rather than a benchmark, because the material is deliberately harder than ordinary prose.',
+	},
+	{
+		question: 'Can I practise a specific part of the keyboard?',
+		answer:
+			'Yes. The home row lesson has its own drill built around a s d f j k l and the space bar, and it is the foundation that the other drills assume you already have.',
+	},
+];
+
+const drills = [
+	{
+		href: '/typing-practice/paragraphs/',
+		title: 'Paragraph practice',
+		summary:
+			'Continuous prose with real sentence structure, for training reading ahead and holding an even rhythm over a long passage.',
+		drills: 'Trains: reading ahead, pacing, staying accurate when you are tired.',
+	},
+	{
+		href: '/typing-practice/numbers/',
+		title: 'Number practice',
+		summary:
+			'Figures, dates, quantities and currency, the material that most people type rarely and therefore most slowly.',
+		drills: 'Trains: the number row, the shift key, keeping your place in a sequence.',
+	},
+	{
+		href: '/typing-practice/punctuation/',
+		title: 'Punctuation practice',
+		summary:
+			'Commas, apostrophes, quotation marks and brackets, which is where most hesitation actually happens.',
+		drills: 'Trains: the right hand reaching up, and the shift key for capitals.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/practice.png"
+	breadcrumbs={[{ name: 'Typing practice', href: '/typing-practice/' }]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs items={[{ name: 'Typing practice', href: '/typing-practice/' }]} />
+	</div>
+
+	<PageHero
+		eyebrow="Typing practice"
+		title="Drills for the parts you are worst at"
+		lead="A general typing test tells you that you are a bit slow. It does not tell you where. These drills isolate the three things that slow most people down: reading ahead, the number row and punctuation. Each one runs the same live test, so every drill you finish produces a score you can compare with the last."
+	/>
+
+	<ContentSection title="Three drills, three different problems">
+		<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+			{
+				drills.map((drill) => (
+					<a href={drill.href} class="card flex flex-col p-5 transition-colors hover:border-border-strong">
+						<h3 class="font-semibold text-ink">{drill.title}</h3>
+						<p class="mt-2 flex-1 text-sm leading-relaxed text-ink-muted">{drill.summary}</p>
+						<p class="mt-3 text-xs leading-relaxed text-ink-subtle">{drill.drills}</p>
+						<p class="mt-3 text-sm font-medium text-accent">Start drilling &rarr;</p>
+					</a>
+				))
+			}
+		</div>
+	</ContentSection>
+
+	<ContentSection
+		title="How to use a drill properly"
+		lead="Most people practise the wrong way. They run a drill once, feel a bit bad about the score, and stop."
+	>
+		<ol class="list-decimal space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Find the problem first.</strong> Take a normal
+				<a href="/typing-test/accuracy/" class="underline underline-offset-2 hover:text-ink">accuracy
+				test</a> and look at where the errors are. If they cluster around punctuation, practise
+				punctuation. If your speed is fine but your accuracy is poor, practise paragraphs and slow down.
+			</li>
+			<li>
+				<strong class="text-ink">Run the drill three times, not once.</strong> The first run is a warm-up,
+				the second is the real thing, and the third is where you find out whether it stuck. One run tells
+				you almost nothing.
+			</li>
+			<li>
+				<strong class="text-ink">Fix your mistakes as you go.</strong> Backspace and correct them. The
+				point of a drill is to rehearse the correct movement, and a mistake left in place gets
+				rehearsed too.
+			</li>
+			<li>
+				<strong class="text-ink">Slow down until the errors stop.</strong> A drill at half speed with no
+				errors is worth more than one at full speed with a mistake every few characters. Speed comes
+				back on its own once the movements are right.
+			</li>
+			<li>
+				<strong class="text-ink">Go back to a normal test.</strong> A drill is a scalpel, not a
+				thermometer. After a session, take a standard
+				<a href="/typing-test/" class="underline underline-offset-2 hover:text-ink">typing test</a> to
+				see whether the change actually carried over.
+			</li>
+		</ol>
+		<Callout title="The cycle that works" variant="tip">
+			<p>
+				Test, drill, test. One normal test to find the weak spot, one drill to work on it, one normal
+				test to check the result. Repeat that cycle once a week and the number moves faster than any
+				amount of straight drilling.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="What each drill is actually for">
+		<p>
+			The three drills look similar from the outside, but they train different things, and the mistake
+			people make is doing the wrong one for the problem they have.
+		</p>
+		<dl class="space-y-5">
+			<div>
+				<dt class="font-semibold text-ink">Paragraphs are for reading ahead</dt>
+				<dd>
+					Your fingers can already find the keys. What they cannot do yet is type the next word while
+					finishing the current one, which is the single biggest source of lost speed. Paragraph
+					practice gives you long enough stretches of text to rehearse that handover, and the errors
+					it produces are usually reading errors rather than finger errors.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Numbers are for the top of the keyboard</dt>
+				<dd>
+					The number row is a long reach from the home row, and it is where most people are slowest
+					because they type figures rarely. A number drill builds the reach, and the same reach makes
+					the top letter row and the punctuation keys easier too.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Punctuation is for the right hand and the shift key</dt>
+				<dd>
+					Everything in the top right corner of the keyboard is reached by the same two fingers, and
+					most hesitation in ordinary writing is a pause before a comma or an apostrophe. Practising
+					punctuation in bulk removes the pause, and the improvement shows up in every kind of writing
+					you do.
+				</dd>
+			</div>
+		</dl>
+	</ContentSection>
+
+	<ContentSection title="Where the foundation is missing">
+		<p>
+			Drills work on top of a position. If your fingers are still hunting for the home row, none of this
+			will stick, because you cannot rehearse a movement you have not learned yet. In that case start with
+			the <a href="/typing-lessons/home-row/" class="underline underline-offset-2 hover:text-ink">home row
+			lesson</a> and its drill, then work back to these.
+		</p>
+		<p>
+			If you can already touch type but your speed has stalled, the answer is more likely to be the
+			<a href="/learn-typing/" class="underline underline-offset-2 hover:text-ink">learn typing guide</a>
+			on reading ahead and rhythm than any of these drills.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about typing practice drills." />
+	</div>
+</BaseLayout>

@@ -1,0 +1,290 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TypingTest from '../components/typing/TypingTest.astro';
+import ContentSection from '../components/ContentSection.astro';
+import Faq from '../components/Faq.astro';
+import Callout from '../components/Callout.astro';
+import { absoluteUrl } from '../config/site';
+
+const title = 'Free Typing Test — Check Your Words Per Minute Online';
+const description =
+	'Take a free typing test to measure your words per minute and accuracy in 15 seconds, 30 seconds, one minute or longer. Includes touch typing lessons and drills.';
+
+const faq = [
+	{
+		question: 'Is this typing test really free?',
+		answer:
+			'Yes, and there is nothing to unlock. There is no account to create, no trial that expires, no download and no email address to hand over. The test runs entirely in your browser, so your score never leaves your device.',
+	},
+	{
+		question: 'How long should my typing test be?',
+		answer:
+			'One minute is the sensible default for a quick check. Three minutes or more gives a steadier number, because the first few seconds of nerves affect a short test far more than a long one. Fifteen and thirty second tests are useful as a warm-up before you sit down to something longer.',
+	},
+	{
+		question: 'What is a good typing speed?',
+		answer:
+			'For everyday office work, 40 to 60 words per minute is enough to keep up with your own thinking. Many people reach 70 to 90 with a few weeks of deliberate practice, and 100 or more is firmly in fast territory. The number matters far less than whether the accuracy holds up at that speed.',
+	},
+	{
+		question: 'Will the test work on my phone?',
+		answer:
+			'Yes. The typing area accepts input from the on-screen keyboard, and the layout adapts to a narrow screen. Punctuation drills are much harder on a phone, so a physical keyboard is worth the extra effort if you can use one.',
+	},
+	{
+		question: 'Does my score get saved?',
+		answer:
+			'Your best result for each test length is kept in your own browser using local storage. It never leaves your device and is never linked to an account. Clearing your browsing data removes it permanently.',
+	},
+	{
+		question: 'Can I practise a specific part of the keyboard?',
+		answer:
+			'Yes. There are separate practice modes for numbers and punctuation, a paragraph mode for building rhythm, and a home row lesson that rebuilds the foundation your fingers rely on. Each one runs the same live test, so you get a score for every drill you finish.',
+	},
+];
+
+const softwareSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'SoftwareApplication',
+	name: 'keysprint Typing Test',
+	applicationCategory: 'EducationalApplication',
+	operatingSystem: 'Any',
+	url: absoluteUrl('/typing-test/'),
+	description:
+		'A free browser based typing test that measures words per minute, character accuracy and error count, with no sign-up required.',
+	offers: {
+		'@type': 'Offer',
+		price: '0',
+		priceCurrency: 'USD',
+	},
+};
+
+const faqSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'FAQPage',
+	mainEntity: faq.map((item) => ({
+		'@type': 'Question',
+		name: item.question,
+		acceptedAnswer: { '@type': 'Answer', text: item.answer },
+	})),
+};
+
+const bands = [
+	{ range: 'Under 30 WPM', label: 'Learning the keyboard', note: 'Still building the muscle memory for the basics.' },
+	{ range: '30 to 45 WPM', label: 'Comfortable beginner', note: 'Enough for short messages and notes without much effort.' },
+	{ range: '45 to 70 WPM', label: 'Solid everyday speed', note: 'You can write and edit faster than you speak.' },
+	{ range: '70 to 100 WPM', label: 'Fast and comfortable', note: 'Sustained accuracy usually stays above 95 per cent here.' },
+	{ range: '100 to 140 WPM', label: 'Very fast', note: 'The range where reading ahead becomes essential.' },
+	{ range: '140 WPM and above', label: 'Exceptional', note: 'Rare, and usually built on years of deliberate practice.' },
+];
+
+const lengths = [
+	{ length: '15 seconds', use: 'Warm-up and a quick sanity check before you start work.' },
+	{ length: '30 seconds', use: 'Comparing two keyboards or two text types side by side.' },
+	{ length: '1 minute', use: 'The standard benchmark. Easy to run often enough to track.' },
+	{ length: '3 minutes', use: 'A truer reading of your speed, with less influence from the start.' },
+	{ length: '5 minutes', use: 'A number you can quote without wincing at the first ten seconds.' },
+	{ length: '10 minutes', use: 'Sustained speed under realistic conditions, including the slow middle.' },
+];
+---
+
+<BaseLayout title={title} description={description} schema={[softwareSchema, faqSchema]}>
+	<section class="border-b border-border bg-surface">
+		<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-wider text-accent">Free typing test</p>
+				<h1
+					class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
+				>
+					How fast can you type?
+				</h1>
+				<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+					Start typing the passage below and you will have your speed in words per minute, your accuracy and
+					your error count in about a minute. No account, no download, no waiting. When you have finished,
+					the rest of this page explains what the numbers mean and how to make them better.
+				</p>
+			</div>
+
+			<div class="mt-8">
+				<TypingTest duration={60} />
+			</div>
+		</div>
+	</section>
+
+	<ContentSection
+		title="What this typing test measures"
+		lead="Three numbers come out of every test, and they answer three different questions about your typing."
+	>
+		<p>
+			Speed is the headline figure, and it is reported two ways. <strong class="text-ink">Gross speed</strong> counts
+			every character your fingers produced, while <strong class="text-ink">net speed</strong> removes the ones that
+			did not match the text. Net speed is the honest number, because a page full of typos is not useful text no
+			matter how quickly it was produced.
+		</p>
+		<p>
+			Accuracy is the second number, and it is reported at three levels. Character accuracy asks how much of what
+			is on screen right now is correct. Word accuracy asks how many whole words match from the first letter to
+			the last, so one wrong letter costs you an entire word. Keystroke accuracy asks how many of your raw key
+			presses were right the first time, and it keeps counting a mistake even after you delete and fix it. That
+			last figure is the closest thing to a measure of your fingers rather than your final text.
+		</p>
+		<p>
+			The third figure is simply the error count: how many characters in your text are still wrong when the timer
+			runs out. Fixing a mistake with backspace removes it from this count, which is why it is worth watching
+			during the test. A rising error count is a signal to slow down, and slowing down is almost always quicker
+			over a full minute than hurrying.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="How fast is fast?">
+		<p>
+			Rough bands for English typing on a standard keyboard look like this. Treat them as signposts rather than
+			records, because everyone starts from a different place and the numbers depend on the text, the keyboard
+			and how long you have been at it.
+		</p>
+		<div class="overflow-hidden rounded-card border border-border">
+			<table class="w-full border-collapse text-left text-sm">
+				<thead>
+					<tr class="bg-surface-2 text-ink">
+						<th scope="col" class="px-4 py-2.5 font-semibold">Speed</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">What it means</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-border">
+					{
+						bands.map((band) => (
+							<tr>
+								<th scope="row" class="px-4 py-2.5 font-medium text-ink whitespace-nowrap">
+									{band.range}
+								</th>
+								<td class="px-4 py-2.5">
+									<span class="font-medium text-ink">{band.label}.</span> {band.note}
+								</td>
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+		</div>
+		<p class="text-sm text-ink-subtle">
+			Bands are approximate and assume ordinary English prose on a full-size keyboard. Numbers, code and
+			punctuation runs slower, which is why the <a href="/typing-practice/numbers/" class="underline underline-offset-2 hover:text-ink">number drill</a>
+			exists as a separate exercise.
+		</p>
+	</ContentSection>
+
+	<ContentSection
+		title="Six ways to get faster"
+		lead="Speed is mostly a habit rather than a talent. These are the habits that actually move the number."
+	>
+		<ol class="list-decimal space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Read ahead of your fingers.</strong> Type the next word while you are still
+				finishing the last one. Typing one character at a time keeps your attention exactly one character
+				behind your hands, so every mistake becomes a small interruption in the flow.
+			</li>
+			<li>
+				<strong class="text-ink">Start the first ten seconds slowly.</strong> Nerves cost most people two or
+				three words per minute and a handful of errors. A deliberately calm opening paragraph usually pays for
+				itself by the end of the minute.
+			</li>
+			<li>
+				<strong class="text-ink">Watch the error count, not the speed.</strong> Once accuracy drops below
+				about 95 per cent, slowing down is faster than pushing on. A clean 60 is worth more than a messy 75.
+			</li>
+			<li>
+				<strong class="text-ink">Use the whole keyboard.</strong> Reaching for the top row with a stretched
+				hand is slower than moving your wrist to the number row. Let your hands travel instead of stretching.
+			</li>
+			<li>
+				<strong class="text-ink">Practise ten minutes a day.</strong> Short, frequent sessions are what turn a
+				slightly better score into a noticeably better one, and they are far easier to keep up with than one
+				long weekly effort.
+			</li>
+			<li>
+				<strong class="text-ink">Fix your weak keys on purpose.</strong> Every typist has two or three letters
+				they hesitate over. Isolate them with a
+				<a href="/typing-lessons/home-row/" class="underline underline-offset-2 hover:text-ink">home row lesson</a>
+				and they stop costing you time.
+			</li>
+		</ol>
+	</ContentSection>
+
+	<ContentSection
+		title="Practise the part that is holding you back"
+		lead="One generic passage will not fix everything. Different drills train different habits."
+	>
+		<div class="grid gap-4 sm:grid-cols-2">
+			<a href="/typing-lessons/" class="card p-5 transition-colors hover:border-border-strong">
+				<h3 class="font-semibold text-ink">Structured lessons</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					Short guided exercises that rebuild the foundation, one group of keys at a time.
+				</p>
+			</a>
+			<a href="/typing-practice/paragraphs/" class="card p-5 transition-colors hover:border-border-strong">
+				<h3 class="font-semibold text-ink">Paragraph practice</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					Continuous prose for training reading ahead and keeping an even rhythm.
+				</p>
+			</a>
+			<a href="/typing-practice/numbers/" class="card p-5 transition-colors hover:border-border-strong">
+				<h3 class="font-semibold text-ink">Number practice</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					Figures, dates and currency without ever looking away from the screen.
+				</p>
+			</a>
+			<a href="/typing-practice/punctuation/" class="card p-5 transition-colors hover:border-border-strong">
+				<h3 class="font-semibold text-ink">Punctuation practice</h3>
+				<p class="mt-1.5 text-sm text-ink-muted">
+					Commas, quotes and brackets, which is where most hesitation actually happens.
+				</p>
+			</a>
+		</div>
+		<Callout title="Where to start if you are new" variant="tip">
+			<p>
+				Begin with the <a href="/learn-typing/" class="underline underline-offset-2 hover:text-ink">learn typing guide</a>
+				for the basics, then work through the home row lesson. Once the home row feels automatic, come back to
+				this test and compare your numbers with the ones from your first attempt.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Which test length should you use?">
+		<div class="overflow-hidden rounded-card border border-border">
+			<table class="w-full border-collapse text-left text-sm">
+				<thead>
+					<tr class="bg-surface-2 text-ink">
+						<th scope="col" class="px-4 py-2.5 font-semibold">Length</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">Best used for</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-border">
+					{
+						lengths.map((row) => (
+							<tr>
+								<th scope="row" class="px-4 py-2.5 font-medium text-ink whitespace-nowrap">{row.length}</th>
+								<td class="px-4 py-2.5">{row.use}</td>
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+		</div>
+		<p>
+			All of these are available from the <a href="/typing-test/" class="underline underline-offset-2 hover:text-ink">main
+			typing test page</a>, where you can switch length and text type without the page reloading. Dedicated pages
+			exist for the <a href="/typing-test/1-minute/" class="underline underline-offset-2 hover:text-ink">one minute</a>,
+			<a href="/typing-test/3-minute/" class="underline underline-offset-2 hover:text-ink">three minute</a>,
+			<a href="/typing-test/5-minute/" class="underline underline-offset-2 hover:text-ink">five minute</a> and
+			<a href="/typing-test/10-minute/" class="underline underline-offset-2 hover:text-ink">ten minute</a> runs, plus
+			pages built specifically around
+			<a href="/typing-test/words-per-minute/" class="underline underline-offset-2 hover:text-ink">speed measurement</a>
+			and
+			<a href="/typing-test/accuracy/" class="underline underline-offset-2 hover:text-ink">accuracy</a>.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+		<Faq items={faq} intro="Straight answers to the questions people ask most often about typing tests." />
+	</div>
+</BaseLayout>

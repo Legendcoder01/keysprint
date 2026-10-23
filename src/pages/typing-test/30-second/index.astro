@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = '30 Second Typing Test — Quick WPM & Accuracy Check';
+const description =
+	'Run a free 30 second typing test for a quick, reliable measure of your words per minute and character accuracy. Works on any device with no account needed.';
+
+const faq = [
+	{
+		question: 'Is 30 seconds better than 15 seconds?',
+		answer:
+			'For most purposes, yes. Thirty seconds is long enough for the first-second effect to shrink to a sensible proportion of the run, and short enough that you will happily take it. The fifteen second test is better when you want a very quick comparison between two things.',
+	},
+	{
+		question: 'Why do my scores keep changing between runs?',
+		answer:
+			'Because typing speed is affected by more than skill. The passage is different each time, your attention drifts, and the first few seconds vary. This is why it is worth running a test two or three times and looking at your best result rather than your average.',
+	},
+	{
+		question: 'Should I fix mistakes during the test or leave them?',
+		answer:
+			'Fixing them is better. A corrected character raises your character accuracy, and if you do not fix it, the text after the mistake stays shifted and every following word reads as wrong. The keystroke accuracy figure still records that you made the mistake either way.',
+	},
+	{
+		question: 'Does the score save automatically?',
+		answer:
+			'Your best net words per minute for each combination of length and text type is kept in your own browser. It never leaves your device, there is no account to create, and clearing your browsing data removes it.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/typing-test-30s.png"
+	breadcrumbs={[
+		{ name: 'Typing test', href: '/typing-test/' },
+		{ name: '30 second test', href: '/typing-test/30-second/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing test', href: '/typing-test/' },
+				{ name: '30 second test', href: '/typing-test/30-second/' },
+			]}
+		/>
+	</div>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<p class="text-xs font-semibold uppercase tracking-wider text-accent">30 second test</p>
+			<h1
+				class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
+			>
+				30 second typing test
+			</h1>
+			<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+				Half a minute is long enough to be worth taking seriously and short enough to fit between two things.
+				You get the same breakdown as the longer tests: gross speed, net speed, character accuracy, word
+				accuracy, keystroke accuracy and an error count.
+			</p>
+		</div>
+
+		<div class="mt-8">
+			<TypingTest duration={30} syncDuration={false} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="Why thirty seconds sits between a sprint and a benchmark"
+		lead="It is the length most people actually stick with, and there is a reason for that."
+	>
+		<p>
+			A fifteen second test is over before your hands have properly settled, and a one minute test starts to
+			feel like a commitment. Thirty seconds lands between them. It is long enough that you have typed a dozen
+			words before the adrenaline of the opening wears off, which is exactly the point at which your speed
+			becomes representative, and short enough that you will run it without rearranging your afternoon.
+		</p>
+		<p>
+			It is also a good length for comparing two things, because you can run several of them back to back
+			without losing patience. Switch between word, sentence and paragraph text and watch how the numbers move.
+			Switch between your laptop keyboard and your desk keyboard and do the same. A single run is noisy, but
+			three runs on each side makes the pattern obvious.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="What to watch while the clock runs">
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Your speed stabilises after the first few seconds.</strong> If you watch the
+				live figure, it will jump around early on and then settle. The settled number is the one that means
+				something.
+			</li>
+			<li>
+				<strong class="text-ink">Your error count tells you when to slow down.</strong> Two or three mistakes
+				in a row usually means you are typing faster than you are reading.
+			</li>
+			<li>
+				<strong class="text-ink">Correct characters turn dark as you go.</strong> If a stretch stays pale,
+				you have drifted into a rhythm you are not actually reading.
+			</li>
+			<li>
+				<strong class="text-ink">The accuracy figure is the one to protect.</strong> Every point of character
+				accuracy you give up costs you roughly a point and a half of net speed.
+			</li>
+		</ul>
+		<Callout title="A clean run beats a fast one" variant="tip">
+			<p>
+				If you are torn between pushing the speed or holding the accuracy, hold the accuracy. Net speed already
+				discounts your mistakes, so a run at 95 per cent accuracy scores better than a faster run at 88 per cent.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Where to go next">
+		<p>
+			Once a thirty second result feels normal, move up to the
+			<a href="/typing-test/1-minute/" class="underline underline-offset-2 hover:text-ink">one minute test</a> for a
+			stable benchmark, or the <a href="/typing-test/3-minute/" class="underline underline-offset-2 hover:text-ink">three
+			minute test</a> if you want to see how your speed behaves once the adrenaline is gone. If your accuracy is
+			the weaker half of the score, the <a href="/typing-test/accuracy/" class="underline underline-offset-2 hover:text-ink">accuracy
+			test</a> is built for exactly that.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions people often ask about the half minute test." />
+	</div>
+</BaseLayout>

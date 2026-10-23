@@ -1,0 +1,167 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = 'Typing Accuracy Test — Measure Your Error Rate';
+const description =
+	'Take a free typing accuracy test and find out exactly how many mistakes you make, with character accuracy, word accuracy, keystroke accuracy and an error count.';
+
+const faq = [
+	{
+		question: 'Why would I test accuracy instead of speed?',
+		answer:
+			'Because the two problems need opposite treatment. If your accuracy is low, you need to slow down and build cleaner habits, and a speed test will not show you that. An accuracy run gives you the error count and the keystroke figure on their own, so you can work on the number that is actually holding you back.',
+	},
+	{
+		question: 'What is the difference between character accuracy and word accuracy?',
+		answer:
+			'Character accuracy looks at every character separately, so a nine letter word with one mistake scores nine out of ten characters. Word accuracy only counts a word as correct when every letter in it is right, so the same mistake costs you the whole word. Word accuracy is always the lower of the two numbers.',
+	},
+	{
+		question: 'What is keystroke accuracy?',
+		answer:
+			'The share of your raw key presses that were right the first time. It keeps counting a mistake even after you delete it and fix it, which character accuracy does not. It is the strictest of the three figures, and it is the one that describes your fingers rather than your final text.',
+	},
+	{
+		question: 'Should I correct my mistakes during the test?',
+		answer:
+			'Correct them if that is what you normally do, and be consistent either way. Fixing a mistake raises your character accuracy and leaves your keystroke accuracy unchanged, so the difference between those two figures tells you how much correcting you did.',
+	},
+	{
+		question: 'What accuracy should I aim for?',
+		answer:
+			'Ninety five per cent character accuracy is a sensible working target, and above ninety seven per cent most typists find that speed stops improving on its own. Below ninety per cent, the errors are costing you more time than a faster pace would win back.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/accuracy.png"
+	breadcrumbs={[
+		{ name: 'Typing test', href: '/typing-test/' },
+		{ name: 'Accuracy test', href: '/typing-test/accuracy/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing test', href: '/typing-test/' },
+				{ name: 'Accuracy test', href: '/typing-test/accuracy/' },
+			]}
+		/>
+	</div>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<p class="text-xs font-semibold uppercase tracking-wider text-accent">Accuracy test</p>
+			<h1
+				class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
+			>
+				Typing accuracy test
+			</h1>
+			<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+				A typing test for people whose errors cost them more than their speed is worth. Read the passage
+				carefully, type it cleanly, and the results panel breaks your typing down into character accuracy,
+				word accuracy, keystroke accuracy and a plain count of how many characters are wrong.
+			</p>
+		</div>
+
+		<div class="mt-8">
+			<TypingTest duration={60} modes={['sentences']} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="Three accuracies, three different questions"
+		lead="Accuracy is not one number, and picking the wrong one leads to practising the wrong thing."
+	>
+		<dl class="space-y-5">
+			<div>
+				<dt class="font-semibold text-ink">Character accuracy</dt>
+				<dd>
+					The share of characters in your text that are correct right now. Backspacing over a mistake
+					improves this figure immediately, which makes it a live measure of how clean the text in front of
+					you is.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Word accuracy</dt>
+				<dd>
+					The share of whole words that match from the first letter to the last. It is always lower than
+					character accuracy, and the gap between them tells you how many mistakes are happening in the
+					middle of words, which is usually where they happen.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Keystroke accuracy</dt>
+				<dd>
+					The share of key presses that were right the first time, including the ones you went back and
+					fixed. This is the honest measure of your hands, and it is the number that moves last but moves
+					for good.
+				</dd>
+			</div>
+		</dl>
+		<Callout title="The order to fix them in" variant="important">
+			<p>
+				Keystroke accuracy first, then character accuracy, then speed. Errors that you correct immediately
+				still cost you time, so getting the raw rate of mistakes down is what pays for everything else.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="What to do when the error count climbs">
+		<p>
+			Most typists who see the error count rise have one of three problems, and they are easy to tell apart
+			from the shape of the mistakes.
+		</p>
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Mistakes on similar letters.</strong> If the errors cluster around the same
+				pair of keys, it is a finger position problem rather than a reading problem. The
+				<a href="/typing-lessons/home-row/" class="underline underline-offset-2 hover:text-ink">home row
+				lesson</a> rebuilds the reference position that everything else depends on.
+			</li>
+			<li>
+				<strong class="text-ink">Mistakes late in a word.</strong> You are reading ahead too far and guessing
+				at the ending. Shorten the reading window to the word in front of you, or even the syllable, and
+				the errors usually stop.
+			</li>
+			<li>
+				<strong class="text-ink">Mistakes that are almost right.</strong> A single letter off, or a missing
+				space, suggests your hands are drifting off the home row between stretches. Deliberately returning
+				to the home row after every word is a surprisingly effective habit.
+			</li>
+		</ul>
+		<p>
+			The <a href="/typing-practice/punctuation/" class="underline underline-offset-2 hover:text-ink">punctuation
+			practice drill</a> is worth a run if your errors cluster around commas, apostrophes and quotation marks,
+			which is common and easy to fix.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="How accuracy and speed fit together">
+		<p>
+			Net speed already takes your mistakes into account, which means a slower and cleaner run can produce a
+			better net score than a fast and messy one. If your net speed has been stuck for weeks, look at the
+			accuracy figures before you look at anything else. Cleaning up a run from ninety per cent to ninety seven
+			per cent often adds net speed on its own, because you stop losing time to corrections and re-reads.
+		</p>
+		<p>
+			Once the accuracy is where you want it, the
+			<a href="/typing-test/words-per-minute/" class="underline underline-offset-2 hover:text-ink">words per minute
+			test</a> becomes the more useful measurement, and the
+			<a href="/typing-practice/" class="underline underline-offset-2 hover:text-ink">practice drills</a> are where
+			you go to build speed.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about typing accuracy and the figures this test reports." />
+	</div>
+</BaseLayout>

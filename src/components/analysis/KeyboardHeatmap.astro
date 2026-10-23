@@ -1,0 +1,74 @@
+---
+/**
+ * The keyboard heat map.
+ *
+ * The board is rendered on the server so the page has real content without
+ * JavaScript: every key prints its character and a placeholder percentage. The
+ * client script in `src/scripts/typing-analysis.ts` fills in the numbers and
+ * the accuracy band for visitors who have a stored result.
+ */
+import { KEYBOARD_ROWS } from '../../lib/typing/keys';
+import '../../styles/analysis.css';
+
+interface Props {
+	/** Accessible description of what the map shows. */
+	label?: string;
+}
+
+const {
+	label = 'Keyboard heat map showing typing accuracy for each key. Keys are coloured by accuracy: green for good, amber for needs work, red for poor.',
+} = Astro.props;
+
+const bands = [
+	{ band: 'good', text: '95% and above' },
+	{ band: 'fair', text: '85% to 94%' },
+	{ band: 'poor', text: 'below 85%' },
+	{ band: 'unused', text: 'not typed yet' },
+] as const;
+---
+
+<div class="kb-scroll" data-heatmap-scroll tabindex="0" role="region" aria-label={label}>
+	<div class="kb" data-heatmap>
+		{
+			KEYBOARD_ROWS.map((row) => (
+				<div
+					class:list={['kb-row', row.id === 'space' && 'kb-row--space']}
+					style={`--kb-offset:${row.offset}`}
+				>
+					{row.keys.map((key) => (
+						<div
+							class:list={['kb-key', key.key === ' ' && 'kb-key--space']}
+							data-key={key.key}
+							data-band="unused"
+						>
+							<span class="kb-key-label">{key.key === ' ' ? 'space' : key.key}</span>
+							<span class="kb-key-value" data-key-value>
+								—
+							</span>
+							<span class="sr-only" data-key-detail>
+								not typed yet
+							</span>
+						</div>
+					))}
+				</div>
+			))
+		}
+	</div>
+</div>
+
+<ul class="kb-legend" aria-label="Accuracy legend">
+	{
+		bands.map((item) => (
+			<li>
+				<span class="kb-legend-swatch" data-band={item.band} aria-hidden="true" />
+				<span>{item.text}</span>
+			</li>
+		))
+	}
+</ul>
+
+<p class="mt-3 text-xs text-ink-subtle">
+	The layout is a US QWERTY board. Keys you have not typed stay grey, so a short
+	test leaves most of the board untouched. On a narrow screen the board scrolls
+	sideways.
+</p>

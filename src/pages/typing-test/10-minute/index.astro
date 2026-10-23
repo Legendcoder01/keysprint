@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = '10 Minute Typing Test — Measure Your Real Typing Speed';
+const description =
+	'Run a free 10 minute typing test for the most reliable measure of your typing speed, including gross speed, net speed, accuracy and a full error breakdown.';
+
+const faq = [
+	{
+		question: 'Why run a ten minute test when a one minute test is easier?',
+		answer:
+			'Because a ten minute test measures your working speed rather than your sprint speed. The first minute of any run is unrepresentative, and the difference between your first minute and your tenth minute is often ten words per minute or more. If you want to know how fast you type when you are typing, the ten minute test is the closest thing to the real thing.',
+	},
+	{
+		question: 'Is it normal to get slower in a ten minute test?',
+		answer:
+			'Very. Almost everyone holds a pace for the first few minutes and drifts down slightly afterwards. What matters is not whether the score falls, but how much it falls and whether your accuracy holds up at the lower pace. A run that ends at 58 words per minute with 97 per cent accuracy is a better result than one that ends at 64 with 91 per cent.',
+	},
+	{
+		question: 'Should I take the ten minute test before or after other work?',
+		answer:
+			'Before, if you can. A ten minute test is easy to run when you are fresh and hard to run when you are tired. If you want a number you can compare across weeks, try to take it at roughly the same point in your day each time.',
+	},
+	{
+		question: 'What should I do with the ten minute result?',
+		answer:
+			'Write it down. A single long test taken once a month, with the same text type and the same conditions each time, is a very good picture of how your typing is changing. Compare the net speed and the character accuracy side by side, and treat a rising speed with falling accuracy as a warning rather than a win.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/typing-test-600s.png"
+	breadcrumbs={[
+		{ name: 'Typing test', href: '/typing-test/' },
+		{ name: '10 minute test', href: '/typing-test/10-minute/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing test', href: '/typing-test/' },
+				{ name: '10 minute test', href: '/typing-test/10-minute/' },
+			]}
+		/>
+	</div>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<p class="text-xs font-semibold uppercase tracking-wider text-accent">10 minute test</p>
+			<h1
+				class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
+			>
+				10 minute typing test
+			</h1>
+			<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+				The longest test on the site, and the one that comes closest to real work. Ten minutes of continuous
+				typing tells you your working speed, your accuracy under a bit of pressure, and how you handle the
+				slow patch in the middle.
+			</p>
+		</div>
+
+		<div class="mt-8">
+			<TypingTest duration={600} syncDuration={false} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="What ten minutes measures that five cannot"
+		lead="The difference between a sprint and a working session shows up in the middle, not at the end."
+	>
+		<p>
+			Every long test has a shape. There is a fast, slightly nervous opening; a stretch in the middle where you
+			are typing steadily without really thinking about it; and a final stretch where attention starts to
+			thin and the error count quietly rises. A ten minute test is long enough for all three to be visible, and
+			each of them tells you something different.
+		</p>
+		<p>
+			The opening shows how well you can focus. The middle shows your working speed, which is the number worth
+			remembering. The end shows how you behave when you are tired, which is a surprisingly important number
+			if your work involves typing for long stretches.
+		</p>
+		<p>
+			It also removes a shortcut that shorter tests allow. In a one minute test you can power through the first
+			fifteen seconds on adrenaline and coast. Over ten minutes there is no coasting, so the score reflects
+			sustained output rather than a burst.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Treating it like a real piece of work">
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Pick paragraph text.</strong> Long prose with sentence structure is the
+				closest thing to real writing, and it is the hardest mode to coast through.
+			</li>
+			<li>
+				<strong class="text-ink">Do not correct your mistakes unless you normally would.</strong> Fixing every
+				slip is a habit of some typists and not others. Whichever you do, be consistent, because the
+				keystroke accuracy figure depends on it.
+			</li>
+			<li>
+				<strong class="text-ink">Do not fight the middle.</strong> When the pace drops, resist the urge to
+				hurry. Catching up usually costs more than it saves.
+			</li>
+			<li>
+				<strong class="text-ink">Run it at a similar time each time.</strong> If you take it after lunch
+				every time, that is a fine condition to measure under. What matters is that it does not change.
+			</li>
+		</ul>
+		<Callout title="A good first target" variant="tip">
+			<p>
+				Most people finish their first ten minute test somewhere in the forties and fifties, with accuracy
+				dipping in the final two minutes. The useful baseline is not the number itself but the shape: if your
+				accuracy falls away at the end, that is where to aim your practice.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Reading the ten minute breakdown">
+		<p>
+			Net speed is your headline number, and it is lower than your one minute score. That is expected, and it
+			is not a disappointment. If your gross speed is much higher than your net speed, a large share of your
+			output was wrong, which usually means the reading window was too wide.
+		</p>
+		<p>
+			Character accuracy at the end of the run tells you how clean the text was when the clock stopped, and
+			keystroke accuracy tells you how clean your hands were over the whole ten minutes. When the second number
+			is much lower than the first, you were correcting as you went, which is a healthy habit that costs a
+			little speed and is worth keeping.
+		</p>
+		<p>
+			Once you have a ten minute baseline, the shorter tests become useful for day to day monitoring. Use the
+			<a href="/typing-test/1-minute/" class="underline underline-offset-2 hover:text-ink">one minute test</a>
+			for a weekly check and come back here when you want the real picture.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about the ten minute typing test." />
+	</div>
+</BaseLayout>

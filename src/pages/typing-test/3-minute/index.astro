@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = '3 Minute Typing Test — A More Reliable Speed Score';
+const description =
+	'Run a free 3 minute typing test for a steadier words per minute result, with less influence from the first few seconds. Net speed and accuracy included.';
+
+const faq = [
+	{
+		question: 'Why is my three minute score lower than my one minute score?',
+		answer:
+			'Because a one minute test is mostly the first minute, and the first minute of any run is faster than the minutes that follow. Three minutes gives the settling-in period a fairer share of the result, so the number drops by a few words per minute. The lower figure is the more honest one.',
+	},
+	{
+		question: 'Is three minutes long enough to see fatigue?',
+		answer:
+			'Not really. Three minutes is long enough to see your pace dip slightly in the last minute, but true fatigue needs closer to ten. If you want to know how you type when you are tired, use the ten minute test.',
+	},
+	{
+		question: 'Should I compare three minute scores to other people?',
+		answer:
+			'Less than you might think. Three minutes is a better measurement than one minute, but the passage, the keyboard and the text type still move the result by several words per minute. Comparing your own score across weeks is far more informative.',
+	},
+	{
+		question: 'Can I change the text type during a three minute test?',
+		answer:
+			'Not mid-test, because changing the passage would restart the clock and the score would no longer mean anything. You can change the text type before you start, or use the Restart button to begin a fresh three minute run in a different style.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/typing-test-180s.png"
+	breadcrumbs={[
+		{ name: 'Typing test', href: '/typing-test/' },
+		{ name: '3 minute test', href: '/typing-test/3-minute/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing test', href: '/typing-test/' },
+				{ name: '3 minute test', href: '/typing-test/3-minute/' },
+			]}
+		/>
+	</div>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<p class="text-xs font-semibold uppercase tracking-wider text-accent">3 minute test</p>
+			<h1
+				class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
+			>
+				3 minute typing test
+			</h1>
+			<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+				Three minutes is where a typing score starts to mean what you think it means. The opening rush has
+				been and gone, the passage is long enough that you have to find your rhythm again halfway through,
+				and the result is the number most people should be quoting.
+			</p>
+		</div>
+
+		<div class="mt-8">
+			<TypingTest duration={180} syncDuration={false} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="Why three minutes tells a different story"
+		lead="The first minute and the third minute of a typing run are not the same activity."
+	>
+		<p>
+			Every test starts with a burst. You know the text is there, you are braced for it, and your fingers are
+			fresh, so the opening words come out at a pace you could not hold for a minute. Somewhere around the
+			thirty second mark the adrenaline settles and your speed becomes the speed you actually type at, which is
+			slower, but sustainable.
+		</p>
+		<p>
+			A one minute test is therefore a mixture: a short burst followed by half a minute of something more honest.
+			A three minute test is a burst followed by two minutes of steady work, which is a much better sample of
+			your normal pace. It also introduces a problem that one minute does not have: you have to find your way
+			back into the text after looking away, and that handover is where attention drifts.
+		</p>
+		<p>
+			So a three minute score will almost always be a few words per minute lower than a one minute score. That
+			is not a regression. It is the more useful measurement, because it is closer to what you would type on a
+			real piece of work.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="What changes between minute one and minute three">
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Your pace evens out.</strong> The gap between your fastest and slowest
+				character narrows, and the average settles somewhere below your opening burst.
+			</li>
+			<li>
+				<strong class="text-ink">Attention becomes the constraint.</strong> After a minute you are no longer
+				watching your hands, you are reading. Most of the errors that happen late in a run are reading errors
+				rather than finger errors.
+			</li>
+			<li>
+				<strong class="text-ink">The passage starts to matter.</strong> A long passage has sentence
+				boundaries, commas and paragraph structure, and getting through them without losing your place takes
+				practice that a one minute test never asks for.
+			</li>
+			<li>
+				<strong class="text-ink">You start editing as you go.</strong> Experienced typists notice a slip
+				immediately and correct it. That costs a fraction of a second and shows up in your keystroke accuracy
+				rather than your character accuracy.
+			</li>
+		</ul>
+		<Callout title="Use the third minute as a diagnostic" variant="note">
+			<p>
+				Run a three minute test in paragraph mode and watch the error count in the final minute. A rising
+				trace there usually means you are reading too far ahead, not that your fingers are slow. Shorten
+				your reading window and the errors usually stop.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Reading the three minute breakdown">
+		<p>
+			Start with net speed, then look at the gap between gross and net. A large gap means a lot of typing was
+			wasted. If your character accuracy is high but keystroke accuracy is noticeably lower, you are catching
+			mistakes as you make them, which is healthy but costs a little speed. If both accuracy figures are low,
+			slow down until they are not.
+		</p>
+		<p>
+			Once you know what your three minute number looks like, the <a href="/typing-test/5-minute/"
+				class="underline underline-offset-2 hover:text-ink">five minute test</a> is the next step up, and the
+			<a href="/typing-test/10-minute/" class="underline underline-offset-2 hover:text-ink">ten minute test</a>
+			tells you how your speed behaves over a long stretch.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about the three minute typing test." />
+	</div>
+</BaseLayout>

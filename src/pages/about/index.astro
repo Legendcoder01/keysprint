@@ -1,0 +1,234 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import Faq from '../../components/Faq.astro';
+import Callout from '../../components/Callout.astro';
+
+const title = 'About keysprint — A Free Typing Test With No Sign-Up';
+const description =
+	'keysprint is a free browser based typing test with lessons and practice drills. Learn how it measures speed and accuracy, and what happens to your data.';
+
+const faq = [
+	{
+		question: 'Who made keysprint?',
+		answer:
+			'keysprint is an independent, small project built by one person, with no company behind it, no investors and no marketing budget. It exists because most typing test websites either gate the useful parts behind an account or bury a simple measurement under enough advertising to be unpleasant.',
+	},
+	{
+		question: 'Is keysprint really free?',
+		answer:
+			'Completely. There is no premium tier, no trial period and no paid feature that unlocks the results. The site runs on a free hosting tier and the test runs entirely in your browser.',
+	},
+	{
+		question: 'Do you have accounts, leaderboards or progress tracking across devices?',
+		answer:
+			'No. Your best score for each test length is kept in your own browser using local storage, so it never leaves your device and never follows you to another one. Adding accounts would mean storing personal data, and keysprint is built specifically so that it does not have to.',
+	},
+	{
+		question: 'Is the typing text original?',
+		answer:
+			'Every passage in the corpus was written for keysprint. Nothing is scraped from a novel, a news site or another typing test. The material is deliberately plain so it exercises the keyboard rather than the reader, and it is licensed for use here because it was written here.',
+	},
+	{
+		question: 'How accurate are the measurements?',
+		answer:
+			'The scoring maths is defined in one place in the code, explained on this page, and covered by unit tests that run on every build. The one honest limitation is that a short test is noisier than a long one, which is why the page for each length explains what it is good for.',
+	},
+];
+
+const formulas = [
+	{
+		name: 'Gross speed',
+		formula: '(characters ÷ 5) ÷ minutes',
+		reads: 'How many characters your fingers produced, counted as five character words per minute.',
+	},
+	{
+		name: 'Net speed',
+		formula: '((characters − errors) ÷ 5) ÷ minutes',
+		reads: 'The same calculation after removing every character that does not match the passage.',
+	},
+	{
+		name: 'Character accuracy',
+		formula: '(characters − errors) ÷ characters',
+		reads: 'The share of the text on screen that is correct right now.',
+	},
+	{
+		name: 'Word accuracy',
+		formula: 'correct words ÷ words typed',
+		reads: 'The share of whole words that match from the first letter to the last.',
+	},
+	{
+		name: 'Keystroke accuracy',
+		formula: 'correct key presses ÷ key presses',
+		reads: 'The share of raw key presses that were right the first time, including mistakes you later fixed.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	breadcrumbs={[{ name: 'About', href: '/about/' }]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs items={[{ name: 'About', href: '/about/' }]} />
+	</div>
+
+	<PageHero
+		eyebrow="About"
+		title="A typing test that does the measurement and gets out of the way"
+		lead="keysprint measures how fast you type and how accurately, then explains what it measured. There is no account, no advertisement, no upsell and no streak to maintain. The test runs in your browser, the passages are written for the site, and your score never leaves your device."
+	/>
+
+	<ContentSection title="What keysprint is">
+		<p>
+			keysprint is a typing test with a practice programme attached. The test itself is the centre of the
+			site: a live passage, a countdown, and a results panel that reports gross speed, net speed, three
+			separate accuracy figures and an error count. Everything else, the
+			<a href="/learn-typing/" class="underline underline-offset-2 hover:text-ink">guide</a>, the
+			<a href="/typing-lessons/" class="underline underline-offset-2 hover:text-ink">lessons</a> and the
+			<a href="/typing-practice/" class="underline underline-offset-2 hover:text-ink">practice drills</a>,
+			exists to give that number something to act on.
+		</p>
+		<p>
+			It is a small site on purpose. There is no leaderboard, because a leaderboard rewards the people with
+			fast keyboards and long practice sessions rather than the people who want to improve. There is no
+			account, because an account means a database, and a database means your data sits somewhere. There are
+			no notifications, no streaks and no daily goals, because none of those things make anyone type
+			faster.
+		</p>
+		<p>
+			What is left is the part that helps: a clear measurement, an honest explanation of how it was
+			calculated, and specific exercises for the specific weaknesses the measurement reveals.
+		</p>
+	</ContentSection>
+
+	<ContentSection
+		title="How the numbers are calculated"
+		lead="Every figure on the results panel comes from one of these five formulas. Nothing is rounded in your favour."
+	>
+		<div class="overflow-hidden rounded-card border border-border">
+			<table class="w-full border-collapse text-left text-sm">
+				<thead>
+					<tr class="bg-surface-2 text-ink">
+						<th scope="col" class="px-4 py-2.5 font-semibold">Figure</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">Formula</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">What it means</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-border">
+					{
+						formulas.map((row) => (
+							<tr>
+								<th scope="row" class="px-4 py-2.5 font-medium text-ink whitespace-nowrap">{row.name}</th>
+								<td class="px-4 py-2.5 font-mono text-xs text-ink-muted">{row.formula}</td>
+								<td class="px-4 py-2.5">{row.reads}</td>
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+		</div>
+		<p>
+			One word is five characters, which is the convention that makes a score comparable between
+			languages. The timer starts on your first keystroke rather than when the page loads, so reading the
+			passage before you begin is not counted against you. And the clock stops on the deadline rather than
+			when the next frame is drawn, so a tab you switch away from cannot quietly add time to your score.
+		</p>
+		<Callout title="Why net speed is the headline" variant="note">
+			<p>
+				Net speed is the number to believe, because it describes the text you actually produced rather
+				than the keys you pressed. The gap between gross and net speed is the cost of your mistakes,
+				and it is often more interesting than either figure on its own.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="What happens to your data">
+		<p>
+			Nothing, because there is nowhere for it to go. The typing test runs entirely in your browser. The
+			passage, the clock, the scoring and the results are all computed on your own machine.
+		</p>
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">No accounts.</strong> There is no sign-up, no login and no profile.
+			</li>
+			<li>
+				<strong class="text-ink">No analytics.</strong> keysprint loads no analytics script, no
+				advertising script and no third party tracking of any kind.
+			</li>
+			<li>
+				<strong class="text-ink">No cookies.</strong> The site sets none. The only storage used is your
+				own browser's local storage, holding your best score for each test length and your light or dark
+				theme preference.
+			</li>
+			<li>
+				<strong class="text-ink">No email addresses.</strong> Nothing is collected, so nothing can be
+				sold or leaked.
+			</li>
+		</ul>
+		<p>
+			The full details are in the <a href="/privacy-policy/" class="underline underline-offset-2 hover:text-ink">privacy
+			policy</a>.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="How it is built">
+		<p>
+			The site is a static build. There is no application server, no database and no backend of any kind,
+			which is the technical reason the privacy policy is so short. Every page is pre-rendered HTML, and
+			the typing test is a small piece of client-side JavaScript that measures what you type and nothing
+			else.
+		</p>
+		<p>
+			The scoring code is kept in one module with no browser dependencies, which means it can be unit
+			tested against a fake clock. Those tests run as part of every build, so a change to the maths cannot
+			ship without the checks going green.
+		</p>
+		<p>
+			The design is a single accent colour on a neutral scale, with light and dark themes that follow your
+			system preference until you choose otherwise. It respects your reduced motion setting, works with a
+			keyboard alone, and is legible at any zoom level.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Who it is for">
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">People learning to touch type.</strong> Start with the
+				<a href="/typing-lessons/home-row/" class="underline underline-offset-2 hover:text-ink">home row
+				lesson</a>, then work outward through the
+				<a href="/typing-lessons/" class="underline underline-offset-2 hover:text-ink">lesson stages</a>.
+			</li>
+			<li>
+				<strong class="text-ink">People who type for a living.</strong> A weekly one minute test is
+				enough to catch a regression, and the
+				<a href="/typing-test/accuracy/" class="underline underline-offset-2 hover:text-ink">accuracy
+				test</a> is the one to watch if your speed is fine but your corrections are not.
+			</li>
+			<li>
+				<strong class="text-ink">People who just want a number.</strong> The
+				<a href="/typing-test/" class="underline underline-offset-2 hover:text-ink">main test page</a>
+				gives you a score in about a minute, with nothing to sign up for.
+			</li>
+			<li>
+				<strong class="text-ink">Teachers and managers.</strong> The site works on a shared computer and
+				needs no installation, which makes it convenient for a classroom or a workshop.
+			</li>
+		</ul>
+	</ContentSection>
+
+	<ContentSection title="Getting in touch">
+		<p>
+			Corrections, suggestions and bug reports are all welcome, and the
+			<a href="/contact/" class="underline underline-offset-2 hover:text-ink">contact page</a> explains how
+			to send them.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about keysprint itself." />
+	</div>
+</BaseLayout>

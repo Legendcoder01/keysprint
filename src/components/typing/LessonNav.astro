@@ -1,0 +1,84 @@
+---
+import { LESSONS, lessonHref } from '../../lib/lessons';
+
+/**
+ * The ten-lesson curriculum as navigation.
+ *
+ * Used at the foot of every lesson page: it shows where this lesson sits, links
+ * to its neighbours and makes the whole order visible without leaving the page.
+ * The current lesson keeps its link (so the page can be reloaded from here) and
+ * carries `aria-current="page"`.
+ */
+
+interface Props {
+	/** Id of the lesson whose page this is. */
+	currentId: string;
+	/** Show the previous/next pair under the grid. */
+	showNeighbours?: boolean;
+}
+
+const { currentId, showNeighbours = true } = Astro.props;
+
+const index = LESSONS.findIndex((lesson) => lesson.id === currentId);
+const previous = index > 0 ? LESSONS[index - 1] : null;
+const next = index >= 0 ? LESSONS[index + 1] : null;
+---
+
+<nav aria-label="Typing lesson curriculum" class="not-prose mt-6">
+	<ol class="grid gap-2 sm:grid-cols-2">
+		{
+			LESSONS.map((lesson) => {
+				const current = lesson.id === currentId;
+				return (
+					<li>
+						<a
+							href={lessonHref(lesson.id)}
+							aria-current={current ? 'page' : undefined}
+							class:list={[
+								'flex h-full items-baseline gap-3 rounded-card border px-3.5 py-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+								current
+									? 'border-accent/50 bg-accent-wash text-ink'
+									: 'border-border bg-surface text-ink-muted hover:border-accent/40 hover:text-ink',
+							]}
+						>
+							<span class="w-14 shrink-0 text-[11px] font-semibold uppercase tracking-wider text-ink-subtle">
+								{lesson.order.toString().padStart(2, '0')}
+							</span>
+							<span class="min-w-0">
+								<span class="block font-medium text-ink">{lesson.title}</span>
+								<span class="mt-0.5 block text-xs text-ink-subtle">
+									{lesson.timedSeconds !== null
+										? `${lesson.timedSeconds}-second test · ${lesson.minAccuracy}%`
+										: `${lesson.minAccuracy}% accuracy target`}
+								</span>
+							</span>
+						</a>
+					</li>
+				);
+			})
+		}
+	</ol>
+
+	{
+		showNeighbours && (
+			<div class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4 text-sm">
+				{previous ? (
+					<a href={lessonHref(previous.id)} class="text-ink-muted underline-offset-2 hover:text-ink hover:underline">
+						<span aria-hidden="true">←</span> {previous.title}
+					</a>
+				) : (
+					<span aria-hidden="true"></span>
+				)}
+				{next ? (
+					<a href={lessonHref(next.id)} class="text-ink-muted underline-offset-2 hover:text-ink hover:underline">
+						{next.title} <span aria-hidden="true">→</span>
+					</a>
+				) : (
+					<a href="/typing-lessons/" class="text-ink-muted underline-offset-2 hover:text-ink hover:underline">
+						All lessons <span aria-hidden="true">→</span>
+					</a>
+				)}
+			</div>
+		)
+	}
+</nav>

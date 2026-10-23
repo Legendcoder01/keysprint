@@ -1,0 +1,56 @@
+---
+export interface FaqItem {
+	question: string;
+	answer: string;
+}
+
+interface Props {
+	items: FaqItem[];
+	/** Heading above the list. */
+	heading?: string;
+	/** Short intro shown under the heading. */
+	intro?: string;
+	/** Heading level for the section heading. */
+	level?: 2 | 3;
+}
+
+const { items, heading = 'Frequently asked questions', intro, level = 2 } = Astro.props;
+const Heading = level === 2 ? 'h2' : 'h3';
+---
+
+<section class="not-prose">
+	{
+		heading && (
+			<div class="mb-6">
+				<Heading class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+					{heading}
+				</Heading>
+				{intro && <p class="mt-2 max-w-2xl text-ink-muted">{intro}</p>}
+			</div>
+		)
+	}
+
+	<div class="max-w-3xl divide-y divide-border border-y border-border">
+		{
+			items.map((item) => (
+				<details class="group">
+					<summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-4 text-left text-[15px] font-medium text-ink transition-colors hover:text-accent [&::-webkit-details-marker]:hidden">
+						<span>{item.question}</span>
+						<svg
+							aria-hidden="true"
+							class="mt-1 h-4 w-4 shrink-0 text-ink-subtle transition-transform duration-150 group-open:rotate-45"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+						>
+							<path d="M12 5v14M5 12h14" />
+						</svg>
+					</summary>
+					<div class="pb-5 pr-10 text-sm leading-relaxed text-ink-muted">{item.answer}</div>
+				</details>
+			))
+		}
+	</div>
+</section>

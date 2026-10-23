@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import Callout from '../../components/Callout.astro';
+
+const title = 'Terms of Use — keysprint';
+const description =
+	'The terms of use for keysprint, a free online typing test. What the site is and is not, what you can do with it, and the usual absence of warranties.';
+
+const updated = '22 October 2026';
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	breadcrumbs={[{ name: 'Terms of use', href: '/terms/' }]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs items={[{ name: 'Terms of use', href: '/terms/' }]} />
+	</div>
+
+	<PageHero
+		eyebrow="Terms"
+		title="Terms of use"
+		lead="keysprint is a free tool provided as it is. These terms describe what you can expect from it, what is expected of you, and the limits of both."
+	/>
+
+	<ContentSection title="The service">
+		<p>
+			keysprint provides an online typing test, a set of touch typing lessons and a set of practice
+			drills. It is provided free of charge and without an account. Use of the site means accepting these
+			terms; if you do not accept them, please stop using the site.
+		</p>
+		<p>
+			The typing test measures the characters you type against a passage shown on screen. The score it
+			produces is a measurement of that session and nothing else.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="What the measurements are, and are not">
+		<p>
+			A typing score is an estimate taken over a short window, on one machine, on one day, with one
+			passage. It is a useful number and a fair description of that session, and it is not a clinical,
+			educational or professional assessment of anyone's ability.
+		</p>
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Results depend on the device and the conditions.</strong> A score
+				taken on a laptop keyboard is not comparable with one taken on a mechanical keyboard, and a
+				score taken while distracted is not comparable with a focused one.
+			</li>
+			<li>
+				<strong class="text-ink">Short tests are noisier than long ones.</strong> A fifteen second
+				result is a rough guide; a three or five minute result is a steadier reading.
+			</li>
+			<li>
+				<strong class="text-ink">The scoring method is described, not hidden.</strong> The formulas are
+				set out on the <a href="/about/" class="underline underline-offset-2 hover:text-ink">about
+				page</a>, and the code that applies them is covered by unit tests.
+			</li>
+			<li>
+				<strong class="text-ink">Nothing here is medical, educational or professional advice.</strong>
+				The lessons are general instruction on typing technique, not a substitute for a qualified
+				instructor.
+			</li>
+		</ul>
+	</ContentSection>
+
+	<ContentSection title="Your use of the site">
+		<p>You are welcome to:</p>
+		<ul class="list-disc space-y-2 pl-5 marker:text-ink-subtle">
+			<li>Use the typing test and the lessons as often as you like, for any lawful purpose.</li>
+			<li>Use the site on a shared or public computer. There is no account to sign out of.</li>
+			<li>Link to any page on the site from anywhere.</li>
+			<li>Quote a short passage from the site, or show a screenshot of the results panel, when writing a review or an article.</li>
+		</ul>
+		<p>You agree not to:</p>
+		<ul class="list-disc space-y-2 pl-5 marker:text-ink-subtle">
+			<li>
+				Copy the site, its design or its text wholesale and publish it elsewhere. Short quotations and
+				links are fine; a republished copy of the site is not.
+			</li>
+			<li>
+				Present the site as your own, or use its name or branding in a way that suggests an official
+				endorsement.
+			</li>
+			<li>
+				Attempt to interfere with the site, overload it with automated requests, or bypass the
+				limits on how often a test may be run.
+			</li>
+			<li>Use the site to break the law, or to infringe anyone else's rights.</li>
+		</ul>
+	</ContentSection>
+
+	<ContentSection title="Intellectual property">
+		<p>
+			The text passages used in the typing test, the lesson material and the drills were written for
+			keysprint and are protected by copyright. You are welcome to quote short extracts and to use the
+			site as a link, and that permission extends to screenshots of the interface for reviews, tutorials
+			and course material.
+		</p>
+		<p>
+			The software that runs the site, including the scoring engine and the text selection logic, is
+			part of the project. It is not sold and it is not licensed for redistribution.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Availability and changes">
+		<p>
+			keysprint is provided as it is and as it is available. The site may change, and pages may be moved
+			or removed. There is no uptime guarantee and no service level commitment.
+		</p>
+		<p>
+			Because the site is hosted on a free tier, it may be paused or restarted by the hosting provider
+			from time to time, and it may be unavailable for short periods.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="No warranty">
+		<Callout title="Standard, but worth reading" variant="note">
+			<p>
+				The site is provided "as is" and "as available", without any warranty of any kind, whether
+				express or implied, including fitness for a particular purpose. The scoring is accurate to the
+				best of its design, but it is a measurement, and it is not guaranteed to be correct in every
+				situation.
+			</p>
+		</Callout>
+		<p>
+			To the fullest extent permitted by law, the person behind keysprint is not liable for any loss or
+			damage arising from the use of the site or the inability to use it, including loss of data or loss
+			of stored scores.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Changes to these terms">
+		<p>
+			These terms may be updated from time to time. The date at the bottom of this page shows when they
+			were last revised, and the revised version applies from the moment it is published. Continuing to
+			use the site after a change means you accept the updated terms.
+		</p>
+		<p class="text-sm text-ink-subtle">Last updated: {updated}.</p>
+	</ContentSection>
+
+	<ContentSection title="Contact">
+		<p>
+			Questions about these terms, or anything else, can be sent using the
+			<a href="/contact/" class="underline underline-offset-2 hover:text-ink">contact page</a>.
+		</p>
+	</ContentSection>
+</BaseLayout>

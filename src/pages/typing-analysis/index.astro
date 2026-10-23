@@ -1,0 +1,290 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import Faq from '../../components/Faq.astro';
+import Callout from '../../components/Callout.astro';
+import KeyboardHeatmap from '../../components/analysis/KeyboardHeatmap.astro';
+import { absoluteUrl } from '../../config/site';
+import '../../styles/analysis.css';
+
+const title = 'Typing Analysis — See Which Keys Slow You Down';
+const description =
+	'A per-key keyboard heat map built from your own typing tests. See your accuracy on every key, find the finger that misses most, and jump into a drill that fixes it.';
+
+const faq = [
+	{
+		question: 'Why is the board empty on my first visit?',
+		answer:
+			'The analysis is built from the tests you have finished, and nothing is collected until you finish one. Take any typing test and come back: the board fills in immediately. There is no account and no waiting for a server, because the numbers never leave your browser.',
+	},
+	{
+		question: 'Why does a key show 0% when I never pressed it?',
+		answer:
+			'A key is charged with a miss every time the passage expected it and you pressed something else instead. If your fingers consistently go one key to the left, the key you meant to press ends up with misses but almost no correct presses, which is exactly the pattern this page is meant to expose.',
+	},
+	{
+		question: 'How many tests does the breakdown use?',
+		answer:
+			'The most recent twenty finished tests on this device, newest first. They are added together so a short test with twenty keystrokes does not dominate the picture. The recent results table shows the individual tests behind the totals, and the button below it clears them all.',
+	},
+	{
+		question: 'Does this work without an account or an internet connection?',
+		answer:
+			'Yes. Each finished test is written to local storage in your own browser. There is no server, no sync and no analytics, so the analysis page works offline once it has been loaded, and clearing your browser data clears the results with it.',
+	},
+];
+
+const crumbs = [{ name: 'Typing analysis', href: '/typing-analysis/' }];
+
+const schema = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebPage',
+		name: title,
+		url: absoluteUrl('/typing-analysis/'),
+		description,
+		isPartOf: { '@type': 'WebSite', name: 'keysprint', url: absoluteUrl('/') },
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/analysis.png"
+	ogImageAlt="A keyboard heat map showing typing accuracy for each key, with the weakest keys highlighted."
+	breadcrumbs={crumbs}
+	schema={schema}
+>
+	<div class="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
+		<Breadcrumbs items={crumbs} />
+	</div>
+
+	<PageHero
+		eyebrow="Typing analysis"
+		title="See exactly which keys slow you down"
+		lead="A speed score tells you how fast you type. This breakdown tells you where the time goes: every key on the board, measured from the tests you have already finished on this device."
+	/>
+
+	<section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" data-analysis aria-labelledby="heatmap-heading">
+		<div class="max-w-3xl">
+			<h2 id="heatmap-heading" class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+				Your keyboard heat map
+			</h2>
+			<p class="mt-3 text-base leading-relaxed text-ink-muted">
+				Each key is coloured by how often your presses produced the right character, and prints the
+				percentage it reached. Green is solid, amber needs a look, red is costing you real speed, and grey
+				means the key has not come up yet.
+			</p>
+		</div>
+
+		<div
+			class="mt-8 rounded-card border border-border bg-surface p-6 sm:p-8"
+			data-analysis-empty
+		>
+			<p class="text-base font-semibold tracking-tight text-ink">No results on this device yet</p>
+			<p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink-muted">
+				Finish a typing test and the board below fills in with your own numbers. A one minute test is enough
+				to colour most of the letter keys; three or four tests give a much steadier picture.
+			</p>
+			<a href="/typing-test/" class="btn btn-primary mt-5">Take a typing test</a>
+		</div>
+
+		<p class="mt-8 text-sm text-ink-muted" data-analysis-summary hidden></p>
+		<p class="mt-1 text-sm text-ink-muted" data-analysis-finger hidden></p>
+
+		<div class="mt-5 rounded-card border border-border bg-surface p-4 sm:p-6">
+			<KeyboardHeatmap />
+		</div>
+
+		<div data-analysis-content hidden>
+			<div class="mt-10 grid gap-10 lg:grid-cols-2">
+				<section aria-labelledby="keys-to-practise">
+					<h3 id="keys-to-practise" class="text-lg font-semibold tracking-tight text-ink">
+						Keys to practise
+					</h3>
+					<p class="mt-2 text-sm leading-relaxed text-ink-muted">
+						The five worst keys across your stored tests, with the finger that should be pressing them and
+						a drill that trains them.
+					</p>
+					<div
+						class="mt-4 overflow-x-auto"
+						tabindex="0"
+						role="region"
+						aria-label="Keys to practise: table of your least accurate keys"
+					>
+						<table class="ka-table">
+							<caption class="sr-only">
+								Your least accurate keys, with the finger assigned to each one
+							</caption>
+							<thead>
+								<tr>
+									<th scope="col">Key</th>
+									<th scope="col">Finger</th>
+									<th scope="col">Accuracy</th>
+									<th scope="col" class="ka-hide-sm">Presses</th>
+									<th scope="col">Missed</th>
+									<th scope="col">Practise</th>
+								</tr>
+							</thead>
+							<tbody data-analysis-weakest></tbody>
+						</table>
+					</div>
+				</section>
+
+				<section aria-labelledby="recent-tests">
+					<h3 id="recent-tests" class="text-lg font-semibold tracking-tight text-ink">
+						Recent tests
+					</h3>
+					<p class="mt-2 text-sm leading-relaxed text-ink-muted">
+						The individual tests behind the totals, newest first. The board above adds all of them
+						together.
+					</p>
+					<div
+						class="mt-4 overflow-x-auto"
+						tabindex="0"
+						role="region"
+						aria-label="Recent tests: the individual tests behind the totals"
+					>
+						<table class="ka-table">
+							<caption class="sr-only">The tests included in the breakdown above</caption>
+							<thead>
+								<tr>
+									<th scope="col">When</th>
+									<th scope="col">Test</th>
+									<th scope="col">Net WPM</th>
+									<th scope="col">Accuracy</th>
+								</tr>
+							</thead>
+							<tbody data-analysis-history></tbody>
+						</table>
+					</div>
+				</section>
+			</div>
+
+			<div class="mt-10 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border pt-6">
+				<button type="button" class="btn btn-secondary" data-analysis-clear>Clear saved results</button>
+				<p class="text-xs text-ink-subtle">
+					Removes the stored tests from this browser. Your best scores and theme choice are kept.
+				</p>
+			</div>
+			<p class="sr-only" role="status" aria-live="polite" data-analysis-status></p>
+		</div>
+	</section>
+
+	<ContentSection
+		title="How the numbers are worked out"
+		lead="One definition per key, so a yellow key and a red key mean the same thing on every visit."
+	>
+		<dl class="space-y-5">
+			<div>
+				<dt class="font-semibold text-ink">Key accuracy</dt>
+				<dd>
+					Correct presses divided by every attempt at that key. An attempt is either pressing the key —
+					whether it was the right character or not — or being the key the passage expected while a
+					different key was pressed. Both kinds of mistake land on the key you were meant to hit, which is
+					why the map shows where your hands actually go rather than only which characters came out wrong.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Every press counts</dt>
+				<dd>
+					A mistake you fixed with backspace still counts against the key. Correcting it cost you the time
+					to notice, delete and retype, so hiding it would flatter the number. This is stricter than the
+					character accuracy in the results panel, and deliberately so.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Shifted and unshifted forms are one key</dt>
+				<dd>
+					Upper case letters and symbols that need shift are folded into the key underneath them. Pressing
+					shift when the text wanted a lower case letter is a wrong press of that letter, not a separate
+					key.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">The bands</dt>
+				<dd>
+					Green from 95% up, amber from 85% to 94.9%, red below 85%, grey for a key that has not come up
+					yet. The thresholds are generous because a key pressed twice in a short test is not evidence of
+					anything.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">The layout</dt>
+				<dd>
+					The board is a US QWERTY keyboard with the standard touch typing finger assignments. A few marks
+					in the punctuation drill are not on that layout; they still count towards your accuracy, they are
+					simply not drawn.
+				</dd>
+			</div>
+		</dl>
+	</ContentSection>
+
+	<ContentSection
+		title="What to do with it"
+		lead="A heat map is only useful if it changes what you practise next."
+	>
+		<p>
+			Start at the top of the keys to practise table. A key in the red band is not a key you are slow at —
+			it is a key you are guessing at. Typing it faster will not help; finding it without looking will. Take
+			the drill beside it, type it slowly enough to be right every time, and come back to the same test in a
+			few days.
+		</p>
+		<p>
+			Then look at the finger, not only the key. Several weak keys that share a finger usually mean the hand
+			is not returning to the home row between words. That is one habit to fix, not five. The
+			<a href="/typing-lessons/home-row/" class="underline underline-offset-2 hover:text-ink">home row lesson</a>
+			is the place to rebuild it, because every other key is reached from there.
+		</p>
+		<p>
+			Keep the tests comparable. A fifteen second test only touches a slice of the board, so a key that looks
+			terrible after one short run may simply have come up four times. Two or three tests of a minute or
+			longer give a picture stable enough to act on. The recent tests table above shows what went into the
+			totals.
+		</p>
+		<p>
+			Finally, re-test after practising rather than during. Accuracy on a drilled key improves immediately
+			and disappears again by the next day if the habit has not set. A weekly check is a better measure of
+			whether the drill worked than a check five minutes later.
+		</p>
+
+		<Callout title="Nothing here leaves your browser" variant="note">
+			<p>
+				Finished tests are stored in local storage on this device so the breakdown can be built from them.
+				There is no account, no upload and no third-party analytics. Clearing the saved results removes them
+				permanently, and the
+				<a href="/privacy-policy/" class="underline underline-offset-2 hover:text-ink">privacy policy</a>
+				sets out exactly what is kept.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} />
+	</section>
+
+	<section class="border-t border-border bg-surface">
+		<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+			<div class="max-w-2xl">
+				<h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+					Ready to fill in the board?
+				</h2>
+				<p class="mt-3 text-base leading-relaxed text-ink-muted">
+					One minute is enough to colour most of the letter keys. No sign-up, no ads, and the result stays on
+					your device.
+				</p>
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a href="/typing-test/" class="btn btn-primary">Take a typing test</a>
+					<a href="/typing-practice/" class="btn btn-secondary">Browse practice drills</a>
+				</div>
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<script>
+	import '../../scripts/typing-analysis';
+</script>

@@ -1,0 +1,305 @@
+---
+import '../../styles/lesson.css';
+import HandGuide from './HandGuide.astro';
+import VirtualKeyboard from './VirtualKeyboard.astro';
+import { lessonHref, nextLesson, previousLesson } from '../../lib/lessons';
+import type { Lesson } from '../../lib/lessons';
+
+interface Props {
+	lesson: Lesson;
+}
+
+const { lesson } = Astro.props;
+
+const next = nextLesson(lesson.id);
+const previous = previousLesson(lesson.id);
+const timed = lesson.timedSeconds !== null;
+
+const headingId = `lesson-heading-${lesson.id}`;
+const instructionsId = `lesson-instructions-${lesson.id}`;
+const hintId = `lesson-hint-${lesson.id}`;
+const inputId = `lesson-input-${lesson.id}`;
+
+const escapeHtml = (value: string): string =>
+	value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+/**
+ * The passage is rendered as one span per character so the player can paint
+ * individual states. It is built as a single string because `white-space:
+ * pre-wrap` would otherwise turn the template's newlines into blank lines.
+ */
+const passageHtml = [...lesson.text]
+	.map((char, index) => {
+		const classes = ['ls-char'];
+		if (char === ' ') classes.push('is-space');
+		if (index === 0) classes.push('is-current');
+		const content = char === ' ' ? '&nbsp;' : escapeHtml(char);
+		return `<span class="${classes.join(' ')}" data-lesson-char>${content}</span>`;
+	})
+	.join('');
+
+const dataState = 'idle';
+---
+
+<section
+	class="ls"
+	data-lesson-studio
+	data-lesson-id={lesson.id}
+	data-lesson-text={lesson.text}
+	data-lesson-seconds={timed ? lesson.timedSeconds : ''}
+	data-lesson-min-accuracy={lesson.minAccuracy}
+	data-lesson-min-characters={lesson.minCharacters}
+	data-lesson-next-href={next ? lessonHref(next.id) : ''}
+	aria-labelledby={headingId}
+>
+	<button type="button" class="ls-exit" data-lesson-exit aria-label="Exit full screen lesson">
+		<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+			<path d="M6 6l12 12M18 6 6 18"></path>
+		</svg>
+		<span>Exit</span>
+	</button>
+
+	<div class="ls-layout">
+		<div class="ls-main">
+			<header class="ls-head">
+				<div class="ls-head-top">
+					<p class="ls-eyebrow">
+						Lesson {lesson.order} of 10
+						<span aria-hidden="true">·</span>
+						{timed ? `${lesson.timedSeconds}-second test` : 'Accuracy drill'}
+					</p>
+					<p class="ls-status" data-lesson-status data-state={dataState}>Not started</p>
+				</div>
+				<h2 id={headingId} class="ls-title">Practice drill</h2>
+				<p id={instructionsId} class="ls-instructions">{lesson.instructions}</p>
+				<p class="ls-focus">
+					<span class="ls-focus-label">Keys</span>
+					<span class="ls-focus-keys">{lesson.focus}</span>
+				</p>
+				<p class="ls-resumed" data-lesson-resumed hidden>
+					Picked up where you left off. Your text and time were restored.
+				</p>
+			</header>
+
+			<div class="ls-quickstats" aria-hidden="true">
+				<div class="ls-quickstat">
+					<span>{timed ? 'Time left' : 'Time'}</span>
+					<strong data-lesson-q-time>0:00</strong>
+				</div>
+				<div class="ls-quickstat">
+					<span>Speed</span>
+					<strong data-lesson-q-wpm>—</strong>
+				</div>
+				<div class="ls-quickstat">
+					<span>Accuracy</span>
+					<strong data-lesson-q-accuracy>—</strong>
+				</div>
+				<div class="ls-quickstat">
+					<span>Errors</span>
+					<strong data-lesson-q-errors>0</strong>
+				</div>
+			</div>
+
+			<div class="ls-stage">
+				<div class="ls-passage" data-lesson-passage>
+					<div class="ls-scroll" data-lesson-scroll>
+						<p class="ls-text" set:html={passageHtml}></p>
+					</div>
+
+					<textarea
+						id={inputId}
+						class="ls-input"
+						data-lesson-input
+						rows="6"
+						wrap="soft"
+						autocomplete="off"
+						autocapitalize="off"
+						autocorrect="off"
+						spellcheck="false"
+						aria-labelledby={headingId}
+						aria-describedby={`${instructionsId} ${hintId}`}></textarea>
+
+					<div class="ls-overlay" data-lesson-overlay hidden>
+						<div class="ls-overlay-card">
+							<p class="ls-overlay-title">Paused</p>
+							<p class="ls-overlay-copy">
+								The clock is stopped and your place is saved. Paused time is not counted.
+							</p>
+							<button type="button" class="btn btn-primary" data-lesson-pause>
+								<span data-lesson-pause-label>Resume</span>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="ls-under">
+					<div class="ls-progress">
+						<div class="ls-progress-head">
+							<span>Lesson progress</span>
+							<span data-lesson-progress-label>0 / {lesson.text.length}</span>
+						</div>
+						<div
+							class="ls-meter"
+							role="progressbar"
+							aria-label="Lesson progress"
+							aria-valuemin="0"
+							aria-valuemax="100"
+							aria-valuenow="0"
+							data-lesson-meter
+						>
+							<span class="ls-meter-fill" data-lesson-meter-fill></span>
+						</div>
+					</div>
+
+					<p class="ls-hint" id={hintId}>
+						<span data-lesson-hint>Click the text, then type.</span>
+						<span class="ls-hint-keys">
+							<kbd>Esc</kbd> pauses
+							<span aria-hidden="true">·</span>
+							<kbd>Backspace</kbd> fixes
+							<span aria-hidden="true">·</span>
+							<kbd>Shift</kbd> for capitals
+						</span>
+					</p>
+				</div>
+			</div>
+
+			<div class="ls-keyboard">
+				<div class="ls-keyboard-head">
+					<span>Keyboard guide</span>
+					<span class="ls-keyboard-legend" aria-hidden="true">
+						<span class="ls-legend-dot ls-legend-next"></span> next
+						<span class="ls-legend-dot ls-legend-correct"></span> right
+						<span class="ls-legend-dot ls-legend-incorrect"></span> wrong
+					</span>
+				</div>
+				<VirtualKeyboard text={lesson.text} />
+			</div>
+
+			<div class="ls-guide">
+				<div class="ls-hand">
+					<HandGuide />
+					<div class="ls-hand-copy">
+						<p class="ls-hand-title" data-lesson-hand-title>Left hand</p>
+						<p class="ls-hand-note">The filled finger presses the next key.</p>
+					</div>
+				</div>
+
+				<div class="ls-nextkey">
+					<span class="ls-nextkey-cap" data-lesson-next-label>—</span>
+					<div class="ls-nextkey-copy">
+						<p class="ls-nextkey-title">Next key</p>
+						<p class="ls-nextkey-finger" data-lesson-finger>—</p>
+						<p class="ls-nextkey-shift" data-lesson-shift hidden></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="ls-result" data-lesson-result data-tone="pass" role="status" aria-live="polite" hidden>
+				<div class="ls-result-copy">
+					<p class="ls-result-eyebrow" data-lesson-result-eyebrow>Lesson passed</p>
+					<p class="ls-result-title" data-lesson-result-title>Nice work.</p>
+					<p class="ls-result-detail" data-lesson-result-detail></p>
+				</div>
+				<div class="ls-result-actions">
+					<button type="button" class="btn btn-secondary" data-lesson-restart>Try again</button>
+					{
+						next && (
+							<button type="button" class="btn btn-primary" data-lesson-next disabled>
+								Next lesson
+							</button>
+						)
+					}
+				</div>
+			</div>
+		</div>
+
+		<aside class="ls-panel" aria-label="Lesson progress and controls">
+			<div class="ls-panel-head">
+				<p class="ls-panel-eyebrow">Lesson {lesson.order} of 10</p>
+				<p class="ls-panel-title">{lesson.title}</p>
+			</div>
+
+			<dl class="ls-stats">
+				<div class="ls-stat">
+					<dt>{timed ? 'Time left' : 'Time'}</dt>
+					<dd data-lesson-time>0:00</dd>
+				</div>
+				<div class="ls-stat">
+					<dt>Speed <span class="ls-stat-unit">WPM</span></dt>
+					<dd data-lesson-wpm>—</dd>
+				</div>
+				<div class="ls-stat">
+					<dt>Accuracy</dt>
+					<dd data-lesson-accuracy>—</dd>
+				</div>
+				<div class="ls-stat">
+					<dt>Errors</dt>
+					<dd data-lesson-errors>0</dd>
+				</div>
+			</dl>
+
+			<p class="ls-speed-note" data-lesson-speed-note>
+				{timed ? 'Net WPM, live.' : 'Speed is measured when you finish the passage.'}
+			</p>
+
+			<div class="ls-target">
+				<p class="ls-target-head">Pass target</p>
+				<p class="ls-target-copy">
+					{timed
+						? `Finish ${lesson.timedSeconds} seconds with ${lesson.minAccuracy}% accuracy and at least ${lesson.minCharacters} characters.`
+						: `Type the whole passage with at least ${lesson.minAccuracy}% accuracy.`}
+				</p>
+			</div>
+
+			<div class="ls-actions">
+				<button type="button" class="btn btn-secondary" data-lesson-pause disabled>
+					<span data-lesson-pause-label>Pause</span>
+				</button>
+				<button type="button" class="btn btn-ghost" data-lesson-restart>Restart</button>
+			</div>
+
+			<div class="ls-unlock">
+				{
+					next ? (
+						<>
+							<button type="button" class="btn btn-primary ls-next" data-lesson-next disabled>
+								Next lesson
+							</button>
+							<p class="ls-unlock-hint" data-lesson-unlock-hint>
+								Pass or skip this lesson to unlock <span class="ls-unlock-name">{next.title}</span>.
+							</p>
+							<button type="button" class="ls-skip" data-lesson-skip>Skip this lesson</button>
+						</>
+					) : (
+						<a class="btn btn-primary ls-next" href="/typing-lessons/">All lessons</a>
+					)
+				}
+			</div>
+
+			<p class="ls-best" data-lesson-best hidden></p>
+
+			{
+				previous && (
+					<p class="ls-previous">
+						Previous: <a href={lessonHref(previous.id)}>{previous.title}</a>
+					</p>
+				)
+			}
+		</aside>
+	</div>
+
+	<noscript>
+		<div class="ls-noscript">
+			<p class="ls-noscript-title">The live drill needs JavaScript.</p>
+			<p>
+				You can still read the lesson below. The next lesson is
+				<a href={next ? lessonHref(next.id) : '/typing-lessons/'}>{next ? next.title : 'the lesson index'}</a>.
+			</p>
+		</div>
+	</noscript>
+</section>
+
+<script>
+	import '../../scripts/lesson-player';
+</script>

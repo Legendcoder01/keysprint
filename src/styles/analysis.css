@@ -1,0 +1,277 @@
+/* -------------------------------------------------------------------------
+   The keyboard heat map
+
+   A per-key accuracy breakdown drawn on a US QWERTY board. The colour of a
+   key comes from its accuracy band, but colour is never the only signal: every
+   key also prints its percentage, and the table below names the worst keys.
+
+   Contrast notes (measured with the WCAG formula, both themes):
+   - the key label uses --ink on the band tint (>= 11.8:1)
+   - the percentage uses --ink-muted on the band tint (>= 5.1:1)
+   - the band bar uses the full strength semantic colour (>= 3.9:1, non-text)
+   ------------------------------------------------------------------------- */
+
+.kb-scroll {
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	padding-bottom: 0.375rem;
+}
+
+.kb {
+	--kb-key-size: 2.75rem;
+	--kb-gap: 0.375rem;
+	display: flex;
+	flex-direction: column;
+	gap: var(--kb-gap);
+	width: max-content;
+	margin-inline: auto;
+}
+
+.kb-row {
+	display: flex;
+	gap: var(--kb-gap);
+	margin-left: calc(var(--kb-offset, 0) * (var(--kb-key-size) + var(--kb-gap)));
+}
+
+.kb-row--space {
+	justify-content: center;
+	margin-left: 0;
+	margin-top: calc(var(--kb-gap) * 0.5);
+}
+
+.kb-key {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.0625rem;
+	width: var(--kb-key-size);
+	height: var(--kb-key-size);
+	padding-bottom: 0.375rem;
+	border-radius: 0.5rem;
+	border: 1px solid var(--border);
+	background-color: var(--surface-2);
+	transition:
+		background-color 150ms ease,
+		border-color 150ms ease;
+}
+
+.kb-key--space {
+	width: calc(var(--kb-key-size) * 5 + var(--kb-gap) * 4);
+}
+
+/* The band bar: a small solid mark along the bottom of the key. */
+.kb-key::after {
+	content: '';
+	position: absolute;
+	left: 0.4375rem;
+	right: 0.4375rem;
+	bottom: 0.25rem;
+	height: 0.1875rem;
+	border-radius: 999px;
+	background-color: transparent;
+}
+
+.kb-key-label {
+	font-family: var(--font-mono);
+	font-size: 0.875rem;
+	font-weight: 600;
+	line-height: 1.15;
+	color: var(--ink);
+}
+
+.kb-key-value {
+	font-family: var(--font-mono);
+	font-size: 0.625rem;
+	line-height: 1.15;
+	font-variant-numeric: tabular-nums;
+	color: var(--ink-muted);
+}
+
+.kb-key[data-band='good'] {
+	background-color: color-mix(in srgb, var(--correct) 18%, var(--surface-2));
+	border-color: color-mix(in srgb, var(--correct) 40%, var(--border));
+}
+
+.kb-key[data-band='good']::after {
+	background-color: var(--correct);
+}
+
+.kb-key[data-band='fair'] {
+	background-color: color-mix(in srgb, var(--caution) 18%, var(--surface-2));
+	border-color: color-mix(in srgb, var(--caution) 40%, var(--border));
+}
+
+.kb-key[data-band='fair']::after {
+	background-color: var(--caution);
+}
+
+.kb-key[data-band='poor'] {
+	background-color: color-mix(in srgb, var(--incorrect) 18%, var(--surface-2));
+	border-color: color-mix(in srgb, var(--incorrect) 40%, var(--border));
+}
+
+.kb-key[data-band='poor']::after {
+	background-color: var(--incorrect);
+}
+
+/* A key that was never typed stays neutral and quiet. The dash is deliberately
+   left at the same weight as a percentage: --ink-subtle on the neutral surface
+   comes out just under 4.5:1, and this is text a reader has to be able to see.
+   The absence of a tint and of the band bar is what marks the key as unused. */
+
+/* --- legend ------------------------------------------------------------- */
+
+.kb-legend {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.5rem 1.25rem;
+	margin-top: 1rem;
+	padding: 0;
+	list-style: none;
+	font-size: 0.8125rem;
+	color: var(--ink-muted);
+}
+
+.kb-legend li {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.kb-legend-swatch {
+	display: inline-block;
+	width: 1.25rem;
+	height: 1.25rem;
+	border-radius: 0.3125rem;
+	border: 1px solid var(--border);
+	background-color: var(--surface-2);
+}
+
+.kb-legend-swatch[data-band='good'] {
+	background-color: color-mix(in srgb, var(--correct) 18%, var(--surface-2));
+	border-color: color-mix(in srgb, var(--correct) 40%, var(--border));
+	box-shadow: inset 0 -0.1875rem 0 0 var(--correct);
+}
+
+.kb-legend-swatch[data-band='fair'] {
+	background-color: color-mix(in srgb, var(--caution) 18%, var(--surface-2));
+	border-color: color-mix(in srgb, var(--caution) 40%, var(--border));
+	box-shadow: inset 0 -0.1875rem 0 0 var(--caution);
+}
+
+.kb-legend-swatch[data-band='poor'] {
+	background-color: color-mix(in srgb, var(--incorrect) 18%, var(--surface-2));
+	border-color: color-mix(in srgb, var(--incorrect) 40%, var(--border));
+	box-shadow: inset 0 -0.1875rem 0 0 var(--incorrect);
+}
+
+/* --- tables ------------------------------------------------------------- */
+
+.ka-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.875rem;
+}
+
+.ka-table caption {
+	margin-bottom: 0.5rem;
+	text-align: left;
+	font-size: 0.8125rem;
+	color: var(--ink-subtle);
+}
+
+.ka-table th {
+	padding: 0.5rem 0.75rem 0.5rem 0;
+	text-align: left;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+	border-bottom: 1px solid var(--border);
+	white-space: nowrap;
+}
+
+.ka-table td {
+	padding: 0.625rem 0.75rem 0.625rem 0;
+	color: var(--ink-muted);
+	border-bottom: 1px solid var(--border);
+	vertical-align: middle;
+}
+
+.ka-table th:last-child,
+.ka-table td:last-child {
+	padding-right: 0;
+}
+
+.ka-table .ka-num {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
+	color: var(--ink);
+	white-space: nowrap;
+}
+
+.ka-key {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 1.75rem;
+	height: 1.75rem;
+	padding: 0 0.375rem;
+	border-radius: 0.375rem;
+	border: 1px solid var(--border-strong);
+	background-color: var(--surface-2);
+	font-family: var(--font-mono);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--ink);
+}
+
+.ka-key[data-band='good'] {
+	border-color: color-mix(in srgb, var(--correct) 50%, var(--border));
+}
+
+.ka-key[data-band='fair'] {
+	border-color: color-mix(in srgb, var(--caution) 50%, var(--border));
+}
+
+.ka-key[data-band='poor'] {
+	border-color: color-mix(in srgb, var(--incorrect) 50%, var(--border));
+}
+
+.ka-link {
+	color: var(--accent);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.ka-link:hover {
+	color: var(--ink);
+}
+
+@media (max-width: 30rem) {
+	.kb {
+		--kb-key-size: 2.25rem;
+		--kb-gap: 0.3125rem;
+	}
+
+	.kb-key-value {
+		font-size: 0.5625rem;
+	}
+
+	.ka-table {
+		font-size: 0.8125rem;
+	}
+
+	.ka-table th,
+	.ka-table td {
+		padding-right: 0.5rem;
+	}
+
+	.ka-table .ka-hide-sm {
+		display: none;
+	}
+}

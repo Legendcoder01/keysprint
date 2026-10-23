@@ -1,0 +1,90 @@
+---
+/**
+ * The scoring explainer.
+ *
+ * Every number the lesson studio shows is derived from one of four formulas.
+ * Documenting them in one place keeps the drill honest: the same formulas run
+ * in `src/lib/typing/scoring.ts`, and the notes below are the user-facing
+ * version of that file.
+ *
+ * Render this inside a ContentSection (it starts at paragraph level, with no
+ * heading of its own).
+ */
+---
+
+<p>
+	Four numbers come out of a run, and they answer different questions. Speed asks how fast you typed;
+	accuracy asks how much of it was right; keystroke accuracy also counts the mistakes you corrected.
+	The lesson studio never mixes them up.
+</p>
+
+<dl class="grid gap-3 sm:grid-cols-2">
+	<div class="rounded-card border border-border bg-surface p-4">
+		<dt class="text-sm font-semibold text-ink">Gross WPM</dt>
+		<dd class="mt-1.5 text-sm">
+			<code class="block font-mono text-[13px] text-ink">(characters ÷ 5) ÷ minutes</code>
+			<span class="mt-1.5 block">
+				Every five characters count as one standard word, so 300 characters in one minute is 60 gross
+				WPM. This is the raw speed of the hands, before mistakes are taken off.
+			</span>
+		</dd>
+	</div>
+
+	<div class="rounded-card border border-border bg-surface p-4">
+		<dt class="text-sm font-semibold text-ink">Net WPM</dt>
+		<dd class="mt-1.5 text-sm">
+			<code class="block font-mono text-[13px] text-ink">((characters − errors) ÷ 5) ÷ minutes</code>
+			<span class="mt-1.5 block">
+				The same calculation with the wrong characters removed from the count. This is the number the
+				lesson panel shows during a timed drill, and the one used for a personal best.
+			</span>
+		</dd>
+	</div>
+
+	<div class="rounded-card border border-border bg-surface p-4">
+		<dt class="text-sm font-semibold text-ink">Character accuracy</dt>
+		<dd class="mt-1.5 text-sm">
+			<code class="block font-mono text-[13px] text-ink">
+				((characters − errors) ÷ characters) × 100
+			</code>
+			<span class="mt-1.5 block">
+				The final state of the passage: a character that was wrong and then fixed with Backspace is
+				correct again, so it does not count against character accuracy. Characters still wrong when
+				the run ends do. A lesson passes or fails on this number.
+			</span>
+		</dd>
+	</div>
+
+	<div class="rounded-card border border-border bg-surface p-4">
+		<dt class="text-sm font-semibold text-ink">Keystroke accuracy</dt>
+		<dd class="mt-1.5 text-sm">
+			<code class="block font-mono text-[13px] text-ink">(correct keystrokes ÷ all keystrokes) × 100</code>
+			<span class="mt-1.5 block">
+				Every character you press, including the ones you delete again, so this is the stricter
+				measure: a run that was corrected five times can be 100% character-accurate and still below
+				100% keystroke accuracy. The per-key analysis uses the same raw keystrokes.
+			</span>
+		</dd>
+	</div>
+</dl>
+
+<div class="space-y-2 text-sm">
+	<p>
+		<strong class="font-semibold text-ink">Time starts on the first keystroke.</strong> Reading the
+		passage before you begin is free, and an empty run never divides by zero: speed is reported as
+		<code class="font-mono text-[13px] text-ink">0</code> rather than
+		<code class="font-mono text-[13px] text-ink">NaN</code> or
+		<code class="font-mono text-[13px] text-ink">Infinity</code>.
+	</p>
+	<p>
+		<strong class="font-semibold text-ink">Paused time is removed.</strong> While a drill is paused the
+		clock stops, and the paused milliseconds are subtracted from the minutes in every formula. Pausing
+		cannot inflate a WPM, and resuming does not throw away the text you had already typed.
+	</p>
+	<p>
+		<strong class="font-semibold text-ink">Short drills do not show live speed.</strong> A 100-character
+		sequence is not a speed measurement, so lessons 1–9 show elapsed time and accuracy while you type,
+		then report net WPM once the passage is finished. Lesson 10 is the timed 60-second paragraph, so it
+		shows live WPM.
+	</p>
+</div>

@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = '1 Minute Typing Test — Fast, Accurate WPM Result';
+const description =
+	'Take a free 1 minute typing test and see your words per minute, net speed and character accuracy in a single pass. The standard benchmark for typing speed.';
+
+const faq = [
+	{
+		question: 'Why is one minute the standard typing test?',
+		answer:
+			'One minute is long enough that the first few seconds of nerves do not dominate the result, and short enough that people actually take it often enough to track their progress. It is also long enough to produce a meaningful number of words, so the rounding does not swing the score by more than a word or two.',
+	},
+	{
+		question: 'Should I use the one minute test to compare myself with other people?',
+		answer:
+			'Only loosely. Text length, keyboard layout, punctuation and whether you are reading ahead all change the number. The comparison that means something is your own score against your own score on the same passage type a few weeks apart.',
+	},
+	{
+		question: 'What is the difference between gross and net speed again?',
+		answer:
+			'Gross speed counts every character you typed. Net speed subtracts the characters that do not match the passage. If you typed 300 characters and made 15 mistakes, gross speed is 60 words per minute and net speed is 57. Net speed is the number to believe, because it describes the text you actually produced.',
+	},
+	{
+		question: 'Can I take the same test more than once?',
+		answer:
+			'Of course. When the timer runs out you can choose "Try again" to type exactly the same passage again, which is the best way to practise a specific passage, or "New text" for a fresh one. Your best result for each length and text type is kept in your browser.',
+	},
+	{
+		question: 'Does it matter that the passages are different each time?',
+		answer:
+			'Somewhat. Some passages contain longer words and heavier punctuation, which are slower to type. If you want a like for like comparison, use the same text type every time and compare the same length, and run each one three times.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/typing-test-60s.png"
+	breadcrumbs={[
+		{ name: 'Typing test', href: '/typing-test/' },
+		{ name: '1 minute test', href: '/typing-test/1-minute/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing test', href: '/typing-test/' },
+				{ name: '1 minute test', href: '/typing-test/1-minute/' },
+			]}
+		/>
+	</div>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<p class="text-xs font-semibold uppercase tracking-wider text-accent">1 minute test</p>
+			<h1
+				class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
+			>
+				1 minute typing test
+			</h1>
+			<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+				The benchmark most people mean when they talk about their typing speed. One minute gives you a net
+				speed, a gross speed, three accuracy figures and an error count, and it takes just about as long as
+				reading this paragraph.
+			</p>
+		</div>
+
+		<div class="mt-8">
+			<TypingTest duration={60} syncDuration={false} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="Why one minute is the benchmark"
+		lead="Test lengths are a trade-off between how representative the number is and how often you will take it."
+	>
+		<p>
+			Short tests are dominated by the opening. The first few seconds of any run are faster than the rest,
+			because you are concentrating hard on a short burst, and a fifteen second result is mostly made up of that
+			opening. Long tests have the opposite problem: by the end of ten minutes you are tired, and the number
+			reflects endurance as much as skill.
+		</p>
+		<p>
+			One minute sits at the point where neither effect dominates. You are barely past the adrenaline, you are
+			not yet tired, and you produce somewhere around sixty to a hundred and fifty words, which is enough for the
+			rounding to be honest. It is also short enough that you will run it once a week rather than once a year,
+			and a measurement you actually take is worth far more than a perfect measurement you take once.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="How to read your one minute result">
+		<dl class="space-y-5">
+			<div>
+				<dt class="font-semibold text-ink">Net speed</dt>
+				<dd>
+					The headline figure, and the one to compare across runs. It counts the characters that match the
+					passage, so it cannot be inflated by typing fast and wrong.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Gross speed</dt>
+				<dd>
+					Your raw output rate. The gap between gross and net tells you how much your mistakes cost you,
+					which is a more interesting number than either one on its own.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Character accuracy</dt>
+				<dd>
+					The share of your text that is correct as it stands at the end. Fixing a mistake with backspace
+					raises this figure immediately.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Word accuracy</dt>
+				<dd>
+					How many whole words match exactly. It is always lower than character accuracy, because one wrong
+					letter inside a word costs you the whole word.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Keystroke accuracy</dt>
+				<dd>
+					How many of your key presses were right the first time, including the ones you went back and fixed.
+					When this drops well below character accuracy, you are making and correcting mistakes as you go.
+				</dd>
+			</div>
+		</dl>
+	</ContentSection>
+
+	<ContentSection title="Making the number move">
+		<p>
+			If you want to improve, work on the weaker half of the score rather than the whole thing. A typist at 60
+			words per minute and 92 per cent accuracy has a very different problem from one at 60 words per minute and
+			99 per cent accuracy, and the fix is different too.
+		</p>
+		<p>
+			When accuracy is the problem, slow down deliberately until it sits above 95 per cent, and stay there.
+			Most people find that their speed recovers within a few days because the mistakes were costing them time
+			anyway. When speed is the problem and accuracy is already high, work on reading further ahead. The
+			<a href="/learn-typing/" class="underline underline-offset-2 hover:text-ink">learn typing guide</a> covers
+			the mechanics, and the <a href="/typing-lessons/" class="underline underline-offset-2 hover:text-ink">lesson
+			sections</a> isolate the keys you keep hesitating over.
+		</p>
+		<Callout title="Track one number" variant="tip">
+			<p>
+				Write down your net speed from a one minute run once a week. A single column of numbers is more useful
+				than any comparison with other people, because it is the same test, the same length and the same
+				person.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about the one minute typing test." />
+	</div>
+</BaseLayout>

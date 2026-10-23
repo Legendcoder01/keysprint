@@ -1,0 +1,70 @@
+---
+/**
+ * The panel shown once a test finishes.
+ *
+ * Every number is filled in by `src/scripts/typing-widget.ts`, so the markup
+ * below is only the frame around them.
+ */
+---
+
+<section class="ts-results" data-typing-results hidden aria-labelledby="ts-results-heading">
+	<div class="ts-results-head">
+		<p class="ts-results-eyebrow" id="ts-results-heading">Test complete</p>
+		<p class="ts-results-wpm" data-result-wpm>0</p>
+		<p class="ts-results-unit">net words per minute</p>
+		<p class="ts-results-badge" data-result-best hidden>New personal best</p>
+	</div>
+
+	<dl class="ts-results-grid">
+		<div>
+			<dt>Gross speed</dt>
+			<dd data-result-gross>0 WPM</dd>
+		</div>
+		<div>
+			<dt>Net speed</dt>
+			<dd data-result-net>0 WPM</dd>
+		</div>
+		<div>
+			<dt>Character accuracy</dt>
+			<dd data-result-char-accuracy>0%</dd>
+		</div>
+		<div>
+			<dt>Word accuracy</dt>
+			<dd data-result-word-accuracy>0%</dd>
+		</div>
+		<div>
+			<dt>Keystroke accuracy</dt>
+			<dd data-result-keystroke-accuracy>0%</dd>
+		</div>
+		<div>
+			<dt>Errors</dt>
+			<dd data-result-errors>0</dd>
+		</div>
+		<div>
+			<dt>Characters</dt>
+			<dd data-result-characters>0</dd>
+		</div>
+		<div>
+			<dt>Words</dt>
+			<dd data-result-words>0</dd>
+		</div>
+		<div>
+			<dt>Time</dt>
+			<dd data-result-time>0:00</dd>
+		</div>
+		<div>
+			<dt>Test</dt>
+			<dd data-result-config>—</dd>
+		</div>
+	</dl>
+
+	<div class="ts-results-actions">
+		<button type="button" class="btn btn-primary" data-typing-again>Try again</button>
+		<button type="button" class="btn btn-secondary" data-typing-new>New text</button>
+		<button type="button" class="btn btn-ghost" data-typing-copy>Copy result</button>
+	</div>
+
+	<p class="ts-results-more">
+		<a href="/typing-analysis/" class="ts-results-link">See which keys slow you down &rarr;</a>
+	</p>
+</section>

@@ -1,0 +1,41 @@
+---
+export interface GroupOption {
+	value: string;
+	label: string;
+}
+
+interface Props {
+	/** Which setting this group controls. */
+	group: 'duration' | 'mode' | 'difficulty';
+	/** Accessible name for the group. */
+	legend: string;
+	/** The currently selected value. */
+	value: string;
+	/** The available choices. */
+	options: GroupOption[];
+}
+
+const { group, legend, value, options } = Astro.props;
+const name = `ts-${group}`;
+---
+
+<fieldset class="ts-fieldset" data-typing-group={group}>
+	<legend class="ts-legend">{legend}</legend>
+	<div class="ts-pill-group">
+		{
+			options.map((option) => (
+				<label class="ts-pill">
+					<input
+						type="radio"
+						class="sr-only"
+						name={name}
+						value={option.value}
+						checked={option.value === value}
+						data-typing-option
+					/>
+					<span>{option.label}</span>
+				</label>
+			))
+		}
+	</div>
+</fieldset>

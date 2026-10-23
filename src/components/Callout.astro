@@ -1,0 +1,27 @@
+---
+type Variant = 'note' | 'tip' | 'important';
+
+interface Props {
+	title?: string;
+	variant?: Variant;
+}
+
+const { title, variant = 'note' } = Astro.props;
+
+const styles: Record<Variant, string> = {
+	note: 'border-border bg-surface',
+	tip: 'border-border bg-surface',
+	important: 'border-accent/40 bg-accent-wash',
+};
+---
+
+<aside class:list={['rounded-card border p-5', styles[variant]]}>
+	{
+		title && (
+			<p class="text-sm font-semibold tracking-tight text-ink">{title}</p>
+		)
+	}
+	<div class:list={['text-sm leading-relaxed text-ink-muted', title && 'mt-1.5']}>
+		<slot />
+	</div>
+</aside>

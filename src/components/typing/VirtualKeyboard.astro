@@ -1,0 +1,52 @@
+---
+import { BOARD_ROWS } from '../../lib/typing/board';
+import type { BoardKey } from '../../lib/typing/board';
+
+interface Props {
+	/** The lesson text, used to dim keys the lesson never asks for. */
+	text: string;
+}
+
+const { text } = Astro.props;
+
+const used = new Set(text);
+
+/**
+ * A character key is relevant when either its unshifted or its shifted
+ * character appears in the lesson. Modifiers are never dimmed: Tab, Enter and
+ * the Shift keys are part of a real board even when a drill does not use them.
+ */
+function isRelevant(key: BoardKey): boolean {
+	if (key.modifier) return true;
+	if (key.char !== undefined && used.has(key.char)) return true;
+	if (key.shifted !== undefined && used.has(key.shifted)) return true;
+	return false;
+}
+---
+
+<div class="vk-scroll" data-vk aria-hidden="true">
+	<div class="vk">
+		{
+			BOARD_ROWS.map((row) => (
+				<div class="vk-row" style={`--vk-offset: ${row.offset}`}>
+					{row.keys.map((key) => (
+						<div
+							class:list={[
+								'vk-key',
+								key.modifier && 'is-modifier',
+								!isRelevant(key) && 'is-inactive',
+								key.stacked && 'is-stacked',
+							]}
+							style={`--vk-w: ${key.width}`}
+							data-vk-key={key.id}
+						>
+							{key.stacked && <span class="vk-shifted">{key.shifted}</span>}
+							<span class="vk-label">{key.label}</span>
+							{key.home && <span class="vk-home" />}
+						</div>
+					))}
+				</div>
+			))
+		}
+	</div>
+</div>

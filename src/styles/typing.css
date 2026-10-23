@@ -1,0 +1,664 @@
+/* -------------------------------------------------------------------------
+   The typing widget
+   Styles for the live test: control pills, the scrolling text area, the
+   character states and the results panel.
+   ------------------------------------------------------------------------- */
+
+.ts {
+	--ts-line-height: 2.125rem;
+	--ts-viewport-lines: 4;
+	display: block;
+	border: 1px solid var(--border);
+	border-radius: 1.25rem;
+	background-color: var(--surface);
+	background-image: linear-gradient(
+		160deg,
+		color-mix(in srgb, var(--accent) 7%, transparent) 0%,
+		transparent 45%,
+		color-mix(in srgb, var(--accent-2) 6%, transparent) 100%
+	);
+	padding: clamp(0.875rem, 2.5vw, 1.5rem);
+	box-shadow: 0 24px 60px -32px rgb(76 29 149 / 0.5);
+}
+
+/* The exit affordance only exists while the test owns the screen. */
+.ts-exit {
+	display: none;
+}
+
+/* --- controls ----------------------------------------------------------- */
+
+.ts-controls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 1rem 1.5rem;
+}
+
+/* The restart and full-screen buttons sit together at the far end of the
+   toolbar, away from the pickers they act on. */
+.ts-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-left: auto;
+}
+
+.ts-fieldset {
+	display: flex;
+	flex-direction: column;
+	gap: 0.375rem;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	min-width: 0;
+}
+
+.ts-legend {
+	padding: 0;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ts-pill-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.375rem;
+}
+
+.ts-pill {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 0.5rem;
+	border: 1px solid var(--border);
+	background-color: var(--canvas);
+	padding: 0.3125rem 0.6875rem;
+	font-size: 0.8125rem;
+	font-weight: 500;
+	line-height: 1.25rem;
+	color: var(--ink-muted);
+	cursor: pointer;
+	user-select: none;
+	transition:
+		background-color 150ms ease,
+		border-color 150ms ease,
+		color 150ms ease;
+}
+
+.ts-pill:hover {
+	background-color: var(--surface-2);
+	color: var(--ink);
+}
+
+.ts-pill:has(:checked) {
+	background-color: var(--accent);
+	border-color: var(--accent);
+	color: var(--accent-contrast);
+	box-shadow: 0 4px 12px -6px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.ts-pill:has(:focus-visible) {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+}
+
+.ts-pill:has(:checked):has(:focus-visible) {
+	outline-color: var(--ink);
+}
+
+/* --- live statistics ---------------------------------------------------- */
+
+.ts-meta {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 1px;
+	margin-top: 1.5rem;
+	overflow: hidden;
+	border: 1px solid var(--border);
+	border-radius: 0.625rem;
+	background-color: var(--border);
+	background-image: linear-gradient(
+		90deg,
+		color-mix(in srgb, var(--accent) 45%, transparent),
+		color-mix(in srgb, var(--accent-2) 40%, transparent)
+	);
+}
+
+.ts-stat {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+	gap: 0.125rem;
+	background-color: var(--surface);
+	padding: 0.5rem 0.875rem;
+}
+
+.ts-stat-label {
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	white-space: nowrap;
+	color: var(--ink-muted);
+}
+
+/* One hue per stat: time, speed, accuracy, errors. */
+.ts-stat:nth-child(1) .ts-stat-label {
+	color: var(--accent-3);
+}
+
+.ts-stat:nth-child(2) .ts-stat-label {
+	color: var(--accent);
+}
+
+.ts-stat:nth-child(3) .ts-stat-label {
+	color: var(--correct);
+}
+
+.ts-stat:nth-child(4) .ts-stat-label {
+	color: var(--incorrect);
+}
+
+.ts-stat-value {
+	font-family: var(--font-mono);
+	font-size: 1.375rem;
+	font-weight: 600;
+	line-height: 1.3;
+	font-variant-numeric: tabular-nums;
+	color: var(--ink);
+}
+
+/* --- text area ---------------------------------------------------------- */
+
+.ts-area {
+	position: relative;
+	margin-top: 0.75rem;
+	overflow: hidden;
+	border-radius: var(--radius-card);
+	border: 1px solid var(--border);
+	background-color: var(--surface);
+	transition:
+		border-color 150ms ease,
+		box-shadow 150ms ease;
+}
+
+.ts-area:focus-within {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px var(--accent-wash);
+}
+
+.ts-area[data-state='ready'] .ts-track {
+	filter: blur(5px);
+	transition: filter 200ms ease;
+}
+
+.ts-area[data-state='running'] .ts-track {
+	filter: blur(0);
+	transition: filter 200ms ease;
+}
+
+.ts-area[data-state='completed'] .ts-track {
+	filter: blur(0);
+}
+
+.ts-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 4;
+	display: grid;
+	place-items: center;
+	padding: 1rem;
+	background:
+		radial-gradient(
+			120% 140% at 50% 0%,
+			color-mix(in srgb, var(--accent) 20%, transparent) 0%,
+			transparent 62%
+		),
+		color-mix(in srgb, var(--surface) 78%, transparent);
+	backdrop-filter: blur(3px) saturate(1.1);
+	transition: opacity 200ms ease, visibility 200ms ease;
+}
+
+.ts-area[data-state='running'] .ts-overlay,
+.ts-area[data-state='completed'] .ts-overlay {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.ts-overlay-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	text-align: center;
+}
+
+.ts-overlay-message {
+	margin: 0;
+	font-size: 0.9375rem;
+	color: var(--ink);
+}
+
+/* The one control that matters before the test starts. */
+.ts .ts-start-btn {
+	border-color: transparent;
+	border-radius: 999px;
+	background-color: var(--accent);
+	background-image: var(--gradient-cta);
+	padding: 0.75rem 1.75rem;
+	font-size: 1.0625rem;
+	font-weight: 600;
+	color: #ffffff;
+	box-shadow: 0 14px 32px -10px rgb(124 58 237 / 0.65);
+	transition:
+		transform 150ms ease,
+		box-shadow 150ms ease,
+		filter 150ms ease;
+}
+
+.ts .ts-start-btn:hover:not(:disabled) {
+	transform: translateY(-1px);
+	filter: brightness(1.06);
+	box-shadow: 0 18px 38px -12px rgb(124 58 237 / 0.7);
+}
+
+.ts .ts-start-btn:active:not(:disabled) {
+	transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ts-area[data-state='ready'] .ts-track,
+	.ts-area[data-state='running'] .ts-track {
+		transition: none;
+		filter: blur(0);
+	}
+
+	.ts-area[data-state='ready'] .ts-track {
+		filter: blur(4px);
+	}
+
+	.ts-overlay {
+		transition: none;
+	}
+}
+
+/* Time remaining, drawn as a hairline along the top edge of the panel. */
+.ts-meter {
+	height: 3px;
+	overflow: hidden;
+	background-color: var(--surface-3);
+}
+
+.ts-meter > span {
+	display: block;
+	width: 100%;
+	height: 100%;
+	transform: scaleX(1);
+	transform-origin: left center;
+	background-image: linear-gradient(
+		90deg,
+		var(--accent) 0%,
+		var(--accent-2) 60%,
+		var(--accent-4) 100%
+	);
+	transition: transform 900ms linear;
+}
+
+.ts-viewport {
+	position: relative;
+	height: calc(var(--ts-line-height) * var(--ts-viewport-lines) + 2rem);
+	overflow: hidden;
+	padding: 1rem 1.25rem;
+	/* Let the next line peek in and dissolve instead of being sliced. */
+	-webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 1.5rem), transparent);
+	mask-image: linear-gradient(to bottom, #000 calc(100% - 1.5rem), transparent);
+}
+
+.ts-track {
+	position: relative;
+	max-width: var(--ts-measure);
+	margin-inline: auto;
+	font-family: var(--font-mono);
+	will-change: transform;
+}
+
+.ts-block {
+	font-size: 1.25rem;
+	line-height: var(--ts-line-height);
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+	color: var(--ink-muted);
+}
+
+.ts-char {
+	color: var(--ink-muted);
+	transition: color 80ms linear;
+}
+
+.ts-char.is-correct {
+	color: var(--ink);
+}
+
+/* A mistake is marked by colour, a tint and a wavy underline, so it is still
+   identifiable without relying on colour alone. */
+.ts-char.is-incorrect {
+	border-radius: 2px;
+	background-color: color-mix(in srgb, var(--incorrect) 12%, transparent);
+	color: var(--incorrect);
+	text-decoration: underline wavy color-mix(in srgb, var(--incorrect) 60%, transparent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 4px;
+}
+
+.ts-char.is-current {
+	border-radius: 3px;
+	background-color: var(--accent-wash);
+	box-shadow: inset 0 -2px 0 0 var(--accent);
+	color: var(--ink);
+}
+
+.ts-input {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	resize: none;
+	background-color: transparent;
+	color: transparent;
+	caret-color: transparent;
+	font-family: var(--font-mono);
+	font-size: 1.25rem;
+	line-height: var(--ts-line-height);
+	overflow: hidden;
+}
+
+.ts-input::selection {
+	background-color: transparent;
+}
+
+.ts-hint {
+	margin-top: 0.625rem;
+	font-size: 0.8125rem;
+	color: var(--ink-subtle);
+}
+
+.ts-hint kbd {
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	border-radius: 0.25rem;
+	border: 1px solid var(--border-strong);
+	background-color: var(--surface-2);
+	padding: 0.0625rem 0.25rem;
+	color: var(--ink-muted);
+}
+
+/* --- results ------------------------------------------------------------ */
+
+.ts-results {
+	margin-top: 1.25rem;
+	border-radius: var(--radius-card);
+	border: 1px solid var(--border);
+	background-color: var(--surface);
+	background-image: linear-gradient(
+		160deg,
+		color-mix(in srgb, var(--accent) 6%, transparent) 0%,
+		transparent 55%
+	);
+	padding: 1.5rem;
+}
+
+.ts-results-head {
+	text-align: center;
+}
+
+.ts-results-eyebrow {
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ts-results-wpm {
+	margin-top: 0.25rem;
+	font-family: var(--font-mono);
+	font-size: 3.5rem;
+	font-weight: 700;
+	line-height: 1;
+	font-variant-numeric: tabular-nums;
+	color: var(--ink);
+	background-image: var(--gradient-brand);
+	background-clip: text;
+	-webkit-background-clip: text;
+	color: transparent;
+}
+
+.ts-results-unit {
+	margin-top: 0.25rem;
+	font-size: 0.8125rem;
+	color: var(--ink-muted);
+}
+
+.ts-results-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	margin-top: 0.75rem;
+	border-radius: 999px;
+	border: 1px solid color-mix(in srgb, var(--correct) 40%, transparent);
+	background-color: color-mix(in srgb, var(--correct) 12%, transparent);
+	padding: 0.1875rem 0.625rem;
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--correct);
+}
+
+.ts-results-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+	gap: 0.75rem 1.5rem;
+	margin-top: 1.5rem;
+	border-top: 1px solid var(--border);
+	padding-top: 1.25rem;
+}
+
+.ts-results-grid dt {
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--ink-subtle);
+}
+
+.ts-results-grid dd {
+	margin-top: 0.125rem;
+	font-family: var(--font-mono);
+	font-size: 0.9375rem;
+	font-variant-numeric: tabular-nums;
+	color: var(--ink);
+}
+
+.ts-results-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.5rem;
+	margin-top: 1.5rem;
+}
+
+.ts-results-more {
+	margin-top: 1rem;
+	text-align: center;
+	font-size: 0.875rem;
+}
+
+.ts-results-link {
+	color: var(--accent);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	transition: color 150ms ease;
+}
+
+.ts-results-link:hover {
+	color: var(--ink);
+}
+
+/* --- full screen -------------------------------------------------------- */
+
+/* The fallback layer covers the page, so the page behind it must not scroll. */
+html.ts-fallback {
+	overflow: hidden;
+}
+
+/* Starting a test takes the whole screen: the page chrome is gone and the
+   controls and help copy step aside so only the test is left. Native
+   fullscreen covers modern browsers; data-focus marks the CSS fallback used
+   where the Fullscreen API is unavailable (iPhone Safari). */
+.ts:is(:fullscreen, [data-focus='true']) {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	justify-content: safe center;
+	gap: clamp(0.75rem, 2vw, 1.25rem);
+	width: 100%;
+	height: 100%;
+	padding: clamp(3.5rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem) clamp(1.25rem, 4vw, 3rem);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 0;
+	border-radius: 0;
+	background-color: var(--canvas);
+	background-image: var(--canvas-gradient);
+	box-shadow: none;
+}
+
+/* The fixed layer is the fallback, not the native path. */
+.ts[data-fullscreen='true'] {
+	position: fixed;
+	inset: 0;
+	z-index: 90;
+}
+
+.ts:is(:fullscreen, [data-focus='true']) .ts-controls,
+.ts:is(:fullscreen, [data-focus='true']) .ts-hint {
+	display: none;
+}
+
+.ts:is(:fullscreen, [data-focus='true']) .ts-meta,
+.ts:is(:fullscreen, [data-focus='true']) .ts-area {
+	width: min(72rem, 100%);
+	margin-inline: auto;
+	margin-top: 0;
+}
+
+.ts:is(:fullscreen, [data-focus='true']) .ts-results {
+	width: min(48rem, 100%);
+	margin-inline: auto;
+	margin-top: 0;
+}
+
+.ts:is(:fullscreen, [data-focus='true']) .ts-viewport {
+	--ts-viewport-lines: 5;
+	height: calc(var(--ts-line-height) * var(--ts-viewport-lines) + 2rem);
+}
+
+.ts:is(:fullscreen, [data-focus='true']) .ts-block,
+.ts:is(:fullscreen, [data-focus='true']) .ts-input {
+	font-size: clamp(1.375rem, 1.6vw, 1.75rem);
+}
+
+.ts:is(:fullscreen, [data-focus='true']) .ts-exit {
+	position: absolute;
+	top: clamp(1rem, 2.5vw, 1.75rem);
+	right: clamp(1rem, 2.5vw, 1.75rem);
+	z-index: 6;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	border: 1px solid var(--border-strong);
+	border-radius: 999px;
+	background-color: var(--surface);
+	padding: 0.4375rem 0.875rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--ink-muted);
+	box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.45);
+	cursor: pointer;
+	transition:
+		color 150ms ease,
+		border-color 150ms ease,
+		transform 150ms ease;
+}
+
+.ts:is(:fullscreen, [data-focus='true']) .ts-exit:hover {
+	border-color: var(--accent);
+	color: var(--ink);
+	transform: translateY(-1px);
+}
+
+.ts-exit svg {
+	width: 0.875rem;
+	height: 0.875rem;
+}
+
+@media (max-width: 48rem) {
+	.ts:is(:fullscreen, [data-focus='true']) {
+		gap: 0.75rem;
+		padding: 3.25rem 1rem 1rem;
+	}
+
+	.ts:is(:fullscreen, [data-focus='true']) .ts-viewport {
+		--ts-viewport-lines: 4;
+	}
+
+	.ts:is(:fullscreen, [data-focus='true']) .ts-exit {
+		top: 0.75rem;
+		right: 0.75rem;
+	}
+}
+
+/* --- responsive --------------------------------------------------------- */
+
+@media (max-width: 30rem) {
+	.ts {
+		--ts-line-height: 1.9375rem;
+	}
+
+	.ts-meta {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		margin-top: 1.25rem;
+	}
+
+	.ts-stat-value {
+		font-size: 1.25rem;
+	}
+
+	.ts-actions {
+		margin-left: 0;
+	}
+
+	.ts-viewport {
+		--ts-viewport-lines: 3;
+		height: calc(var(--ts-line-height) * var(--ts-viewport-lines) + 1.5rem);
+		padding: 0.75rem 1rem;
+	}
+
+	.ts-block,
+	.ts-input {
+		font-size: 1.0625rem;
+	}
+
+	.ts-results-wpm {
+		font-size: 3rem;
+	}
+}

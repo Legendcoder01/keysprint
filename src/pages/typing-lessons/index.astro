@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import Faq from '../../components/Faq.astro';
+import Callout from '../../components/Callout.astro';
+import ScoringNotes from '../../components/typing/ScoringNotes.astro';
+import { LESSONS, lessonHref } from '../../lib/lessons';
+
+const title = 'Typing Lessons — Learn Touch Typing One Key Row at a Time';
+const description =
+	'A ten-lesson touch typing curriculum: home row, index, middle, ring and little fingers, upper and lower rows, capitals, numbers, punctuation and a 60-second mixed test.';
+
+const faq = [
+	{
+		question: 'Should I start with the home row lesson?',
+		answer:
+			'Yes. Every other key on the keyboard is reached by moving one finger away from the home row, so the home row is the reference position for the whole keyboard. Learners who skip it spend much longer on every later lesson because they have to find each key from scratch.',
+	},
+	{
+		question: 'How long should I spend on each lesson?',
+		answer:
+			'Ten to fifteen minutes per lesson is enough. The useful measure is not time but accuracy: move on when you can type the lesson material without looking at the keyboard and with fewer than three errors per line.',
+	},
+	{
+		question: 'Do I need to do these lessons in order?',
+		answer:
+			'The order matters, but only because of the dependencies. The upper row is much harder without a solid home row, and the number row is harder before the fingers know their columns. If you already type without looking, start at whichever lesson your hands are weakest on.',
+	},
+	{
+		question: 'What happens if I skip a lesson?',
+		answer:
+			'Skipping unlocks the next lesson, but the lesson is recorded as skipped rather than completed, so the curriculum stays honest about what you have practised. You can return to it at any time and a passing run will mark it complete.',
+	},
+	{
+		question: 'Does my progress carry over to another device?',
+		answer:
+			'No. keysprint has no accounts and no sign-in, so lesson progress, best accuracy and an unfinished attempt are stored only in your browser on this device. Clearing site data removes them.',
+	},
+	{
+		question: 'Is there a certificate at the end?',
+		answer:
+			'No, and a certificate would not mean much here. The real certificate is a typing speed and accuracy you can reproduce on any day, which is exactly what the typing test measures.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/lessons.png"
+	breadcrumbs={[{ name: 'Typing lessons', href: '/typing-lessons/' }]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs items={[{ name: 'Typing lessons', href: '/typing-lessons/' }]} />
+	</div>
+
+	<PageHero
+		eyebrow="Typing lessons"
+		title="Touch typing lessons, in the order that works"
+		lead="Keyboard skills are learned in one direction: outward from the home row. Ten lessons add one finger group at a time, each with its own drill, an on-screen keyboard and a hand guide that names the finger before you press the key. Work through the order once and the keyboard stops being something you look at."
+	/>
+
+	<ContentSection
+		title="The ten lessons"
+		lead="Every lesson builds on the one before it. Each drill tracks its own accuracy, saves its own progress and unlocks the next lesson when you pass it."
+	>
+		<ol class="grid gap-4 sm:grid-cols-2">
+			{
+				LESSONS.map((lesson) => (
+					<li class="h-full">
+						<article class="flex h-full flex-col rounded-card border border-border bg-surface p-5">
+							<div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+								<p class="text-xs font-semibold uppercase tracking-wider text-accent">
+									Lesson {lesson.order}
+								</p>
+								{lesson.timedSeconds !== null ? (
+									<span class="rounded-full border border-border bg-surface-2 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-ink-muted">
+										{lesson.timedSeconds}s timed
+									</span>
+								) : (
+									<span class="text-[11px] font-medium uppercase tracking-wider text-ink-subtle">
+										Accuracy drill
+									</span>
+								)}
+							</div>
+
+							<h3 class="mt-1 text-lg font-semibold tracking-tight text-ink">
+								<a
+									href={lessonHref(lesson.id)}
+									class="underline-offset-4 hover:text-accent hover:underline"
+								>
+									{lesson.title}
+								</a>
+							</h3>
+
+							<p class="mt-2 font-mono text-xs tracking-wider text-ink">{lesson.focus}</p>
+
+							<p class="mt-3 text-sm leading-relaxed text-ink-muted">{lesson.instructions}</p>
+
+							<p class="mt-auto pt-4 text-xs text-ink-subtle">
+								Pass at {lesson.minAccuracy}% accuracy
+								{lesson.timedSeconds !== null && ` with at least ${lesson.minCharacters} characters`}
+							</p>
+						</article>
+					</li>
+				))
+			}
+		</ol>
+	</ContentSection>
+
+	<ContentSection title="How progress works" id="progress">
+		<p>
+			Each lesson keeps three things on this device: whether it is not started, in progress, completed or
+			skipped; the best accuracy you have reached; and the best net WPM, for lessons where speed is
+			measured. A passing run marks the lesson complete and unlocks the next one.
+		</p>
+		<p>
+			An unfinished attempt is saved too. If you reload the page — or come back within a week — the text
+			you had typed, the time on the clock and your raw keystroke counters are restored, and the drill
+			reopens paused so the time it took to read the page is not counted against you.
+		</p>
+		<p>
+			Restarting clears only the lesson you are on. Best accuracy, completion and the other lessons are
+			left alone.
+		</p>
+		<Callout title="Pass, or skip deliberately" variant="tip">
+			<p>
+				The Next lesson button stays disabled until the current drill is passed or you choose to skip
+				it. The skip is there for a lesson that is not working today; it is not the default route
+				through the curriculum.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="How to work through the lessons">
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Look at the keyboard while you learn, then stop looking.</strong> The
+				first few repetitions of a new key should be deliberate. The moment you stop looking is the
+				moment the skill starts forming, so the goal is to get there quickly and then stay there.
+			</li>
+			<li>
+				<strong class="text-ink">Say the finger assignment out loud as you type.</strong> "Index finger,
+				home row" for <kbd>F</kbd>. It sounds ridiculous and it works, because the assignment is the part
+				people forget. The hand guide on every lesson page names the finger for you.
+			</li>
+			<li>
+				<strong class="text-ink">Return to the home row after every reach.</strong> Deliberately, at
+				first. Exaggerated returns build the habit faster than the speed they cost you.
+			</li>
+			<li>
+				<strong class="text-ink">Type slowly enough to be accurate.</strong> Speed arrives on its own
+				once the positions are right. Rushing the early lessons is the most common reason people are
+				still hunting and pecking a year later.
+			</li>
+			<li>
+				<strong class="text-ink">Stop when your accuracy falls.</strong> A session that ends while you
+				are still making mistakes teaches the mistakes. Finish on a clean run instead.
+			</li>
+		</ul>
+	</ContentSection>
+
+	<ContentSection
+		title="How the numbers are calculated"
+		id="scoring"
+		lead="The lessons use four formulas, and none of them can divide by zero. Here is exactly what each number means."
+	>
+		<ScoringNotes />
+	</ContentSection>
+
+	<ContentSection title="Where to go once the lessons are done">
+		<p>
+			When the whole keyboard is familiar, the remaining gains come from reading ahead and from accuracy,
+			not from knowing where the keys are. At that point the
+			<a href="/typing-test/" class="underline underline-offset-2 hover:text-ink">typing test</a> becomes
+			the training tool, and the
+			<a href="/typing-practice/" class="underline underline-offset-2 hover:text-ink">practice drills</a>
+			let you aim at the parts that are still slow. The
+			<a href="/typing-analysis/" class="underline underline-offset-2 hover:text-ink">per-key analysis</a>
+			shows which keys and fingers are costing you the most time.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about the typing lessons." />
+	</div>
+</BaseLayout>

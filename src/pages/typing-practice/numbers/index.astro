@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import PageHero from '../../../components/PageHero.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = 'Number Typing Practice — Get Faster With Digits and Dates';
+const description =
+	'Free number typing practice for figures, dates, quantities and currency. Train the number row, the shift key and keeping your place in a sequence of digits.';
+
+const faq = [
+	{
+		question: 'Why are numbers so much slower than letters?',
+		answer:
+			'Because the number row is the longest reach on the keyboard, and because numbers are grouped in ways that are hard to predict. Typing "one two three" is easy because the digits are in order. Typing "4729" asks you to make four separate long reaches with no pattern to lean on, and each one costs a moment.',
+	},
+	{
+		question: 'Do I need to look at the number pad?',
+		answer:
+			'No. The number row is the target here, because that is what most typing actually involves. The number pad on the right is a separate block with its own awkward reach, and learning it is a project of its own. If your work is heavy on spreadsheets, a separate numpad drill would be worth building, but it is not what this page trains.',
+	},
+	{
+		question: 'How do I get faster at typing dates?',
+		answer:
+			'Stop thinking of a date as a single unit. Break it into the groups you actually type: the day, the month, the year. Most people who struggle with dates are trying to hold a whole string in their head at once and then type it in one movement, which does not work. Type it in three movements.',
+	},
+	{
+		question: 'Is the shift key the hard part?',
+		answer:
+			'For capitals and symbols, yes, and the shift key is a common source of hesitation. Practise the movement on its own: reach for the key with the opposite hand, press it slightly before the letter rather than at the same time, and release it immediately afterwards. The small delay is worth it.',
+	},
+	{
+		question: 'Should the number drill affect my overall typing speed?',
+		answer:
+			'Very little, and that is fine. The number drill is not a speed test, it is a reach test. Its value shows up in the accuracy of figures you type every day, and in the top row reach, which helps your general typing more than the drill score itself suggests.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/practice.png"
+	breadcrumbs={[
+		{ name: 'Typing practice', href: '/typing-practice/' },
+		{ name: 'Numbers', href: '/typing-practice/numbers/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing practice', href: '/typing-practice/' },
+				{ name: 'Numbers', href: '/typing-practice/numbers/' },
+			]}
+		/>
+	</div>
+
+	<PageHero
+		eyebrow="Practice drill"
+		title="Number typing practice"
+		lead="Figures, dates, quantities and prices, typed from the number row rather than the number pad. This drill is not about raw speed; it is about making the longest reach on the keyboard feel like a short one."
+	/>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">Number drill</h2>
+			<p class="mt-2 text-ink-muted">
+				Type the figures below. The clock starts on your first keystroke, and you get the same speed and
+				accuracy breakdown as every other test on the site.
+			</p>
+		</div>
+
+		<div class="mt-6">
+			<TypingTest duration={60} modes={['numbers']} showDifficulty={false} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="Why the number row deserves its own drill"
+		lead="Everything else on the keyboard is a short move from the home row. The number row is not."
+	>
+		<p>
+			On a standard keyboard the number row sits a full key height above the home row, and reaching it
+			means lifting a finger off its resting place, travelling, and coming back. That is a different
+			movement from anything else you do, and because numbers appear far less often than letters, the
+			movement never gets enough repetition to become automatic.
+		</p>
+		<p>
+			The result is a familiar pattern: typing a paragraph is smooth, and then a price or a date makes
+			you slow down and look at the keyboard. Nothing is wrong with your technique. The reach simply has
+			not been practised, and a short daily drill is what fixes it.
+		</p>
+		<p>
+			There is a secondary benefit. The number row shares the fingers of the top letter row, so the same
+			reach that makes the numbers quicker also makes <kbd>Q</kbd>, <kbd>W</kbd> and <kbd>E</kbd> quicker.
+			Many people find their general speed improves once the numbers stop being a problem.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="How to type figures without slowing down">
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">Group the digits.</strong> Read "4729" as "47 29" rather than four
+				separate numbers. Longer runs become two or three small groups instead of one long sequence.
+			</li>
+			<li>
+				<strong class="text-ink">Break dates into three parts.</strong> Day, month, year. Type them as
+				three movements and the whole string stops being one thing you have to hold in your head.
+			</li>
+			<li>
+				<strong class="text-ink">Reach with the right finger and come straight back.</strong> The finger
+				returns to its home key immediately after the number, ready for the next one. Leaving it up on
+				the number row is what makes a run of digits feel heavy.
+			</li>
+			<li>
+				<strong class="text-ink">Press shift a moment early.</strong> For a capital or a symbol, start
+				the shift slightly before the letter rather than at the same instant. It feels wrong and it is
+				faster.
+			</li>
+			<li>
+				<strong class="text-ink">Do not rest your hand on the number row.</strong> Anchoring the hand
+				helps for one reach and makes the next one worse.
+			</li>
+		</ul>
+		<Callout title="Two minutes is enough" variant="tip">
+			<p>
+				This drill is unusually well suited to short sessions. Two minutes of number typing a day builds
+				the reach faster than a single long session, because the movement is a motor habit and motor
+				habits consolidate between practices.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Which figures come up most often">
+		<p>
+			Useful drills rehearse the material you actually type. For most people that is a short list, and it
+			is worth practising those specifically rather than random digits.
+		</p>
+		<div class="overflow-hidden rounded-card border border-border">
+			<table class="w-full border-collapse text-left text-sm">
+				<thead>
+					<tr class="bg-surface-2 text-ink">
+						<th scope="col" class="px-4 py-2.5 font-semibold">What you type</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">Why it is awkward</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-border">
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Dates</th>
+						<td class="px-4 py-2.5">
+							Several groups in a row, often with slashes or dashes, and no pattern to lean on.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Money</th>
+						<td class="px-4 py-2.5">
+							Needs the decimal point, which is next to the shift key, and often a currency symbol
+							before the number.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Phone numbers</th>
+						<td class="px-4 py-2.5">
+							Long unbroken runs, which are where a mistake in the middle is hardest to spot.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Percentages and codes</th>
+						<td class="px-4 py-2.5">
+							Two or three symbols in a row, so the shift key becomes part of the movement rather
+							than a separate action.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p>
+			Type each of those rows a few times before you move on. The number row is also the reach that the
+			<a href="/typing-practice/punctuation/" class="underline underline-offset-2 hover:text-ink">punctuation
+			drill</a> relies on, so this one feeds into the other.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Next steps">
+		<p>
+			When the number row stops being the slow part, move on to the
+			<a href="/typing-practice/punctuation/" class="underline underline-offset-2 hover:text-ink">punctuation
+			drill</a>, which is the other half of the same reach. Or go straight to a normal
+			<a href="/typing-test/" class="underline underline-offset-2 hover:text-ink">typing test</a> to see
+			what the number work has done for your overall speed.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about number typing practice." />
+	</div>
+</BaseLayout>

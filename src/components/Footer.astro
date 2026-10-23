@@ -1,0 +1,52 @@
+---
+import { FOOTER_NAV, SITE_NAME, SITE_TAGLINE } from '../config/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-border bg-surface">
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<div class="grid gap-10 md:grid-cols-[minmax(0,1.2fr)_repeat(3,minmax(0,1fr))]">
+			<div>
+				<p class="text-[15px] font-semibold tracking-tight text-ink">{SITE_NAME}</p>
+				<p class="mt-2 max-w-xs text-sm leading-relaxed text-ink-muted">{SITE_TAGLINE}</p>
+				<p class="mt-4 text-xs text-ink-subtle">
+					Free to use. No account required.
+				</p>
+			</div>
+
+			{
+				FOOTER_NAV.map((group) => (
+					<nav aria-label={group.heading}>
+						<h2 class="text-xs font-semibold uppercase tracking-wider text-ink-subtle">
+							{group.heading}
+						</h2>
+						<ul class="mt-3 space-y-2">
+							{group.links.map((link) => (
+								<li>
+									<a
+										href={link.href}
+										class="text-sm text-ink-muted transition-colors hover:text-ink"
+									>
+										{link.label}
+									</a>
+								</li>
+							))}
+						</ul>
+					</nav>
+				))
+			}
+		</div>
+
+		<div
+			class="mt-10 flex flex-col gap-3 border-t border-border pt-6 text-xs text-ink-subtle sm:flex-row sm:items-center sm:justify-between"
+		>
+			<p>&copy; {year} {SITE_NAME}. Free typing test and touch typing lessons.</p>
+			<p class="flex items-center gap-4">
+				<a href="/privacy-policy/" class="transition-colors hover:text-ink">Privacy</a>
+				<a href="/terms/" class="transition-colors hover:text-ink">Terms</a>
+				<a href="/contact/" class="transition-colors hover:text-ink">Contact</a>
+			</p>
+		</div>
+	</div>
+</footer>

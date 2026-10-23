@@ -1,0 +1,160 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_DESCRIPTION, SITE_LOCALE, SITE_NAME, SITE_URL, absoluteUrl } from '../config/site';
+
+export interface Crumb {
+	name: string;
+	href: string;
+}
+
+interface Props {
+	/** Unique, search-intent matching page title. */
+	title: string;
+	/** Unique meta description, 140-160 characters. */
+	description: string;
+	/** Absolute URL this page is the canonical version of. */
+	canonical?: string;
+	/** Site relative path to the social sharing image. */
+	ogImage?: string;
+	/** Alternative text for the social sharing image. */
+	ogImageAlt?: string;
+	/** Open Graph type. */
+	ogType?: 'website' | 'article';
+	/** Set to true to keep the page out of the index. */
+	noindex?: boolean;
+	/** Breadcrumb trail, starting with the home page. */
+	breadcrumbs?: Crumb[];
+	/** Extra JSON-LD nodes that match the visible content of this page. */
+	schema?: Record<string, unknown>[];
+}
+
+const {
+	title,
+	description,
+	canonical: canonicalOverride,
+	ogImage = '/og/default.png',
+	ogImageAlt = 'keysprint — a free online typing test showing a typing speed measurement in words per minute.',
+	ogType = 'website',
+	noindex = false,
+	breadcrumbs,
+	schema = [],
+} = Astro.props;
+
+const canonical = canonicalOverride ?? new URL(Astro.url.pathname, SITE_URL).toString();
+const ogImageUrl = absoluteUrl(ogImage);
+
+const websiteSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'WebSite',
+	name: SITE_NAME,
+	url: SITE_URL,
+	description: SITE_DESCRIPTION,
+	inLanguage: 'en',
+};
+
+const organizationSchema = {
+	'@context': 'https://schema.org',
+	'@type': 'Organization',
+	name: SITE_NAME,
+	url: SITE_URL,
+	logo: absoluteUrl('/favicon.svg'),
+};
+
+const breadcrumbSchema = breadcrumbs?.length
+	? {
+			'@context': 'https://schema.org',
+			'@type': 'BreadcrumbList',
+			itemListElement: [
+				{ name: 'Home', href: '/' },
+				...breadcrumbs.map((crumb) => ({ name: crumb.name, href: crumb.href })),
+			].map((item, index) => ({
+				'@type': 'ListItem',
+				position: index + 1,
+				name: item.name,
+				item: absoluteUrl(item.href),
+			})),
+		}
+	: null;
+
+const jsonLd = [websiteSchema, organizationSchema, breadcrumbSchema, ...schema].filter(Boolean);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+		<meta
+			name="robots"
+			content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
+		/>
+
+		<meta name="theme-color" content="#f3f0ff" id="theme-color" />
+		<meta name="author" content={SITE_NAME} />
+		<meta name="generator" content={Astro.generator} />
+
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
+
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content={ogType} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:site_name" content={SITE_NAME} />
+		<meta property="og:image" content={ogImageUrl} />
+		<meta property="og:image:alt" content={ogImageAlt} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:locale" content={SITE_LOCALE} />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageUrl} />
+		<meta name="twitter:image:alt" content={ogImageAlt} />
+
+		{
+			jsonLd.map((node) => (
+				<script type="application/ld+json" is:inline set:html={JSON.stringify(node)} />
+			))
+		}
+
+		<script is:inline>
+			// Apply the saved theme before first paint so the page never flashes.
+			(function () {
+				try {
+					var stored = localStorage.getItem('keysprint.theme');
+					var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+					var dark = stored === 'dark' || (stored !== 'light' && prefersDark);
+					document.documentElement.classList.toggle('dark', dark);
+					var meta = document.getElementById('theme-color');
+					if (meta) meta.setAttribute('content', dark ? '#0b0a18' : '#f3f0ff');
+				} catch (error) {
+					/* Storage can be unavailable in private mode; the default theme still applies. */
+				}
+			})();
+		</script>
+	</head>
+	<body class="flex min-h-screen flex-col bg-canvas text-ink antialiased">
+		<a
+			href="#main"
+			class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-accent-contrast"
+		>
+			Skip to content
+		</a>
+
+		<Header />
+
+		<main id="main" class="flex-1">
+			<slot />
+		</main>
+
+		<Footer />
+	</body>
+</html>

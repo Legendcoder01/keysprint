@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = 'Words Per Minute Test — Measure Your Typing Speed';
+const description =
+	'Run a free words per minute typing test to measure your typing speed in WPM, with net speed, gross speed, character accuracy and error count in one minute.';
+
+const faq = [
+	{
+		question: 'How is one word counted in a words per minute test?',
+		answer:
+			'One word is five characters, regardless of the actual length of the word. That is the standard convention, and it exists because counting characters is the only method that works the same for every language. A test that counted real words would make English look faster than it is, because English averages well over five characters per word.',
+	},
+	{
+		question: 'Why is my net WPM lower than my gross WPM?',
+		answer:
+			'Net speed removes the characters that did not match the passage. If you typed three hundred characters and made fifteen mistakes, gross speed is sixty words per minute and net speed is fifty seven. The gap between the two is the cost of your errors, and net speed is the number worth comparing between runs.',
+	},
+	{
+		question: 'What is a good words per minute score?',
+		answer:
+			'For ordinary office work, forty to sixty words per minute is enough to write as fast as you think. Many people reach seventy to ninety with regular practice, and a hundred or more is genuinely fast. Above that you are in a small group, and the remaining gains come from reading ahead rather than moving your fingers faster.',
+	},
+	{
+		question: 'Does typing speed depend on the language I type in?',
+		answer:
+			'Very much so. The characters per second calculation is the same for everyone, but the average word length and the shape of the words differ by language. A score of fifty words per minute in English is a very different amount of text from fifty words per minute in German or Finnish. Compare your results with other people typing the same language.',
+	},
+	{
+		question: 'Should I take the test with word or sentence text?',
+		answer:
+			'Sentence text gives a fairer score because you can read ahead inside a sentence, which is how real writing works. Word mode is faster to run but it is a less realistic measure, because you have no context at all. Use word mode if you are comparing against a score you recorded with word mode, and sentence mode for everything else.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/typing-test.png"
+	breadcrumbs={[
+		{ name: 'Typing test', href: '/typing-test/' },
+		{ name: 'Words per minute', href: '/typing-test/words-per-minute/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing test', href: '/typing-test/' },
+				{ name: 'Words per minute', href: '/typing-test/words-per-minute/' },
+			]}
+		/>
+	</div>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<p class="text-xs font-semibold uppercase tracking-wider text-accent">Speed measurement</p>
+			<h1
+				class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
+			>
+				Words per minute test
+			</h1>
+			<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+				A typing test built to answer one question: how many words per minute can you actually produce? You
+				get gross speed, net speed, three accuracy figures and an error count, so you can see whether a high
+				number came from speed or from carelessness.
+			</p>
+		</div>
+
+		<div class="mt-8">
+			<TypingTest duration={60} modes={['words', 'sentences', 'paragraphs']} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="What words per minute actually measures"
+		lead="It is a rate of production, and the way it is calculated explains a lot of odd-looking scores."
+	>
+		<p>
+			The standard definition treats a word as five characters. Your gross speed is the number of characters you
+			produced, divided into groups of five, divided by the number of minutes you took. That means a typist
+			producing three hundred characters in one minute scores sixty words per minute, regardless of how many
+			real words those characters formed.
+		</p>
+		<p>
+			The reason for the convention is that characters are the only unit that travels between languages
+			unchanged. Counting actual words would flatter English, whose words average more than five characters,
+			and make the number meaningless as a comparison across languages.
+		</p>
+		<p>
+			Net speed applies a correction. Every character that does not match the passage is removed from the count
+			before the rate is worked out. It is a deliberately unflattering number, because it is the one that
+			describes the text you actually produced. A passage full of typos is not worth more than a clean one at
+			the same character count.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="How to compare two speed scores">
+		<p>
+			A raw words per minute number is only comparable with another raw number when the conditions match. Five
+			things move the result more than skill does, and all five are worth holding steady when you are tracking
+			your own progress.
+		</p>
+		<div class="overflow-hidden rounded-card border border-border">
+			<table class="w-full border-collapse text-left text-sm">
+				<thead>
+					<tr class="bg-surface-2 text-ink">
+						<th scope="col" class="px-4 py-2.5 font-semibold">Variable</th>
+						<th scope="col" class="px-4 py-2.5 font-semibold">Why it matters</th>
+					</tr>
+				</thead>
+				<tbody class="divide-y divide-border">
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Test length</th>
+						<td class="px-4 py-2.5">
+							A one minute score is several words per minute higher than a three minute score. Always
+							compare like with like.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Text type</th>
+						<td class="px-4 py-2.5">
+							Words, sentences and paragraphs produce noticeably different scores. Sentence text is the
+							usual compromise.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Punctuation load</th>
+						<td class="px-4 py-2.5">
+							Commas, apostrophes and quotation marks need extra keystrokes. A passage heavy with
+							them will always be slower.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Keyboard</th>
+						<td class="px-4 py-2.5">
+							A laptop keyboard and a full-size board with separate keys are not the same
+							experience, and neither are laptop switches and mechanical ones.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row" class="px-4 py-2.5 font-medium text-ink">Familiarity with the passage</th>
+						<td class="px-4 py-2.5">
+							Typing a passage for the second time is faster than typing it for the first. This is why
+							repeat runs are best used for practice rather than for scoring.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<Callout title="Compare with yourself" variant="tip">
+			<p>
+				Your score against the same test a month ago is worth more than your score against a stranger today.
+				Nothing else in the list changes between those two runs.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Getting faster once you know your number">
+		<p>
+			If your accuracy is already above ninety five per cent, the remaining gains come from reading ahead.
+			Type the next word while you finish the current one, and the text arrives before your fingers do. If your
+			accuracy is lower, speed up later and fix the accuracy first: a net speed of fifty-five at ninety seven
+			per cent is a better result than sixty-five at eighty eight.
+		</p>
+		<p>
+			For the mechanics, the <a href="/learn-typing/" class="underline underline-offset-2 hover:text-ink">learn
+			typing guide</a> explains touch typing and the finger positions, and the
+			<a href="/typing-lessons/" class="underline underline-offset-2 hover:text-ink">lesson pages</a> drill the
+			keys you keep hesitating over.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="How words per minute is calculated, and how to read the result." />
+	</div>
+</BaseLayout>

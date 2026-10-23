@@ -1,0 +1,172 @@
+---
+import '../../styles/typing.css';
+import OptionGroup from './OptionGroup.astro';
+import ResultsPanel from './ResultsPanel.astro';
+import type { DrillKind } from '../../lib/typing/selection';
+import type { Difficulty } from '../../lib/typing/types';
+
+interface Props {
+	/** Test length in seconds. */
+	duration?: number;
+	/** Drills offered on this page. The first one is the default. */
+	modes?: DrillKind[];
+	/** Difficulty tier for the word, sentence and paragraph material. */
+	difficulty?: Difficulty;
+	/** Show the test length picker. */
+	showDuration?: boolean;
+	/** Show the difficulty picker. */
+	showDifficulty?: boolean;
+	/**
+	 * Write the chosen length into the query string.
+	 * Turn this off on the pages where the path already names the length.
+	 */
+	syncDuration?: boolean;
+}
+
+const {
+	duration = 60,
+	modes = ['words', 'sentences', 'paragraphs'],
+	difficulty = 'easy',
+	showDuration = true,
+	showDifficulty = true,
+	syncDuration = true,
+} = Astro.props;
+
+const drill = modes[0] ?? 'words';
+
+const DURATION_OPTIONS = [
+	{ value: '15', label: '15s' },
+	{ value: '30', label: '30s' },
+	{ value: '60', label: '1 min' },
+	{ value: '180', label: '3 min' },
+	{ value: '300', label: '5 min' },
+	{ value: '600', label: '10 min' },
+];
+
+const MODE_LABELS: Record<DrillKind, string> = {
+	words: 'Words',
+	sentences: 'Sentences',
+	paragraphs: 'Paragraphs',
+	numbers: 'Numbers',
+	punctuation: 'Punctuation',
+	homeRow: 'Home row',
+};
+
+const MODE_OPTIONS = modes.map((mode) => ({ value: mode, label: MODE_LABELS[mode] }));
+
+const DIFFICULTY_OPTIONS = [
+	{ value: 'easy', label: 'Easy' },
+	{ value: 'medium', label: 'Medium' },
+	{ value: 'hard', label: 'Hard' },
+];
+---
+
+<div
+	class="ts"
+	data-typing-test
+	data-duration={String(duration)}
+	data-drill={drill}
+	data-difficulty={difficulty}
+	data-sync-duration={String(syncDuration)}
+>
+	<button type="button" class="ts-exit" data-typing-exit aria-label="Exit full screen test">
+		<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+			<path d="M6 6l12 12M18 6 6 18"></path>
+		</svg>
+		<span>Exit</span>
+	</button>
+
+	{
+		(showDuration || modes.length > 1 || showDifficulty) && (
+			<div class="ts-controls">
+				{showDuration && (
+					<OptionGroup
+						group="duration"
+						legend="Test length"
+						value={String(duration)}
+						options={DURATION_OPTIONS}
+					/>
+				)}
+				{modes.length > 1 && (
+					<OptionGroup group="mode" legend="Text" value={drill} options={MODE_OPTIONS} />
+				)}
+				{showDifficulty && (
+					<OptionGroup
+						group="difficulty"
+						legend="Level"
+						value={difficulty}
+						options={DIFFICULTY_OPTIONS}
+					/>
+				)}
+				<div class="ts-actions">
+					<button type="button" class="btn btn-secondary" data-typing-restart>
+						Restart
+					</button>
+					<button type="button" class="btn btn-secondary" data-typing-fullscreen aria-pressed="false">
+						Full Screen
+					</button>
+				</div>
+			</div>
+		)
+	}
+
+	<div class="ts-meta">
+		<div class="ts-stat">
+			<span class="ts-stat-label">Time</span>
+			<span class="ts-stat-value" data-typing-time>0:00</span>
+		</div>
+		<div class="ts-stat">
+			<span class="ts-stat-label">Speed</span>
+			<span class="ts-stat-value" data-typing-wpm>0</span>
+		</div>
+		<div class="ts-stat">
+			<span class="ts-stat-label">Accuracy</span>
+			<span class="ts-stat-value" data-typing-accuracy>—</span>
+		</div>
+		<div class="ts-stat">
+			<span class="ts-stat-label">Errors</span>
+			<span class="ts-stat-value" data-typing-errors>0</span>
+		</div>
+	</div>
+
+	<div class="ts-area" data-typing-area data-state="ready">
+		<div class="ts-meter" aria-hidden="true"><span data-typing-meter></span></div>
+		<div class="ts-viewport" data-typing-viewport>
+			<div class="ts-track" data-typing-track></div>
+		</div>
+		<textarea
+			class="ts-input"
+			data-typing-input
+			rows="1"
+			aria-label="Typing area. Type the text shown above it."
+			aria-describedby="ts-typing-hint"
+			autocomplete="off"
+			autocorrect="off"
+			autocapitalize="off"
+			spellcheck="false"
+			disabled
+		></textarea>
+		<div class="ts-overlay" data-typing-overlay>
+			<div class="ts-overlay-content">
+				<p class="ts-overlay-message">Ready? Click Start Test when you're ready.</p>
+				<button type="button" class="btn btn-primary ts-start-btn" data-typing-start>
+					Start Test
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<p class="ts-hint" id="ts-typing-hint">
+		Press <strong>Start Test</strong> to open the test full screen, then type the passage above. The
+		clock starts on your first keystroke, <kbd>Backspace</kbd> fixes a mistake, and <kbd>Esc</kbd> or
+		<strong>Exit</strong> leaves full screen without stopping the test.
+	</p>
+
+	<ResultsPanel />
+
+	<p class="sr-only" role="status" aria-live="polite" data-typing-status></p>
+</div>
+
+<script>
+	import '../../scripts/typing-widget';
+</script>

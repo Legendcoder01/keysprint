@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import TypingTest from '../../../components/typing/TypingTest.astro';
+import ContentSection from '../../../components/ContentSection.astro';
+import Faq from '../../../components/Faq.astro';
+import Callout from '../../../components/Callout.astro';
+
+const title = '5 Minute Typing Test — A Stable, Trustworthy Score';
+const description =
+	'Take a free 5 minute typing test and get a speed score you can trust, with net speed, gross speed, character accuracy, word accuracy and error count.';
+
+const faq = [
+	{
+		question: 'Is a five minute test better than a three minute test?',
+		answer:
+			'As a measurement, yes. Five minutes is long enough for the opening burst and the settling in to be a small part of the result, and long enough to show how your pace behaves when you have been typing for a while. As a habit, it is harder to keep up with, so many people use three minutes most days and five minutes on a quieter day.',
+	},
+	{
+		question: 'Why does my speed drop in the last minute of a five minute run?',
+		answer:
+			'Because concentration has a cost. Most people hold a steady pace for three or four minutes and then lose a little ground, and that is a normal pattern rather than a sign that anything is wrong. The drop is also useful information: it tells you where your comfortable working length ends.',
+	},
+	{
+		question: 'Should I use paragraph text for a five minute test?',
+		answer:
+			'Paragraph mode is the most realistic choice at this length. You get long passages with real sentence structure, which is what you would be typing if this were work. Word mode is faster and easier, so it will always produce a higher score.',
+	},
+	{
+		question: 'Can I pause a five minute test?',
+		answer:
+			'No. The clock runs from your first keystroke to the end, and pausing would make the score meaningless. If you are interrupted, let it finish and start again. The good news is that five minutes is short enough that a restart is not a big deal.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	ogImage="/og/typing-test-300s.png"
+	breadcrumbs={[
+		{ name: 'Typing test', href: '/typing-test/' },
+		{ name: '5 minute test', href: '/typing-test/5-minute/' },
+	]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs
+			items={[
+				{ name: 'Typing test', href: '/typing-test/' },
+				{ name: '5 minute test', href: '/typing-test/5-minute/' },
+			]}
+		/>
+	</div>
+
+	<section class="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+		<div class="max-w-3xl">
+			<p class="text-xs font-semibold uppercase tracking-wider text-accent">5 minute test</p>
+			<h1
+				class="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"
+			>
+				5 minute typing test
+			</h1>
+			<p class="mt-4 text-base leading-relaxed text-ink-muted sm:text-lg">
+				Five minutes is long enough that the result stops being a measurement of your first few seconds. It
+				is the shortest test whose score you can quote without adding a disclaimer, and it is still short
+				enough to finish before you lose interest.
+			</p>
+		</div>
+
+		<div class="mt-8">
+			<TypingTest duration={300} syncDuration={false} />
+		</div>
+	</section>
+
+	<ContentSection
+		title="Why five minutes is the number you can quote"
+		lead="A score is only as useful as the confidence you have in it, and confidence comes from the length of the sample."
+	>
+		<p>
+			One minute tells you how you type when you are concentrating. Three minutes tells you how you type once
+			you have settled. Five minutes starts to tell you how you type when the effort of concentrating has become
+			automatic, which is the state you are in for most of a working day.
+		</p>
+		<p>
+			There is a practical reason as well. At five minutes you produce several hundred words, so the score is
+			not being decided by a handful of fast or slow words. It is also long enough that you cannot game it by
+			typing a single burst and coasting through the rest on momentum.
+		</p>
+		<p>
+			The cost is attention. Five minutes of continuous typing is a real task, and people who find it hard
+			often do better over three. If five minutes feels like too much, three is a perfectly respectable
+			benchmark. What matters is that you use the same length each time you compare yourself against yourself.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Where fatigue shows up">
+		<p>
+			Most people hold a steady pace for the first three or four minutes, and then the last minute drifts
+			slightly downwards. It shows up in the live speed figure, and it shows up in the error count, which
+			tends to creep up as attention starts to wander.
+		</p>
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">A slow, steady decline is normal.</strong> It is the shape of a real
+				work session, not a failure.
+			</li>
+			<li>
+				<strong class="text-ink">A sharp drop usually means a specific problem.</strong> Often a passage with
+				an awkward run of long words, or a stretch of punctuation you are concentrating on.
+			</li>
+			<li>
+				<strong class="text-ink">Rising errors late in the run point at attention, not speed.</strong> The
+				fix is a shorter reading window rather than faster fingers.
+			</li>
+			<li>
+				<strong class="text-ink">If the drop is large, train your focus.</strong> The
+				<a href="/typing-practice/paragraphs/" class="underline underline-offset-2 hover:text-ink">paragraph
+				practice drill</a> is built for holding a rhythm over long passages.
+			</li>
+		</ul>
+		<Callout title="Do the same length twice" variant="tip">
+			<p>
+				If you want a number to remember, take a five minute test, rest for a few minutes without typing, and
+				take another. The second run is usually a little better because you have warmed up, and the gap between
+				the two tells you how much of your score is warm-up rather than skill.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="Using the result">
+		<p>
+			Compare the net speed against your own previous five minute runs, and compare the accuracy against your
+			own previous five minute runs separately. The two usually do not move together. A score that climbs while
+			accuracy falls is a score that has been borrowed from somewhere you will not have later, so the accuracy
+			figure is the one to defend.
+		</p>
+		<p>
+			When you want to know how you hold up over a much longer stretch, the
+			<a href="/typing-test/10-minute/" class="underline underline-offset-2 hover:text-ink">ten minute test</a>
+			goes further. And when you would rather work on the accuracy half of the score, the
+			<a href="/typing-test/accuracy/" class="underline underline-offset-2 hover:text-ink">accuracy test</a> is
+			designed to isolate it.
+		</p>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about the five minute typing test." />
+	</div>
+</BaseLayout>

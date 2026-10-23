@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PageHero from '../../components/PageHero.astro';
+import ContentSection from '../../components/ContentSection.astro';
+import Faq from '../../components/Faq.astro';
+import Callout from '../../components/Callout.astro';
+
+const title = 'Contact keysprint — Report a Problem or Send Feedback';
+const description =
+	'Get in touch with keysprint about a bug, an incorrect score, a passage you would like to see, or anything else about this free typing test.';
+
+const CONTACT_EMAIL = 'hello@keysprint.onrender.com';
+
+const faq = [
+	{
+		question: 'Why is there no contact form?',
+		answer:
+			'Because keysprint is a static site with no application server. A form would have to post to a backend that does not exist, and a form that silently fails is worse than no form at all. The link above opens your own email application with the address and subject already filled in, which always works.',
+	},
+	{
+		question: 'I think my score is wrong. What should I do?',
+		answer:
+			'Please write and include the test length, the text type and the figures from the results panel. The scoring code is small and centralised, so a genuine bug in it is worth finding, and the unit tests that cover it will be extended when one turns up.',
+	},
+	{
+		question: 'Can I request a specific passage or topic?',
+		answer:
+			'Possibly. The corpus is deliberately plain so it exercises the keyboard rather than the reader, which rules out most specific requests, but suggestions about the range of vocabulary or the mix of sentence lengths are welcome.',
+	},
+	{
+		question: 'Do you answer every message?',
+		answer:
+			'Most of them. Keysprint is a small project maintained in spare time, so replies can take a few days, and long messages about typing theory may get a shorter answer than a precise bug report.',
+	},
+	{
+		question: 'Can I use keysprint in my own project or article?',
+		answer:
+			'Link to it freely. The passages in the test are original to keysprint, so quoting a short passage in a review or a screenshot of the results panel is fine as well. The terms of use page sets out the details.',
+	},
+];
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	breadcrumbs={[{ name: 'Contact', href: '/contact/' }]}
+>
+	<div class="mx-auto max-w-6xl px-4 pb-6 pt-6 sm:px-6">
+		<Breadcrumbs items={[{ name: 'Contact', href: '/contact/' }]} />
+	</div>
+
+	<PageHero
+		eyebrow="Contact"
+		title="Send a message"
+		lead="Bug reports, incorrect scores, wording suggestions and general feedback are all welcome. keysprint is a small project run by one person, and every message is read."
+	/>
+
+	<ContentSection title="How to reach us">
+		<p>
+			keysprint is built as a static site with no server behind it, so there is no inbox for a contact form
+			to post to. Instead, the button below opens your own email application with the address and a
+			suggested subject already filled in. Nothing is sent until you press send in your mail app.
+		</p>
+		<p class="mt-6">
+			<a
+				href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('keysprint feedback')}`}
+				class="btn btn-primary"
+			>
+				Email keysprint
+			</a>
+		</p>
+		<p class="mt-4 text-sm text-ink-subtle">
+			Or copy the address into your mail application:
+			<span class="break-all font-mono text-ink">{CONTACT_EMAIL}</span>
+		</p>
+		<Callout title="If your mail application does not open" variant="note">
+			<p>
+				Some browsers and privacy settings block the mailto link. In that case the address above can be
+				copied and pasted into any mail application, webmail or phone.
+			</p>
+		</Callout>
+	</ContentSection>
+
+	<ContentSection title="What to include">
+		<p>
+			A short message is fine. If you are reporting something specific, these three details make it much
+			faster to find:
+		</p>
+		<ul class="list-disc space-y-3 pl-5 marker:text-ink-subtle">
+			<li>
+				<strong class="text-ink">The page you were on.</strong> For example
+				<code class="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-xs text-ink">/typing-test/1-minute/</code>.
+			</li>
+			<li>
+				<strong class="text-ink">What you did and what happened instead.</strong> "I pressed the left
+				shift key and the character was still typed as lowercase" is a complete report. "It is broken" is
+				not.
+			</li>
+			<li>
+				<strong class="text-ink">Your browser and device.</strong> Whether the problem happens on a
+				desktop keyboard or a phone keyboard, and which one it happens on, usually points straight at the
+				cause.
+			</li>
+		</ul>
+	</ContentSection>
+
+	<ContentSection title="What we can help with">
+		<dl class="space-y-5">
+			<div>
+				<dt class="font-semibold text-ink">Scores that look wrong</dt>
+				<dd>
+					Yes, please write. The scoring code is in a single module and is covered by unit tests, so a
+					genuine error is worth finding. Include the results panel figures.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Something on the page that is confusing</dt>
+				<dd>
+					Very welcome. The site was written by one person, and the places where a page is unclear are
+					usually the places where the writer was thinking about something specific that other people
+					do not.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Typing advice</dt>
+				<dd>
+					Use the <a href="/learn-typing/" class="underline underline-offset-2 hover:text-ink">learn
+					typing guide</a> and the <a href="/typing-lessons/" class="underline underline-offset-2 hover:text-ink">lesson
+					stages</a> first. If something is missing from them, say so.
+				</dd>
+			</div>
+			<div>
+				<dt class="font-semibold text-ink">Requests for features</dt>
+				<dd>
+					Read, but not always acted on. keysprint deliberately has no accounts, no leaderboard and no
+					progress tracking across devices, so the feature list is short on purpose rather than by
+					accident.
+				</dd>
+			</div>
+		</dl>
+	</ContentSection>
+
+	<ContentSection title="Response time">
+		<p>
+			Most messages get a reply within a few days, and longer ones sometimes take a week or two. keysprint
+			is maintained in the gaps around other work, so a slow reply is more likely to mean a quiet week
+			than a forgotten message.
+		</p>
+	</ContentSection>
+
+	<ContentSection title="Other things worth reading">
+		<ul class="list-disc space-y-2 pl-5 marker:text-ink-subtle">
+			<li>
+				<a href="/about/" class="underline underline-offset-2 hover:text-ink">About keysprint</a> &mdash;
+				how the site works and how the numbers are calculated.
+			</li>
+			<li>
+				<a href="/privacy-policy/" class="underline underline-offset-2 hover:text-ink">Privacy policy</a>
+				&mdash; what is stored, where, and what is not collected.
+			</li>
+			<li>
+				<a href="/terms/" class="underline underline-offset-2 hover:text-ink">Terms of use</a> &mdash; the
+				short version of what you can and cannot do with the site.
+			</li>
+		</ul>
+	</ContentSection>
+
+	<div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+		<Faq items={faq} intro="Questions about contacting keysprint." />
+	</div>
+</BaseLayout>
